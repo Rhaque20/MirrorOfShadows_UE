@@ -12,6 +12,9 @@
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/NavMovementComponent.h"
+#include "Components/PrimitiveComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 APlayerCharacters::APlayerCharacters()
@@ -49,7 +52,7 @@ void APlayerCharacters::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	if(APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
-		if(UEnhancedInputLocalPlayerSubsystem *Subsystem 
+		if(UEnhancedInputLocalPlayerSubsystem* Subsystem 
 		= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(InputMapping,0);
