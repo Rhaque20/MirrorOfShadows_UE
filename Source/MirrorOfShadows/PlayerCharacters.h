@@ -50,6 +50,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Enhanced Input")
 	class UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, Category = "Enhanced Input")
+	class UInputAction* NormalAttackAction;
+
 private:
 	UPROPERTY(BlueprintReadWrite, Category = "Ground Variables",meta = (AllowPrivateAccess = "true"))
 	bool CanMove = true;

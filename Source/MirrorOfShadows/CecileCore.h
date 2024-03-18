@@ -3,15 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CombatComponent.h"
+#include "PlayerCore.h"
 #include "CecileCore.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MIRROROFSHADOWS_API UCecileCore : public UCombatComponent
+class MIRROROFSHADOWS_API UCecileCore : public UPlayerCore
 {
 	GENERATED_BODY()
-	
+	public:
+		UCecileCore();
+		virtual void NormalAttack() override;
 };

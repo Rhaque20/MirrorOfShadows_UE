@@ -19,12 +19,12 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	virtual void Attack();
-	virtual void SkillSelect();
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void Hit();
+	virtual void SkillSelect();
 
 		
 };

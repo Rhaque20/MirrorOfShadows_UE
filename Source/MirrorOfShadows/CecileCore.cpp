@@ -3,3 +3,12 @@
 
 #include "CecileCore.h"
 
+UCecileCore::UCecileCore()
+{
+    
+}
+
+void UCecileCore::NormalAttack()
+{
+	Super::NormalAttack();
+}

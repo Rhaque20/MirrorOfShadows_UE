@@ -13,7 +13,7 @@ UCombatComponent::UCombatComponent()
 	// ...
 }
 
-void UCombatComponent::Attack()
+void UCombatComponent::Hit()
 {
 
 }
