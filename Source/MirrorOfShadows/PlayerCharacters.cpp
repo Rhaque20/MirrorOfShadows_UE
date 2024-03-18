@@ -72,7 +72,7 @@ void APlayerCharacters::Move(const FInputActionValue& InputValue)
 {
 	FVector2D InputVector = InputValue.Get<FVector2D>();
 
-	if (IsValid(Controller))
+	if (IsValid(Controller) && CanMove)
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation = FRotator(0.f,Rotation.Yaw,0.f);

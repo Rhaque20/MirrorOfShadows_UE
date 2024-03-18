@@ -51,6 +51,8 @@ protected:
 	class UInputAction* LookAction;
 
 private:
+	UPROPERTY(BlueprintReadWrite, Category = "Ground Variables",meta = (AllowPrivateAccess = "true"))
+	bool CanMove = true;
 	UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables",meta = (AllowPrivateAccess = "true"))
 	bool OnGround = true;
 	UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables",meta = (AllowPrivateAccess = "true"))
