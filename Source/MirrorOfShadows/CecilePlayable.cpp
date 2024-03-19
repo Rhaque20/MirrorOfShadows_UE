@@ -12,6 +12,7 @@
 ACecilePlayable::ACecilePlayable()
 {
     CharacterCore = CreateDefaultSubobject<UCecileCore>(TEXT("Cecile Core Mechanics"));
+	CharacterCore->SetSkeletalMeshVar(GetMesh());
 }
 
 void ACecilePlayable::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

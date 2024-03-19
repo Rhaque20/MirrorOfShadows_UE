@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
 
+class USkeletalMeshComponent;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MIRROROFSHADOWS_API UCombatComponent : public UActorComponent
@@ -19,12 +20,15 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	UPROPERTY(EditDefaultsOnly,Category ="Combat")
+	USkeletalMeshComponent* SkeletalMeshComponent;
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void Hit();
 	virtual void SkillSelect();
+	void SetSkeletalMeshVar(USkeletalMeshComponent* SkeletalMeshAddress);
 
 		
 };
