@@ -17,12 +17,18 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 	GENERATED_BODY()
 	public:
 		virtual void NormalAttack();
+		UFUNCTION(BlueprintCallable)
 		virtual void Recover() override;
+		virtual void SetUpAttackAnim() override;
 
 	protected:
-		UPROPERTY(EditDefaultsOnly,Category = "Normal Attack")
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Normal Attack")
 		TArray<UPlayerSkill*> NormalAttacks;
 		UPROPERTY(BlueprintReadWrite)
 		int CurrentChain = 0;
+		UPROPERTY(BlueprintReadWrite)
+		bool CanBuffer = false;
+		bool HasBuffer = false;
+		bool EndOfChain = false;
 	
 };

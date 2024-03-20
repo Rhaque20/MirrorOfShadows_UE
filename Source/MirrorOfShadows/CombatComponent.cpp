@@ -44,6 +44,11 @@ void UCombatComponent::BeginPlay()
 	
 }
 
+void UCombatComponent::SetUpAttackAnim()
+{
+	
+}
+
 
 // Called every frame
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

@@ -24,5 +24,6 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		UPROPERTY(EditDefaultsOnly)
 		TArray<UAnimationAsset*> AttackAnimations;
 	public:
+		UFUNCTION(BlueprintCallable)
 		UAnimationAsset* GetSkillAnimation(int index);
 };

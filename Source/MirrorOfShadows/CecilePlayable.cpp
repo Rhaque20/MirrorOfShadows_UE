@@ -11,8 +11,9 @@
 
 ACecilePlayable::ACecilePlayable()
 {
-    CharacterCore = CreateDefaultSubobject<UCecileCore>(TEXT("Cecile Core Mechanics"));
-	CharacterCore->SetSkeletalMeshVar(GetMesh());
+    CecilePassive = CreateDefaultSubobject<UCecileCore>(TEXT("Cecile Core Mechanics"));
+	CecilePassive->SetSkeletalMeshVar(GetMesh());
+	CharacterCore = CecilePassive;
 }
 
 void ACecilePlayable::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -22,6 +23,6 @@ void ACecilePlayable::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
     if(UEnhancedInputComponent* Input = 
 	CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		Input->BindAction(NormalAttackAction,ETriggerEvent::Triggered,CharacterCore,&UCecileCore::NormalAttack);
+		Input->BindAction(NormalAttackAction,ETriggerEvent::Started,CecilePassive,&UCecileCore::NormalAttack);
 	}
 }

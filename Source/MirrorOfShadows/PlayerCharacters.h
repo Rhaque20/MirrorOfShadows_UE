@@ -53,6 +53,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Enhanced Input")
 	class UInputAction* NormalAttackAction;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Combat Component")
+	class UPlayerCore* CharacterCore;
+
 private:
 	UPROPERTY(BlueprintReadWrite, Category = "Ground Variables",meta = (AllowPrivateAccess = "true"))
 	bool CanMove = true;

@@ -17,8 +17,8 @@ class MIRROROFSHADOWS_API ACecilePlayable : public APlayerCharacters
 		ACecilePlayable();
 
 	private:
-		UPROPERTY(VisibleAnywhere,Category = "Combat Component")
-		class UCecileCore* CharacterCore;
+		UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Combat Component", meta = (AllowPrivateAccess = "true"))
+		class UCecileCore* CecilePassive;
 	
 	public:
 		virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

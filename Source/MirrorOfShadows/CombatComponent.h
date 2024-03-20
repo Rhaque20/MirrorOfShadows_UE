@@ -20,10 +20,12 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	virtual void SetUpAttackAnim();
 
 protected:
 	UPROPERTY(VisibleAnywhere,Category ="SkeletalMeshRef")
 	USkeletalMeshComponent* SkeletalMesh;
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
 	bool bIsAttacking = false;
 
 public:	

@@ -11,4 +11,5 @@ UCecileCore::UCecileCore()
 void UCecileCore::NormalAttack()
 {
 	Super::NormalAttack();
+	UE_LOG(LogTemp, Display, TEXT("Attack event triggered"));
 }

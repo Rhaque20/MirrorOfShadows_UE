@@ -8,12 +8,46 @@
 
 void UPlayerCore::NormalAttack()
 {
-    bIsAttacking = true;
-    // SkeletalMesh->PlayAnimation(NormalAttacks[CurrentChain]->GetSkillAnimation(0),false);
-    // CurrentChain = (CurrentChain + 1) % NormalAttacks.Num();
+    if (!bIsAttacking)
+    {
+        SetUpAttackAnim();
+    }
+    else if (CanBuffer)
+    {
+        HasBuffer = true;
+    }
+    
 }
 
 void UPlayerCore::Recover()
 {
-    bIsAttacking = false;
+    if (HasBuffer && !EndOfChain)
+    {
+        HasBuffer = false;
+        SetUpAttackAnim();
+    }
+    else
+    {
+        bIsAttacking = false;  
+    }
+
+    if(EndOfChain)
+    {
+        EndOfChain = false;
+    }
+    
+}
+
+void UPlayerCore::SetUpAttackAnim()
+{
+    bIsAttacking = true;
+    //SkeletalMesh->PlayAnimation(NormalAttacks[CurrentChain]->GetSkillAnimation(0),false);
+    UAnimMontage* AttackAnim = Cast<UAnimMontage>(NormalAttacks[CurrentChain]->GetSkillAnimation(0));
+    SkeletalMesh->GetAnimInstance()->Montage_Play(AttackAnim,1.f,EMontagePlayReturnType::Duration,0.f,true);
+    CurrentChain = (CurrentChain + 1) % NormalAttacks.Num();
+    EndOfChain = (CurrentChain == 0);
+    if (EndOfChain)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Hit End of Chain!"));
+    }
 }
