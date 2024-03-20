@@ -9,11 +9,20 @@
 /**
  * 
  */
+
+class UPlayerSkill;
 UCLASS()
 class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 {
 	GENERATED_BODY()
 	public:
 		virtual void NormalAttack();
+		virtual void Recover() override;
+
+	protected:
+		UPROPERTY(EditDefaultsOnly,Category = "Normal Attack")
+		TArray<UPlayerSkill*> NormalAttacks;
+		UPROPERTY(BlueprintReadWrite)
+		int CurrentChain = 0;
 	
 };

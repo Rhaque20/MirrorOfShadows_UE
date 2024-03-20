@@ -17,7 +17,7 @@ class MIRROROFSHADOWS_API ACecilePlayable : public APlayerCharacters
 		ACecilePlayable();
 
 	private:
-		UPROPERTY(VisibleAnywhere, Category = "Combat Component")
+		UPROPERTY(VisibleAnywhere,Category = "Combat Component")
 		class UCecileCore* CharacterCore;
 	
 	public:

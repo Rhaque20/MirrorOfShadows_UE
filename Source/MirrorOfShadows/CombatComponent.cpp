@@ -27,7 +27,12 @@ void UCombatComponent::SkillSelect()
 
 void UCombatComponent::SetSkeletalMeshVar(USkeletalMeshComponent* SkeletalMeshAddress)
 {
-	SkeletalMeshComponent = SkeletalMeshAddress;
+	SkeletalMesh = SkeletalMeshAddress;
+}
+
+void UCombatComponent::Recover()
+{
+	
 }
 
 // Called when the game starts

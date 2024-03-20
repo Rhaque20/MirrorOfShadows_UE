@@ -20,8 +20,11 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	UPROPERTY(EditDefaultsOnly,Category ="Combat")
-	USkeletalMeshComponent* SkeletalMeshComponent;
+
+protected:
+	UPROPERTY(VisibleAnywhere,Category ="SkeletalMeshRef")
+	USkeletalMeshComponent* SkeletalMesh;
+	bool bIsAttacking = false;
 
 public:	
 	// Called every frame
@@ -29,6 +32,7 @@ public:
 	virtual void Hit();
 	virtual void SkillSelect();
 	void SetSkeletalMeshVar(USkeletalMeshComponent* SkeletalMeshAddress);
+	virtual void Recover();
 
 		
 };
