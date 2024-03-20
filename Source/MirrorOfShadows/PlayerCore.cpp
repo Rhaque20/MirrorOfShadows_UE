@@ -34,6 +34,7 @@ void UPlayerCore::Recover()
     if(EndOfChain)
     {
         EndOfChain = false;
+        CurrentChain = 0;
     }
     
 }
@@ -41,13 +42,8 @@ void UPlayerCore::Recover()
 void UPlayerCore::SetUpAttackAnim()
 {
     bIsAttacking = true;
-    //SkeletalMesh->PlayAnimation(NormalAttacks[CurrentChain]->GetSkillAnimation(0),false);
     UAnimMontage* AttackAnim = Cast<UAnimMontage>(NormalAttacks[CurrentChain]->GetSkillAnimation(0));
     SkeletalMesh->GetAnimInstance()->Montage_Play(AttackAnim,1.f,EMontagePlayReturnType::Duration,0.f,true);
-    CurrentChain = (CurrentChain + 1) % NormalAttacks.Num();
-    EndOfChain = (CurrentChain == 0);
-    if (EndOfChain)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Hit End of Chain!"));
-    }
+    CurrentChain++;
+    EndOfChain = (CurrentChain == NormalAttacks.Num());
 }
