@@ -18,7 +18,7 @@ class MIRROROFSHADOWS_API AGameplayModeBase : public AGameModeBase
 		void StartGame();
 		virtual void BeginPlay() override;
 	private:
-		class APlayerPartyController* MainController;
+		class APlayerPartyController* PlayerPartyController;
 		UPROPERTY(EditAnywhere)
 		TArray<class UPlayerData*> PartyMembers;
 	

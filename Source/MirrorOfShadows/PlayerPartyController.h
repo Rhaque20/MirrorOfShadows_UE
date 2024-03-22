@@ -9,14 +9,17 @@
 /**
  * 
  */
+class UPlayerData;
+
 UCLASS()
 class MIRROROFSHADOWS_API APlayerPartyController : public APlayerController
 {
 	GENERATED_BODY()
 	public:
 		APlayerPartyController();
+		void SetUpMembers(TArray<UPlayerData*> PartyList);
 	private:
-		TArray<AActor*> PartyMembers;
+		TArray<UPlayerData*> PartyMembers;
 		int CurrentCharacter = 0;
 		int AliveMembers = 0;
 	private:
