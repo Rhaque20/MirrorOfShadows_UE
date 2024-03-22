@@ -46,6 +46,12 @@ void APlayerCharacters::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void APlayerCharacters::SetPlayerActive(bool IsActive)
+{
+	SetActorHiddenInGame(!IsActive);
+	SetActorEnableCollision(IsActive);
+}
+
 // Called to bind functionality to input
 void APlayerCharacters::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
