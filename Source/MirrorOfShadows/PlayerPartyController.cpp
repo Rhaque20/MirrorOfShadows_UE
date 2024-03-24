@@ -2,6 +2,7 @@
 
 
 #include "PlayerPartyController.h"
+#include "PlayerData.h"
 #include "Kismet/GameplayStatics.h"
 #include "PlayerCharacters.h"
 #include "Components/PrimitiveComponent.h"
@@ -15,6 +16,7 @@ APlayerPartyController::APlayerPartyController()
 void APlayerPartyController::SetUpMembers(TArray<UPlayerData*> PartyList)
 {
     PartyMembers = PartyList;
+    AliveMembers = PartyMembers.Num();
 }
 
 void APlayerPartyController::BeginPlay()
@@ -31,15 +33,37 @@ void APlayerPartyController::BeginPlay()
 void APlayerPartyController::SwapCharacterLeft()
 {
     // Edit this accordingly once we deal with certain indices being unavailable
+    if (AliveMembers == 0)
+    {
+         UE_LOG(LogTemp, Error, TEXT("Party Member TArray is empty"));
+         return;
+    }
+    else
+    {
+         UE_LOG(LogTemp, Display, TEXT("Party Member Array count is %d"),AliveMembers);
+    }
     int SwapToIndex = CurrentCharacter - 1;
     if (SwapToIndex < 0) SwapToIndex = AliveMembers - 1;
 
-    // Possess(Cast<APawn>(PartyMembers[SwapToIndex]));
+    APawn* ActivePawn = GetPawn();
+
+    FVector CurrentPos = ActivePawn->GetActorLocation();
+    FRotator CurrentRot = ActivePawn->GetActorRotation();
+
+    APlayerCharacters* SwapToPlayer = GetWorld()->SpawnActor<APlayerCharacters>(PartyMembers[SwapToIndex]->GetCharacterClass(),CurrentPos,CurrentRot);
+    
+     UE_LOG(LogTemp, Display, TEXT("Swapped party members"));
+
+    ActivePawn->Destroy();
+
+    SwapToPlayer->SetActorLocation(CurrentPos);
+    SwapToPlayer->SetActorRotation(CurrentRot);
+    
+
+    Possess(Cast<APawn>(SwapToPlayer));
     
     // // Note camera rotation needs to be adjusted on the character swap
     // // Also create onswitch event to ensure normal attacks can still work.
-    // FVector CurrentPos = PartyMembers[CurrentCharacter]->GetActorLocation();
-    // FRotator CurrentRot = PartyMembers[CurrentCharacter]->GetActorRotation();
 
     // Cast<APlayerCharacters>(PartyMembers[SwapToIndex])->SetPlayerActive(true);
     // Cast<APlayerCharacters>(PartyMembers[CurrentCharacter])->SetPlayerActive(false);
@@ -47,7 +71,7 @@ void APlayerPartyController::SwapCharacterLeft()
     // PartyMembers[SwapToIndex]->SetActorLocation(CurrentPos);
     // PartyMembers[SwapToIndex]->SetActorRotation(CurrentRot);
 
-    // CurrentCharacter = SwapToIndex;
+    CurrentCharacter = SwapToIndex;
 }
 
 void APlayerPartyController::SwapCharacterRight()
