@@ -51,16 +51,21 @@ void APlayerPartyController::SwapCharacterLeft()
     FRotator CurrentRot = ActivePawn->GetActorRotation();
 
     APlayerCharacters* SwapToPlayer = GetWorld()->SpawnActor<APlayerCharacters>(PartyMembers[SwapToIndex]->GetCharacterClass(),CurrentPos,CurrentRot);
-    
-     UE_LOG(LogTemp, Display, TEXT("Swapped party members"));
 
-    ActivePawn->Destroy();
+    FRotator CameraRot = ActivePawn->GetController()->GetControlRotation();
+
+    Possess(Cast<APawn>(SwapToPlayer));
 
     SwapToPlayer->SetActorLocation(CurrentPos);
     SwapToPlayer->SetActorRotation(CurrentRot);
-    
 
-    Possess(Cast<APawn>(SwapToPlayer));
+    ActivePawn->Destroy();
+
+    SwapToPlayer->GetController()->SetControlRotation(CameraRot);
+    
+     UE_LOG(LogTemp, Display, TEXT("Swapped party members and relocated camera"));
+
+    
     
     // // Note camera rotation needs to be adjusted on the character swap
     // // Also create onswitch event to ensure normal attacks can still work.
