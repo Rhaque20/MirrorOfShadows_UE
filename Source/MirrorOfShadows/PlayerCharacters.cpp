@@ -7,6 +7,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
+#include "AbilitySystemComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -28,6 +29,8 @@ APlayerCharacters::APlayerCharacters()
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetupAttachment(SpringArm);
 
+	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
+
 	// bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
@@ -37,6 +40,8 @@ APlayerCharacters::APlayerCharacters()
 void APlayerCharacters::BeginPlay()
 {
 	Super::BeginPlay();
+	AbilitySystem->InitAbilityActorInfo(this, this);
+
 	
 }
 
