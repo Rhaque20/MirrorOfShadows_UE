@@ -67,6 +67,9 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Combat Component")
 	class UPlayerCore* CharacterCore;
 
+	UPROPERTY(VisibleAnywhere)
+	class UBaseAttributeSet* AttributeSet;
+
 private:
 	UPROPERTY(BlueprintReadWrite, Category = "Ground Variables",meta = (AllowPrivateAccess = "true"))
 	bool CanMove = true;

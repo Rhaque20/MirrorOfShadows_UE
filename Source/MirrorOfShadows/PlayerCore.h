@@ -19,6 +19,8 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 		virtual void NormalAttack();
 		UFUNCTION(BlueprintCallable)
 		virtual void Recover() override;
+		UFUNCTION(BlueprintCallable)
+		virtual void Hit() override;
 		virtual void SetUpAttackAnim() override;
 
 	protected:

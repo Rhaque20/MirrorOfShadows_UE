@@ -17,12 +17,24 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 	protected:
 		UPROPERTY(EditDefaultsOnly)
 		FString SkillName;
+
 		UPROPERTY(EditDefaultsOnly)
 		float SkillModifier = 1.f;
+
 		UPROPERTY(EditDefaultsOnly)
 		float ResistInterruptMod = 0.f;
+
+		UPROPERTY(EditDefaultsOnly)
+		float PoiseDamage = 0.f;
+
 		UPROPERTY(EditDefaultsOnly)
 		TArray<UAnimationAsset*> AttackAnimations;
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+		FVector HitBoxScale = FVector(1,1,1);
+		
+		UPROPERTY(EditDefaultsOnly)
+		bool IsProjectile = false;
 	public:
 		UFUNCTION(BlueprintCallable)
 		UAnimationAsset* GetSkillAnimation(int index);

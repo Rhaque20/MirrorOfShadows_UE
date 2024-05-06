@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
 #include "AbilitySystemComponent.h"
+#include "BaseAttributeSet.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -16,6 +17,7 @@
 #include "GameFramework/NavMovementComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 APlayerCharacters::APlayerCharacters()
@@ -30,6 +32,7 @@ APlayerCharacters::APlayerCharacters()
 	Camera->SetupAttachment(SpringArm);
 
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
+	AttributeSet = CreateDefaultSubobject<UBaseAttributeSet>("AttributeSet");
 
 	// bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -41,6 +44,28 @@ void APlayerCharacters::BeginPlay()
 {
 	Super::BeginPlay();
 	AbilitySystem->InitAbilityActorInfo(this, this);
+
+	AttributeSet->SetCurrentHP(12);
+
+		auto Attribute = AttributeSet->GetCurrentHPAttribute();
+		auto& Delegate = AbilitySystem->GetGameplayAttributeValueChangeDelegate(Attribute);
+		
+		Delegate.AddWeakLambda(this, [this](auto)
+		{
+			if (AttributeSet->GetCurrentHP() == 0)
+			{
+				UE_LOG(LogTemp, Display, TEXT("%s is dead."),*GetName());
+				Destroy();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Display, TEXT("%s received damage!"),*GetName());
+			}
+				
+
+		});
+
+	
 
 	
 }

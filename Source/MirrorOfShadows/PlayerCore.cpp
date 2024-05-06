@@ -39,6 +39,11 @@ void UPlayerCore::Recover()
     
 }
 
+void UPlayerCore::Hit()
+{
+    
+}
+
 void UPlayerCore::SetUpAttackAnim()
 {
     bIsAttacking = true;
