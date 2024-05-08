@@ -32,9 +32,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void Hit();
+	virtual void InflictDamage(TArray<FHitResult> Results);
 	virtual void SkillSelect();
 	void SetSkeletalMeshVar(USkeletalMeshComponent* SkeletalMeshAddress);
 	virtual void Recover();
+	virtual bool IsBehindTarget(AActor* Target);
 
 		
 };

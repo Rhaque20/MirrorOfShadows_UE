@@ -26,11 +26,13 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 	protected:
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Normal Attack")
 		TArray<UPlayerSkill*> NormalAttacks;
+
 		UPROPERTY(BlueprintReadWrite)
 		int CurrentChain = 0;
 		UPROPERTY(BlueprintReadWrite)
 		bool CanBuffer = false;
 		bool HasBuffer = false;
+		UPROPERTY(BlueprintReadOnly)
 		bool EndOfChain = false;
 	
 };

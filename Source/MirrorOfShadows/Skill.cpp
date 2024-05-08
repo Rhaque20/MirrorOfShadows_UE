@@ -3,10 +3,10 @@
 
 #include "Skill.h"
 
-UAnimationAsset *USkill::GetSkillAnimation(int index)
+UAnimMontage* USkill::GetAnimation(int index) const
 {
-    if (index >= AttackAnimations.Num())
+    if (index >= AnimationMontages.Num())
         return nullptr;
     
-    return AttackAnimations[index];
+    return AnimationMontages[index];
 }

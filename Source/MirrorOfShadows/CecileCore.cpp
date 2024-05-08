@@ -3,13 +3,24 @@
 
 #include "CecileCore.h"
 
+#include "Engine/EngineTypes.h"
+
 UCecileCore::UCecileCore()
 {
     
 }
 
-void UCecileCore::NormalAttack()
+void UCecileCore::InflictDamage(TArray<FHitResult> Results) 
 {
-	Super::NormalAttack();
-	UE_LOG(LogTemp, Display, TEXT("Attack event triggered"));
+    for(FHitResult Hit : Results)
+    {
+        if(IsBehindTarget(Hit.GetActor()))
+        {
+            UE_LOG(LogTemp, Display, TEXT("Struck behind %s"),*(Hit.GetActor()->GetName()));
+        }
+        else
+        {
+            UE_LOG(LogTemp, Display, TEXT("Struck %s"),*(Hit.GetActor()->GetName()));
+        }
+    }
 }

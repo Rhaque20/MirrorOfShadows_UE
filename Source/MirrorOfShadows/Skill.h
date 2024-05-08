@@ -28,7 +28,7 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		float PoiseDamage = 0.f;
 
 		UPROPERTY(EditDefaultsOnly)
-		TArray<UAnimationAsset*> AttackAnimations;
+		TArray<UAnimMontage*> AnimationMontages;
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 		FVector HitBoxScale = FVector(1,1,1);
@@ -37,5 +37,6 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		bool IsProjectile = false;
 	public:
 		UFUNCTION(BlueprintCallable)
-		UAnimationAsset* GetSkillAnimation(int index);
+		UAnimMontage* GetAnimation(int index) const;
+		FVector GetHitBoxScale() const {return HitBoxScale;};
 };

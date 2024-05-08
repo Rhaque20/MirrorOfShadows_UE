@@ -2,7 +2,10 @@
 
 
 #include "CombatComponent.h"
+
 #include "Components/SkeletalMeshComponent.h"
+#include "Engine/EngineTypes.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values for this component's properties
 UCombatComponent::UCombatComponent()
@@ -20,6 +23,11 @@ void UCombatComponent::Hit()
 
 }
 
+void UCombatComponent::InflictDamage(TArray<FHitResult> Results) 
+{
+	
+}
+
 void UCombatComponent::SkillSelect()
 {
 	
@@ -33,6 +41,14 @@ void UCombatComponent::SetSkeletalMeshVar(USkeletalMeshComponent* SkeletalMeshAd
 void UCombatComponent::Recover()
 {
 	
+}
+
+bool UCombatComponent::IsBehindTarget(AActor* Target) 
+{
+	FVector AttackerVector = GetOwner()->GetActorForwardVector();
+	FVector TargetLocation = UKismetMathLibrary::Normal((Target->GetActorLocation()) - (GetOwner()->GetActorLocation()));
+
+	return UKismetMathLibrary::Dot_VectorVector(AttackerVector,TargetLocation) < 0;
 }
 
 // Called when the game starts

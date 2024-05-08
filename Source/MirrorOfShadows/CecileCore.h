@@ -15,5 +15,5 @@ class MIRROROFSHADOWS_API UCecileCore : public UPlayerCore
 	GENERATED_BODY()
 	public:
 		UCecileCore();
-		virtual void NormalAttack() override;
+		virtual void InflictDamage(TArray<FHitResult> Results) override;
 };
