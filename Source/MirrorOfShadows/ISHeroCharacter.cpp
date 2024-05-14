@@ -47,6 +47,17 @@ void AISHeroCharacter::BeginPlay()
 
 void AISHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
+
+	if(AISPlayerController* PC = Cast<AISPlayerController>(GetController()))
+	{
+		if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
+	
+	
+	
 	UISInputComponent* ISInputComponent = Cast<UISInputComponent>(PlayerInputComponent);
 	check(ISInputComponent);
 	
@@ -60,10 +71,13 @@ void AISHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		&ThisClass::Move);
 	ISInputComponent->BindNativeAction(InputConfig, GameplayTags.Input_Look, ETriggerEvent::Triggered, this,
 		&ThisClass::Look);
+	ISInputComponent->BindNativeAction(InputConfig, GameplayTags.Input_Jump, ETriggerEvent::Triggered, this,
+		&ThisClass::Jump);
 }
 
 void AISHeroCharacter::Move(const FInputActionValue& Value)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Moving!"));
 	const FVector2D DirectionValue = Value.Get<FVector2D>();
 	if(GetController())
 	{
@@ -78,22 +92,19 @@ void AISHeroCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
-void AISHeroCharacter::Look(const FInputActionValue& Value)
+void AISHeroCharacter::Look(const FInputActionValue& InputValue)
 {
-	const FVector2D LookValue = Value.Get<FVector2D>();
-
-	if(GetController())
+	FVector2D InputVector = InputValue.Get<FVector2D>();
+	if (IsValid(Controller))
 	{
-		if(LookValue.X != 0.0f)
-		{
-			AddControllerYawInput(LookValue.X);
-		}
-
-		if(LookValue.Y != 0.0f)
-		{
-			AddControllerPitchInput(-LookValue.Y);
-		}
+		AddControllerYawInput(InputVector.X);
+		AddControllerPitchInput(InputVector.Y);
 	}
+}
+
+void AISHeroCharacter::Jump() 
+{
+	ACharacter::Jump();
 }
 
 void AISHeroCharacter::InputAbilityInputTagPressed(FGameplayTag InputTag)

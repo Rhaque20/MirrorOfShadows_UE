@@ -47,6 +47,9 @@ protected:
 	UPROPERTY()
 	FTimerHandle DelayTimerHandle;
 
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "SkillAnimation")
+	TArray<class USkill*> SkillData;
+
 protected:
 	virtual void InputPressed
 (
@@ -61,5 +64,7 @@ virtual void InputReleased
     const FGameplayAbilityActorInfo * ActorInfo,
     const FGameplayAbilityActivationInfo ActivationInfo
 ) override;
+
+virtual void DoAnimation(int i);
 	
 };

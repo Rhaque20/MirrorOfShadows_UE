@@ -16,6 +16,7 @@ public:
 public:
 	FGameplayTag Input_Move;
 	FGameplayTag Input_Look;
+	FGameplayTag Input_Jump;
 
 	FGameplayTag Ability_Input_WhileInputActive;
 	FGameplayTag Ability_Input_OnInputTriggered;

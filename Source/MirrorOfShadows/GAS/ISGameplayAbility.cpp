@@ -3,6 +3,7 @@
 
 #include "ISGameplayAbility.h"
 #include "TimerManager.h"
+#include "../Skill.h"
 
 
 void UISGameplayAbility::InputReleased(const FGameplayAbilitySpecHandle Handle,
@@ -28,6 +29,11 @@ void UISGameplayAbility::InputReleased(const FGameplayAbilitySpecHandle Handle,
     &UISGameplayAbility::EndAbilityModified, // function to call on elapsed
     2.f, // float delay until elapsed
     false); // looping?
+}
+
+void UISGameplayAbility::DoAnimation(int i) 
+{
+    
 }
 
 void UISGameplayAbility::InputPressed(const FGameplayAbilitySpecHandle Handle,
