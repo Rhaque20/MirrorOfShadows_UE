@@ -28,6 +28,10 @@ public:
 
 	virtual void PossessedBy(AController* NewController) override;
 
+public:
+	UPROPERTY(BlueprintReadWrite)
+	int CurrentChain = 0;
+
 protected:
 	virtual void BeginPlay() override;
 	

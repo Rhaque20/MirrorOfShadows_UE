@@ -20,6 +20,7 @@ void FISGameplayTags::AddAllTags(UGameplayTagsManager& Manager)
 
 	AddTag(Ability_Input_OnInputTriggered, "Ability.Input.OnInputTriggered", "Test ability input.");
 	AddTag(Ability_Input_WhileInputActive, "Ability.Input.WhileInputActive", "Test ability input.");
+	AddTag(Ability_Input_NormalAttack,"Ability.Input.NormalAttack","Normal Attack Action");
 }
 
 void FISGameplayTags::AddTag(FGameplayTag& OutTag, const ANSICHAR* TagName, const ANSICHAR* TagComment)

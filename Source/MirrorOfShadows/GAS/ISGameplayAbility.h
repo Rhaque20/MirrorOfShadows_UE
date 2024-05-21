@@ -66,5 +66,8 @@ virtual void InputReleased
 ) override;
 
 virtual void DoAnimation(int i);
+
+virtual void Recover();
+virtual void HitScan();
 	
 };
