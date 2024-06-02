@@ -10,6 +10,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 
 #define PlayerChannel ETraceTypeQuery::TraceTypeQuery13
+#define EnemyChannel ETraceTypeQuery::TraceTypeQuery14
 
 
 void UPlayerCore::NormalAttack()
@@ -62,7 +63,7 @@ void UPlayerCore::Hit()
 
 
     UKismetSystemLibrary::BoxTraceMulti(this,Location + ForwardVector, Location + ForwardVector + FVector(0.1f,0.1f,0.1f)
-    ,BoxExtents,Rotation,PlayerChannel,false,IgnoreActor ,EDrawDebugTrace::Type::ForDuration,Results,true);
+    ,BoxExtents,Rotation,EnemyChannel,false,IgnoreActor ,EDrawDebugTrace::Type::ForDuration,Results,true);
 
     InflictDamage(Results);
 }

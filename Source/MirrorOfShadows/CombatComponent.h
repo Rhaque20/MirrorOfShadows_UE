@@ -32,7 +32,14 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void Hit();
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void HitScan();
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void ActiveHitScan();
+	UFUNCTION(BlueprintCallable)
 	virtual void InflictDamage(TArray<FHitResult> Results);
+	UFUNCTION(BlueprintCallable)
+	virtual void InflictDamageToSingle(FHitResult Result);
 	virtual void SkillSelect();
 	void SetSkeletalMeshVar(USkeletalMeshComponent* SkeletalMeshAddress);
 	virtual void Recover();
