@@ -12,6 +12,7 @@ UCecileCore::UCecileCore()
 
 void UCecileCore::InflictDamage(TArray<FHitResult> Results) 
 {
+    bool TriggeredShake = false;
     for(FHitResult Hit : Results)
     {
         if(IsBehindTarget(Hit.GetActor()))
@@ -21,6 +22,12 @@ void UCecileCore::InflictDamage(TArray<FHitResult> Results)
         else
         {
             UE_LOG(LogTemp, Display, TEXT("Struck %s"),*(Hit.GetActor()->GetName()));
+        }
+
+        if(HitCameraShakeClass && !TriggeredShake)
+        {
+            GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(HitCameraShakeClass);
+            TriggeredShake = true;
         }
     }
 }

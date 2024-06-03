@@ -61,9 +61,12 @@ void UCombatComponent::Recover()
 bool UCombatComponent::IsBehindTarget(AActor* Target) 
 {
 	FVector AttackerVector = GetOwner()->GetActorForwardVector();
-	FVector TargetLocation = UKismetMathLibrary::Normal((Target->GetActorLocation()) - (GetOwner()->GetActorLocation()));
+	FVector TargetLocation = Target->GetActorForwardVector();
 
-	return UKismetMathLibrary::Dot_VectorVector(AttackerVector,TargetLocation) < 0;
+	double dotProduct = UKismetMathLibrary::Dot_VectorVector(AttackerVector,TargetLocation);
+	UE_LOG(LogTemp, Display, TEXT("Dot product is %f"),dotProduct);
+
+	return dotProduct > 0.7;
 }
 
 // Called when the game starts

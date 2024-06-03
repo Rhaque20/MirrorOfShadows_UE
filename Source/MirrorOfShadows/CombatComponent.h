@@ -8,7 +8,7 @@
 
 class USkeletalMeshComponent;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),Blueprintable )
 class MIRROROFSHADOWS_API UCombatComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -27,14 +27,16 @@ protected:
 	USkeletalMeshComponent* SkeletalMesh;
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
 	bool bIsAttacking = false;
+	UPROPERTY(EditAnywhere, Category = "Combat");
+	TSubclassOf<class UCameraShakeBase> HitCameraShakeClass;
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void Hit();
-	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent)
 	void HitScan();
-	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent)
 	void ActiveHitScan();
 	UFUNCTION(BlueprintCallable)
 	virtual void InflictDamage(TArray<FHitResult> Results);
