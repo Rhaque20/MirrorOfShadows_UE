@@ -39,4 +39,5 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		UFUNCTION(BlueprintCallable)
 		UAnimMontage* GetAnimation(int index) const;
 		FVector GetHitBoxScale() const {return HitBoxScale;};
+		float ReturnModifier() const {return SkillModifier;};
 };
