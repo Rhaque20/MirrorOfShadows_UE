@@ -21,5 +21,10 @@ enum class EStats
 {
 	Health UMETA(DisplayName = "Health"),
     Attack UMETA(DisplayName = "Attack"),
-    Defense UMETA(DisplayName = "Defense")
+    Defense UMETA(DisplayName = "Defense"),
+    Potency UMETA(DisplayName = "Potency"),
+    Resistance UMETA(DisplayName = "Resistance"),
+    CritRate UMETA(DisplayName = "Crit Rate"),
+    CritDMG UMETA(DisplayName = "Crit DMG"),
+    SPGain UMETA(DisplayName = "SP Gain")
 };

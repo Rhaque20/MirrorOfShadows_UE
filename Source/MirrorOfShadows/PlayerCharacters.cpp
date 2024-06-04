@@ -45,25 +45,25 @@ void APlayerCharacters::BeginPlay()
 	Super::BeginPlay();
 	AbilitySystem->InitAbilityActorInfo(this, this);
 
-	AttributeSet->SetCurrentHP(12);
+	// AttributeSet->SetCurrentHP(12);
 
-		auto Attribute = AttributeSet->GetCurrentHPAttribute();
-		auto& Delegate = AbilitySystem->GetGameplayAttributeValueChangeDelegate(Attribute);
+	// 	auto Attribute = AttributeSet->GetCurrentHPAttribute();
+	// 	auto& Delegate = AbilitySystem->GetGameplayAttributeValueChangeDelegate(Attribute);
 		
-		Delegate.AddWeakLambda(this, [this](auto)
-		{
-			if (AttributeSet->GetCurrentHP() == 0)
-			{
-				UE_LOG(LogTemp, Display, TEXT("%s is dead."),*GetName());
-				Destroy();
-			}
-			else
-			{
-				UE_LOG(LogTemp, Display, TEXT("%s received damage!"),*GetName());
-			}
+	// 	Delegate.AddWeakLambda(this, [this](auto)
+	// 	{
+	// 		if (AttributeSet->GetCurrentHP() == 0)
+	// 		{
+	// 			UE_LOG(LogTemp, Display, TEXT("%s is dead."),*GetName());
+	// 			Destroy();
+	// 		}
+	// 		else
+	// 		{
+	// 			UE_LOG(LogTemp, Display, TEXT("%s received damage!"),*GetName());
+	// 		}
 				
 
-		});
+	// 	});
 
 	
 

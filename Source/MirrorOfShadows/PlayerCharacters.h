@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GameplayTagContainer.h"
+#include "GameplayTagAssetInterface.h"
 #include "AbilitySystemInterface.h"
 
 #include "PlayerCharacters.generated.h"
 
 UCLASS()
-class MIRROROFSHADOWS_API APlayerCharacters : public ACharacter, public IAbilitySystemInterface
+class MIRROROFSHADOWS_API APlayerCharacters : public ACharacter, public IAbilitySystemInterface,public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 
@@ -42,6 +44,12 @@ public:
 		return AbilitySystem;
 	}
 
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& OwnedTags) const override
+	{
+		OwnedTags = GameplayTagContainer; 
+		return;
+	}
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera Component")
 	class UCameraComponent* Camera;
@@ -69,6 +77,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	class UBaseAttributeSet* AttributeSet;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Gameplay Tag")
+	FGameplayTagContainer GameplayTagContainer;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Stat Component")
+	class UPlayerStatComponent* Stats;
 
 private:
 	UPROPERTY(BlueprintReadWrite, Category = "Ground Variables",meta = (AllowPrivateAccess = "true"))
