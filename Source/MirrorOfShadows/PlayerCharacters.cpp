@@ -9,6 +9,7 @@
 #include "InputActionValue.h"
 #include "AbilitySystemComponent.h"
 #include "BaseAttributeSet.h"
+#include "Components/PlayerStatComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -33,6 +34,8 @@ APlayerCharacters::APlayerCharacters()
 
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
 	AttributeSet = CreateDefaultSubobject<UBaseAttributeSet>("AttributeSet");
+
+	Stats = CreateDefaultSubobject<UPlayerStatComponent>("Stats");
 
 	// bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;

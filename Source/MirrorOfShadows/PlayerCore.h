@@ -22,6 +22,7 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 		UFUNCTION(BlueprintCallable)
 		virtual void Hit() override;
 		virtual void SetUpAttackAnim() override;
+		void SetPlayerStatComponent(class UPlayerStatComponent* StatsObject) ;
 
 	protected:
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Normal Attack")
@@ -31,8 +32,12 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 		int CurrentChain = 0;
 		UPROPERTY(BlueprintReadWrite)
 		bool CanBuffer = false;
+		UPROPERTY(BlueprintReadWrite)
 		bool HasBuffer = false;
 		UPROPERTY(BlueprintReadOnly)
 		bool EndOfChain = false;
+
+		UPROPERTY(BlueprintReadOnly)
+		class UPlayerStatComponent* PlayerStats;
 	
 };

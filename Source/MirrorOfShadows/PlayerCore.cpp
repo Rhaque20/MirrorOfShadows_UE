@@ -6,6 +6,7 @@
 #include "Containers/Array.h"
 #include "AbilitySystemComponent.h"
 #include "PlayerCharacters.h"
+#include "Components/PlayerStatComponent.h"
 
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -35,7 +36,7 @@ void UPlayerCore::Recover()
     if (HasBuffer && !EndOfChain)
     {
         HasBuffer = false;
-        SetUpAttackAnim();
+        // SetUpAttackAnim();
     }
     else if (!EndOfChain)
     {
@@ -78,5 +79,11 @@ void UPlayerCore::SetUpAttackAnim()
         SkeletalMesh->GetAnimInstance()->Montage_Play(AttackAnim,1.f,EMontagePlayReturnType::Duration,0.f,true);
         // Deal with fact of chain going beyond the array
     }
+}
+
+void UPlayerCore::SetPlayerStatComponent(UPlayerStatComponent* StatsObject) 
+{
+    PlayerStats = StatsObject;
+    StatComponent = PlayerStats;
 }
 

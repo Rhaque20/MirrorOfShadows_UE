@@ -50,6 +50,9 @@ public:
 		return;
 	}
 
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void NormalAttackAbility();
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera Component")
 	class UCameraComponent* Camera;

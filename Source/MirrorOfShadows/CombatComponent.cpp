@@ -6,6 +6,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/EngineTypes.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Components/StatComponent.h"
 
 // Sets default values for this component's properties
 UCombatComponent::UCombatComponent()
@@ -51,6 +52,11 @@ void UCombatComponent::SkillSelect()
 void UCombatComponent::SetSkeletalMeshVar(USkeletalMeshComponent* SkeletalMeshAddress)
 {
 	SkeletalMesh = SkeletalMeshAddress;
+}
+
+void UCombatComponent::SetStatComponent(UStatComponent* Stats) 
+{
+	StatComponent = Stats;
 }
 
 void UCombatComponent::Recover()
