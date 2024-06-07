@@ -27,25 +27,45 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 	// 	void OnRep_HP(const FGameplayAttributeData& OldMaxHP);
 
 	public:
-		UPROPERTY(EditAnywhere)
+		UPROPERTY(BlueprintReadOnly, Category = "Level")
+		FGameplayAttributeData Level;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, Level);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Current Health")
 		FGameplayAttributeData CurrentHP;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, CurrentHP);
 
-		UPROPERTY()
+		UPROPERTY(BlueprintReadOnly, Category = "Max Health")
 		FGameplayAttributeData HP;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, HP);
 
-		UPROPERTY()
+		UPROPERTY(BlueprintReadOnly, Category = "Attack")
 		FGameplayAttributeData ATK;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, ATK);
 
-		UPROPERTY()
+		UPROPERTY(BlueprintReadOnly, Category = "Defense")
 		FGameplayAttributeData DEF;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, DEF);
 
-		UPROPERTY()
-		FGameplayAttributeData Damage;
-		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, Damage);
+		UPROPERTY(BlueprintReadOnly, Category = "Potency")
+		FGameplayAttributeData POTENCY;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, POTENCY);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Resistance")
+		FGameplayAttributeData RESISTANCE;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, RESISTANCE);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Critical Rate")
+		FGameplayAttributeData CRITRATE;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, CRITRATE);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Critical Damage")
+		FGameplayAttributeData CRITDMG;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, CRITDMG);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Skill Modifier")
+		FGameplayAttributeData SkillModifier;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, SkillModifier);
 
 	public:
 		//virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;

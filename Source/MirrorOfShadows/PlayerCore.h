@@ -11,7 +11,7 @@
  */
 
 class UPlayerSkill;
-UCLASS()
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),Blueprintable )
 class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 {
 	GENERATED_BODY()

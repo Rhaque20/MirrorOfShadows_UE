@@ -10,6 +10,7 @@
 #include "AbilitySystemComponent.h"
 #include "BaseAttributeSet.h"
 #include "Components/PlayerStatComponent.h"
+#include "PlayerCore.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -36,41 +37,49 @@ APlayerCharacters::APlayerCharacters()
 	AttributeSet = CreateDefaultSubobject<UBaseAttributeSet>("AttributeSet");
 
 	Stats = CreateDefaultSubobject<UPlayerStatComponent>("Stats");
+	
+	CharacterCore = CreateDefaultSubobject<UPlayerCore>(TEXT("PlayerCore"));
 
 	// bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
 }
 
+float APlayerCharacters::GetHealth() const
+{
+	if (!AttributeSet)
+	{
+		return AttributeSet->GetHP();
+	}
+
+	return 0.0f;
+}
+
+float APlayerCharacters::GetCurrentHealth() const
+{
+	if (!AttributeSet)
+	{
+		return AttributeSet->GetCurrentHP();
+	}
+
+	return 0.0f;
+}
+
+int APlayerCharacters::GetLevel() const
+{
+	if (!AttributeSet)
+	{
+		return AttributeSet->GetLevel();
+	}
+
+	return 1;
+}
+
 // Called when the game starts or when spawned
 void APlayerCharacters::BeginPlay()
 {
 	Super::BeginPlay();
-	AbilitySystem->InitAbilityActorInfo(this, this);
-
-	// AttributeSet->SetCurrentHP(12);
-
-	// 	auto Attribute = AttributeSet->GetCurrentHPAttribute();
-	// 	auto& Delegate = AbilitySystem->GetGameplayAttributeValueChangeDelegate(Attribute);
-		
-	// 	Delegate.AddWeakLambda(this, [this](auto)
-	// 	{
-	// 		if (AttributeSet->GetCurrentHP() == 0)
-	// 		{
-	// 			UE_LOG(LogTemp, Display, TEXT("%s is dead."),*GetName());
-	// 			Destroy();
-	// 		}
-	// 		else
-	// 		{
-	// 			UE_LOG(LogTemp, Display, TEXT("%s received damage!"),*GetName());
-	// 		}
-				
-
-	// 	});
-
-	
-
-	
+	AbilitySystem->InitAbilityActorInfo(this, this);	
 }
 
 // Called every frame
@@ -104,6 +113,28 @@ void APlayerCharacters::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		Input->BindAction(MoveAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Move);
 		Input->BindAction(LookAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Look);
 		Input->BindAction(JumpAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Jump);
+	}
+}
+
+void APlayerCharacters::InitializeAttributes() 
+{
+	if (!IsValid(AbilitySystem))
+	{
+		return;
+	}
+	if(!DefaultAttributes)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s is missing an attribute ability! Set it in the blueprint!"),*GetName());
+	}
+
+	FGameplayEffectContextHandle EffectContext = AbilitySystem->MakeEffectContext();
+	EffectContext.AddSourceObject(this);
+
+	FGameplayEffectSpecHandle NewHandle = AbilitySystem->MakeOutgoingSpec(DefaultAttributes,GetLevel(),EffectContext);
+
+	if (NewHandle.IsValid())
+	{
+		FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystem->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(),AbilitySystem);
 	}
 }
 

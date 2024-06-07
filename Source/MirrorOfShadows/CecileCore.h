@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),Blueprintable )
 class MIRROROFSHADOWS_API UCecileCore : public UPlayerCore
 {
 	GENERATED_BODY()

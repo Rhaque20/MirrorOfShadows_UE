@@ -22,6 +22,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAbilitySystemComponent* AbilitySystem;
 
+	float GetHealth() const;
+	float GetCurrentHealth() const;
+	int GetLevel() const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -53,6 +57,8 @@ public:
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void NormalAttackAbility();
 
+	void InitializeAttributes();
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera Component")
 	class UCameraComponent* Camera;
@@ -75,7 +81,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Enhanced Input")
 	class UInputAction* NormalAttackAction;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Combat Component")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Combat Component")
 	class UPlayerCore* CharacterCore;
 
 	UPROPERTY(VisibleAnywhere)
@@ -86,6 +92,14 @@ protected:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Stat Component")
 	class UPlayerStatComponent* Stats;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+	TSubclassOf<class UGameplayEffect> DefaultAttributes;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<class UCharacterGameplayAbility>> CharacterAbilities;
+
+	// Maybe add start up effect?
 
 private:
 	UPROPERTY(BlueprintReadWrite, Category = "Ground Variables",meta = (AllowPrivateAccess = "true"))
