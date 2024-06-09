@@ -26,6 +26,12 @@ public:
 	float GetCurrentHealth() const;
 	int GetLevel() const;
 
+	UFUNCTION(BlueprintCallable)
+	void SetSkillModifier(float modifier);
+
+	UFUNCTION(BlueprintCallable)
+	float GetDamage() const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

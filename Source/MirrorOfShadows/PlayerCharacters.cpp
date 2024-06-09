@@ -47,7 +47,7 @@ APlayerCharacters::APlayerCharacters()
 
 float APlayerCharacters::GetHealth() const
 {
-	if (!AttributeSet)
+	if (AttributeSet)
 	{
 		return AttributeSet->GetHP();
 	}
@@ -57,7 +57,7 @@ float APlayerCharacters::GetHealth() const
 
 float APlayerCharacters::GetCurrentHealth() const
 {
-	if (!AttributeSet)
+	if (AttributeSet)
 	{
 		return AttributeSet->GetCurrentHP();
 	}
@@ -67,7 +67,7 @@ float APlayerCharacters::GetCurrentHealth() const
 
 int APlayerCharacters::GetLevel() const
 {
-	if (!AttributeSet)
+	if (AttributeSet)
 	{
 		return AttributeSet->GetLevel();
 	}
@@ -75,11 +75,34 @@ int APlayerCharacters::GetLevel() const
 	return 1;
 }
 
+void APlayerCharacters::SetSkillModifier(float modifier) 
+{
+	if(AttributeSet)
+	{
+		AttributeSet->SetSkillModifier(modifier);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Attribute set is null"));
+	}
+}
+
+float APlayerCharacters::GetDamage() const
+{
+	if (AttributeSet)
+	{
+		return AttributeSet->GetDamage();
+	}
+
+	return 0.0f;
+}
+
 // Called when the game starts or when spawned
 void APlayerCharacters::BeginPlay()
 {
 	Super::BeginPlay();
-	AbilitySystem->InitAbilityActorInfo(this, this);	
+	AbilitySystem->InitAbilityActorInfo(this, this);
+	InitializeAttributes();	
 }
 
 // Called every frame
@@ -135,7 +158,13 @@ void APlayerCharacters::InitializeAttributes()
 	if (NewHandle.IsValid())
 	{
 		FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystem->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(),AbilitySystem);
+		UE_LOG(LogTemp, Error, TEXT("Base stats have been applied"));
 	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Gameplay Effect handle is invalid"));
+	}
+
 }
 
 void APlayerCharacters::Move(const FInputActionValue& InputValue)

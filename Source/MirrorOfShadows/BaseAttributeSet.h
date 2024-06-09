@@ -63,9 +63,29 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		FGameplayAttributeData CRITDMG;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, CRITDMG);
 
-		UPROPERTY(BlueprintReadOnly, Category = "Skill Modifier")
+		UPROPERTY(BlueprintReadOnly, Category = "Damage")
+		FGameplayAttributeData Damage;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, Damage);
+
+		UPROPERTY(BlueprintReadOnly, Category = "HP Bonus %")
+		FGameplayAttributeData HPBonusPercent;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, HPBonusPercent);
+
+		UPROPERTY(BlueprintReadOnly, Category = "ATK Bonus %")
+		FGameplayAttributeData ATKBonusPercent;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, ATKBonusPercent);
+
+		UPROPERTY(BlueprintReadOnly, Category = "DEF Bonus %")
+		FGameplayAttributeData DEFBonusPercent;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, DEFBonusPercent);
+
+		UPROPERTY(BlueprintReadWrite, Category = "Skill Modifier")
 		FGameplayAttributeData SkillModifier;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, SkillModifier);
+
+		UPROPERTY(BlueprintReadOnly, Category = "DMG Resistance")
+		FGameplayAttributeData DMGRes;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, DMGRes);
 
 	public:
 		//virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
