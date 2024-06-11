@@ -88,6 +88,6 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, DMGRes);
 
 	public:
-		//virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+		virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
 };

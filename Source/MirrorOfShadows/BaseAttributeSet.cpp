@@ -2,24 +2,88 @@
 
 
 #include "BaseAttributeSet.h"
+#include "GameplayEffect.h"
+#include "PlayerCharacters.h"
+#include "GameplayEffectExtension.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/DamageType.h"
 
 
-// void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) 
-// {
-//     Super::PostGameplayEffectExecute(Data);
+void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) 
+{
+    Super::PostGameplayEffectExecute(Data);
 
-//     if(Data.EvaluatedData.Attribute == GetDamageAttribute())
-//     {
-//         const float LocalDamage = GetDamage();
-//         SetDamage(0.0f);
+	FGameplayEffectContextHandle Context = Data.EffectSpec.GetContext();
+	UAbilitySystemComponent* Source = Context.GetOriginalInstigatorAbilitySystemComponent();
+	const FGameplayTagContainer& SourceTags = *Data.EffectSpec.CapturedSourceTags.GetAggregatedTags();
+	FGameplayTagContainer SpecAssetTags;
+	Data.EffectSpec.GetAllAssetTags(SpecAssetTags);
 
-//         if(LocalDamage > 0.f)
-//         {
-//             const float NewHealth = GetCurrentHP() - LocalDamage;
-//             SetHealth(FMath::Clamp(NewHealth, 0.0f,GetHP()));
-//         }
-//     }
-// }
+	// Get the Target actor, which should be our owner
+	AActor* TargetActor = nullptr;
+	AController* TargetController = nullptr;
+	APlayerCharacters* TargetCharacter = nullptr;
+	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+	{
+		TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+		TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
+		TargetCharacter = Cast<APlayerCharacters>(TargetActor);
+	}
+
+	// Get the Source actor
+	AActor* SourceActor = nullptr;
+	AController* SourceController = nullptr;
+	APlayerCharacters* SourceCharacter = nullptr;
+	if (Source && Source->AbilityActorInfo.IsValid() && Source->AbilityActorInfo->AvatarActor.IsValid())
+	{
+		SourceActor = Source->AbilityActorInfo->AvatarActor.Get();
+		SourceController = Source->AbilityActorInfo->PlayerController.Get();
+		if (SourceController == nullptr && SourceActor != nullptr)
+		{
+			if (APawn* Pawn = Cast<APawn>(SourceActor))
+			{
+				SourceController = Pawn->GetController();
+			}
+		}
+
+		// Use the controller to find the source pawn
+		if (SourceController)
+		{
+			SourceCharacter = Cast<APlayerCharacters>(SourceController->GetPawn());
+		}
+		else
+		{
+			SourceCharacter = Cast<APlayerCharacters>(SourceActor);
+		}
+
+		// Set the causer actor based on context if it's set
+		if (Context.GetEffectCauser())
+		{
+			SourceActor = Context.GetEffectCauser();
+		}
+	}
+
+    if(Data.EvaluatedData.Attribute == GetDamageAttribute())
+    {
+        const float LocalDamage = GetDamage();
+        SetDamage(0.0f);
+
+        UE_LOG(LogTemp, Display, TEXT("%s took %f damage"),*(TargetActor->GetName()),LocalDamage);
+
+        // Fix apply damage here
+		if (TargetActor != nullptr && SourceController != nullptr)
+		{
+			UClass *DamageTypeClass = UDamageType::StaticClass();
+			UGameplayStatics::ApplyDamage(TargetActor,LocalDamage,SourceController,SourceActor,DamageTypeClass);
+		}
+
+        if(LocalDamage > 0.f)
+        {
+            const float NewHealth = GetCurrentHP() - LocalDamage;
+            SetCurrentHP(FMath::Clamp(NewHealth, 0.0f,GetHP()));
+        }
+    }
+}
 
 // void UBaseAttributeSet::OnRep_CurrentHP(const FGameplayAttributeData& OldHP) 
 // {

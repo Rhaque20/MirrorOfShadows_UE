@@ -81,10 +81,6 @@ void APlayerCharacters::SetSkillModifier(float modifier)
 	{
 		AttributeSet->SetSkillModifier(modifier);
 	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Attribute set is null"));
-	}
 }
 
 float APlayerCharacters::GetDamage() const
@@ -92,6 +88,10 @@ float APlayerCharacters::GetDamage() const
 	if (AttributeSet)
 	{
 		return AttributeSet->GetDamage();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Attribute set is null"));
 	}
 
 	return 0.0f;

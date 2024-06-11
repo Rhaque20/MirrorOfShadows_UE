@@ -4,6 +4,7 @@
 #include "GAS/GEC_AttackScale.h"
 #include "../BaseAttributeSet.h"
 #include "AbilitySystemComponent.h"
+#include "Math/UnrealMathUtility.h"
 
 struct FDamageStatics
 {
@@ -18,7 +19,7 @@ struct FDamageStatics
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,HP, Source,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,ATK, Source,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,SkillModifier, Source,false);
-        DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,Damage, Source,false);
+        DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,Damage, Target,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,DEF, Target,false);
     }
 };
@@ -43,6 +44,7 @@ void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecuti
 	UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
     UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
     AActor* TargetActor = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+    AActor* OwningActor = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
 
     const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
     const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
@@ -58,9 +60,6 @@ void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecuti
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().SkillModifierDef, EvaluationParameters, SkillModifier);
 
     FGameplayEffectSpec* MutableSpec = ExecutionParams.GetOwningSpecForPreExecuteMod();
-    float CritChance = 0.0f;
-    float CritMulti = 0.0f;
-    float LuckyChance = 0.0f;
 
     float FinalAttack = 0.0f;
     float FinalDefense = 0.0f;
@@ -73,7 +72,7 @@ void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecuti
 
     FinalDamage = (FinalAttack * SkillModifier)/(FinalDefense/300 + 1);
 
-    UE_LOG(LogTemp, Display, TEXT("Final damage is %f"),FinalDamage);
+    FinalDamage = FMath::Floor(FinalDamage);
 
     OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(DamageStatics().DamageProperty, EGameplayModOp::Override, FinalDamage));
 
