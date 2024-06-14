@@ -18,8 +18,11 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		UPROPERTY(EditDefaultsOnly)
 		FString SkillName;
 
-		UPROPERTY(EditDefaultsOnly)
+		UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasDifferentMods == false", EditConditionHides))
 		float SkillModifier = 1.f;
+
+		UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasDifferentMods == true", EditConditionHides))
+		TArray<float> SkillModifiers;
 
 		UPROPERTY(EditDefaultsOnly)
 		float ResistInterruptMod = 0.f;
@@ -32,9 +35,15 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 		FVector HitBoxScale = FVector(1,1,1);
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+		FVector HitBoxLocation = FVector(1,1,1);
 		
 		UPROPERTY(EditDefaultsOnly)
 		bool IsProjectile = false;
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+		bool HasDifferentMods = false;
 	public:
 		UFUNCTION(BlueprintCallable)
 		UAnimMontage* GetAnimation(int index) const;
@@ -42,4 +51,15 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		FVector GetHitBoxScale() const {return HitBoxScale;};
 		UFUNCTION(BlueprintCallable)
 		float ReturnModifier() const {return SkillModifier;};
+
+		UFUNCTION(BlueprintCallable)
+		float ReturnModfierAtSequence(int index) const
+		{
+			if(SkillModifiers.Num() == 0)
+			{
+				return 0.0f;
+			}
+
+			return SkillModifiers[index % SkillModifiers.Num()];
+		};
 };
