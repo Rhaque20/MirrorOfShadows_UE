@@ -86,6 +86,18 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		UPROPERTY(BlueprintReadOnly, Category = "DMG Resistance")
 		FGameplayAttributeData DMGRes;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, DMGRes);
+		
+		UPROPERTY(BlueprintReadOnly, Category = "Poise Mod")
+		FGameplayAttributeData PoiseMod;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,PoiseMod);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Current Poise")
+		FGameplayAttributeData CurPoise;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,CurPoise);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Max Poise")
+		FGameplayAttributeData MaxPoise;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,MaxPoise);
 
 	public:
 		virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;

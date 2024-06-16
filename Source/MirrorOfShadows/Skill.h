@@ -37,7 +37,13 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		FVector HitBoxScale = FVector(1,1,1);
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+		bool HasDifferentLocations = false;
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,meta = (EditCondition = "HasDifferentLocations == false", EditConditionHides))
 		FVector HitBoxLocation = FVector(1,1,1);
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,meta = (EditCondition = "HasDifferentLocations == true", EditConditionHides))
+		TArray<FVector> HitBoxLocations;
 		
 		UPROPERTY(EditDefaultsOnly)
 		bool IsProjectile = false;
@@ -61,5 +67,17 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 			}
 
 			return SkillModifiers[index % SkillModifiers.Num()];
+		};
+
+		UFUNCTION(BlueprintCallable)
+		FVector ReturnLocation() const {return HitBoxLocation;};
+
+		UFUNCTION(BlueprintCallable)
+		FVector ReturnLocationAtSequence(int index) const
+		{
+			if (HitBoxLocations.Num() == 0)
+				return FVector(1,1,1);
+			
+			return HitBoxLocations[index % HitBoxLocations.Num()];
 		};
 };

@@ -19,16 +19,9 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacters();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UAbilitySystemComponent* AbilitySystem;
-
 	float GetHealth() const;
 	float GetCurrentHealth() const;
 	int GetLevel() const;
-
-	UFUNCTION(BlueprintCallable)
-	void SetSkillModifier(float modifier);
-
 	UFUNCTION(BlueprintCallable)
 	float GetDamage() const;
 
@@ -64,6 +57,9 @@ public:
 	void NormalAttackAbility();
 
 	void InitializeAttributes();
+
+	UFUNCTION(BlueprintCallable)
+	void SetSkillModifier(float modifier);
 
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera Component")
@@ -104,6 +100,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<class UCharacterGameplayAbility>> CharacterAbilities;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UAbilitySystemComponent* AbilitySystem;
 
 	// Maybe add start up effect?
 
