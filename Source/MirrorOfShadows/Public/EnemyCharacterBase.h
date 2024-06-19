@@ -16,13 +16,21 @@ class MIRROROFSHADOWS_API AEnemyCharacterBase : public ACharacter,public IAbilit
 public:
 	// Sets default values for this character's properties
 	AEnemyCharacterBase();
+	int GetLevel() const;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAbilitySystemComponent* AbilitySystem;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+	TSubclassOf<class UGameplayEffect> DefaultAttributes;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<class UCharacterGameplayAbility>> EnemyAbilities;
 
 public:	
 	// Called every frame
@@ -42,3 +50,5 @@ public:
 	class UEnemyAttributeSet* AttributeSet;
 
 };
+
+
