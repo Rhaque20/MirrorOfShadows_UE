@@ -4,18 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Skill.h"
-#include "PlayerSkill.generated.h"
+#include "EnemySkill.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MIRROROFSHADOWS_API UPlayerSkill : public USkill
+class MIRROROFSHADOWS_API UEnemySkill : public USkill
 {
 	GENERATED_BODY()
 	protected:
 		UPROPERTY(EditDefaultsOnly)
-		float SPCost = 0.f;
-		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-		float CurrentSP = 0.f;
+		float MaxCooldown = 0.f;
+		UPROPERTY(EditDefaultsOnly)
+		float StartCooldown = 0.f;
 };

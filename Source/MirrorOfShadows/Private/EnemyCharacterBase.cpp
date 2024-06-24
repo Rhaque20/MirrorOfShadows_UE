@@ -73,3 +73,14 @@ void AEnemyCharacterBase::InitializeAttributes()
 	}
 }
 
+void AEnemyCharacterBase::Recover() 
+{
+	IsAttacking = false;
+	CanMove = true;
+}
+
+void AEnemyCharacterBase::DetectionFill() 
+{
+	
+}
+

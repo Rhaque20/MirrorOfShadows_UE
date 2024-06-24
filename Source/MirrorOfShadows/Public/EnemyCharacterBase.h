@@ -17,6 +17,11 @@ public:
 	// Sets default values for this character's properties
 	AEnemyCharacterBase();
 	int GetLevel() const;
+	UFUNCTION(BlueprintCallable)
+	void Recover();
+
+	UFUNCTION(BlueprintCallable)
+	void DetectionFill();
 
 protected:
 	// Called when the game starts or when spawned
@@ -31,6 +36,25 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<class UCharacterGameplayAbility>> EnemyAbilities;
+
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	bool IsAttacking = false;
+
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	bool CanMove = true;
+
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	bool DetectedTarget = false;
+
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	float DetectionPercent = 0.0f;
+
+	UPROPERTY(BlueprintReadWrite,EditAnywhere)
+	float DetectionFillRate = 0.1f;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Normal Attack")
+	TArray<class UEnemySkill*> Moveset;
+
 
 public:	
 	// Called every frame
@@ -50,5 +74,6 @@ public:
 	class UEnemyAttributeSet* AttributeSet;
 
 };
+
 
 
