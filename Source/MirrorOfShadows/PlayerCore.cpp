@@ -29,9 +29,9 @@ void UPlayerCore::NormalAttack()
 
 void UPlayerCore::Recover()
 {
-    CurrentChain++;
+    CurrentChain = (CurrentChain + 1) % NormalAttacks.Num();
 
-    EndOfChain = (CurrentChain >= NormalAttacks.Num());
+    // EndOfChain = (CurrentChain >= NormalAttacks.Num());
 
     if (HasBuffer && !EndOfChain)
     {
@@ -43,10 +43,10 @@ void UPlayerCore::Recover()
         bIsAttacking = false;
     }
 
-    if(EndOfChain)
-    {
-        CurrentChain = 0;
-    }
+    // if(EndOfChain)
+    // {
+    //     CurrentChain = 0;
+    // }
     
 }
 
