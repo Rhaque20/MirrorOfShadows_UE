@@ -55,6 +55,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Normal Attack")
 	TArray<class UEnemySkill*> Moveset;
 
+public:
+	UPROPERTY(VisibleAnywhere)
+	class UEnemyAttributeSet* AttributeSet;
 
 public:	
 	// Called every frame
@@ -70,10 +73,11 @@ public:
 
 	void InitializeAttributes();
 
-	UPROPERTY(VisibleAnywhere)
-	class UEnemyAttributeSet* AttributeSet;
+	UFUNCTION(BlueprintCallable)
+	void SetSkillModifier(float modifier);
 
 };
+
 
 
 

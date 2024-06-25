@@ -19,7 +19,7 @@ AEnemyCharacterBase::AEnemyCharacterBase()
 void AEnemyCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	InitializeAttributes();
 }
 
 // Called every frame
@@ -82,5 +82,13 @@ void AEnemyCharacterBase::Recover()
 void AEnemyCharacterBase::DetectionFill() 
 {
 	
+}
+
+void AEnemyCharacterBase::SetSkillModifier(float modifier) 
+{
+	if(AttributeSet)
+	{
+		AttributeSet->SetSkillModifier(modifier);
+	}
 }
 
