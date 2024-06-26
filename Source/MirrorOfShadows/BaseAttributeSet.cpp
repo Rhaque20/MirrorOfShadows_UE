@@ -81,8 +81,14 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
         {
             const float NewHealth = GetCurrentHP() - LocalDamage;
             SetCurrentHP(FMath::Clamp(NewHealth, 0.0f,GetHP()));
+			UE_LOG(LogTemp, Display, TEXT("%s has %f HP remaining"),*(TargetActor->GetName()),GetCurrentHP());
         }
     }
+	else if (Data.EvaluatedData.Attribute == GetHPAttribute())
+	{
+		SetCurrentHP(GetHP());
+		UE_LOG(LogTemp, Display, TEXT("HP is now %f with max HP of %f"),GetCurrentHP(),GetHP());
+	}
 }
 
 // void UBaseAttributeSet::OnRep_CurrentHP(const FGameplayAttributeData& OldHP) 

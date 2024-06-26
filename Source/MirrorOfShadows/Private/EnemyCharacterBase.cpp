@@ -46,6 +46,25 @@ void AEnemyCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 }
 
+float AEnemyCharacterBase::GetHealth() const
+{
+	if (AttributeSet)
+	{
+		return AttributeSet->GetHP();
+	}
+
+	return 0.0f;
+}
+
+float AEnemyCharacterBase::GetCurrentHealth() const
+{
+	if (AttributeSet)
+	{
+		return AttributeSet->GetCurrentHP();
+	}
+	return 0.0f;
+}
+
 void AEnemyCharacterBase::InitializeAttributes() 
 {
 	if (!IsValid(AbilitySystem))
@@ -65,6 +84,7 @@ void AEnemyCharacterBase::InitializeAttributes()
 	if (NewHandle.IsValid())
 	{
 		FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystem->ApplyGameplayEffectSpecToTarget(*NewHandle.Data.Get(),AbilitySystem);
+		AttributeSet->SetCurrentHP(AttributeSet->GetHP());
 		UE_LOG(LogTemp, Error, TEXT("Base stats have been applied"));
 	}
 	else

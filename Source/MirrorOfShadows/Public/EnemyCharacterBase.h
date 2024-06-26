@@ -21,6 +21,11 @@ public:
 	void Recover();
 
 	UFUNCTION(BlueprintCallable)
+	float GetHealth() const;
+	UFUNCTION(BlueprintCallable)
+	float GetCurrentHealth() const;
+
+	UFUNCTION(BlueprintCallable)
 	void DetectionFill();
 
 protected:
@@ -77,7 +82,3 @@ public:
 	void SetSkillModifier(float modifier);
 
 };
-
-
-
-

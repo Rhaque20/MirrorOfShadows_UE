@@ -19,7 +19,9 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacters();
 
+	UFUNCTION(BlueprintCallable)
 	float GetHealth() const;
+	UFUNCTION(BlueprintCallable)
 	float GetCurrentHealth() const;
 	int GetLevel() const;
 	UFUNCTION(BlueprintCallable)
@@ -56,6 +58,7 @@ public:
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void NormalAttackAbility();
 
+	UFUNCTION(BlueprintCallable)
 	void InitializeAttributes();
 
 	UFUNCTION(BlueprintCallable)
