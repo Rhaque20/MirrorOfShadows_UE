@@ -104,6 +104,10 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<class UCharacterGameplayAbility>> CharacterAbilities;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Equipment")
+	TArray<class UArmor*> ArmorEquipped;
+
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAbilitySystemComponent* AbilitySystem;
 

@@ -89,6 +89,10 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		SetCurrentHP(GetHP());
 		UE_LOG(LogTemp, Display, TEXT("HP is now %f with max HP of %f"),GetCurrentHP(),GetHP());
 	}
+	else if(Data.EvaluatedData.Attribute == GetATKBonusPercentAttribute())
+	{
+		UE_LOG(LogTemp, Display, TEXT("Gained %f Percent ATK"),GetATKBonusPercent());
+	}
 }
 
 // void UBaseAttributeSet::OnRep_CurrentHP(const FGameplayAttributeData& OldHP) 

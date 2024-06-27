@@ -11,6 +11,7 @@ struct FDamageStatics
     DECLARE_ATTRIBUTE_CAPTUREDEF(DEF);
     DECLARE_ATTRIBUTE_CAPTUREDEF(ATK);
     DECLARE_ATTRIBUTE_CAPTUREDEF(HP);
+    DECLARE_ATTRIBUTE_CAPTUREDEF(ATKBonusPercent);
     DECLARE_ATTRIBUTE_CAPTUREDEF(SkillModifier);
     DECLARE_ATTRIBUTE_CAPTUREDEF(Damage);
 
@@ -19,6 +20,7 @@ struct FDamageStatics
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,HP, Source,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,ATK, Source,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,SkillModifier, Source,false);
+        DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,ATKBonusPercent,Source,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,Damage, Target,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,DEF, Target,false);
     }
@@ -37,6 +39,7 @@ UGEC_AttackScale::UGEC_AttackScale()
     RelevantAttributesToCapture.Add(DamageStatics().HPDef);
     RelevantAttributesToCapture.Add(DamageStatics().DamageDef);
     RelevantAttributesToCapture.Add(DamageStatics().SkillModifierDef);
+    RelevantAttributesToCapture.Add(DamageStatics().ATKBonusPercentDef);
 }
 
 void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const 
@@ -64,11 +67,17 @@ void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecuti
     float FinalAttack = 0.0f;
     float FinalDefense = 0.0f;
     float FinalDamage = 0.0f;
+    float ATKBonusPercent = 0.0f;
 
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ATKDef, EvaluationParameters, FinalAttack);
+    ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ATKBonusPercentDef, EvaluationParameters, ATKBonusPercent);
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().DEFDef, EvaluationParameters, FinalDefense);
 
     UE_LOG(LogTemp, Display, TEXT("Attacker's Attack: %f and Defender's Defense: %f"),FinalAttack,FinalDefense);
+
+    FinalAttack *= (1 + ATKBonusPercent);
+
+    UE_LOG(LogTemp, Display, TEXT("Attacker's Attack with ATK Bonus: %f"),FinalAttack);
 
     FinalDamage = (FinalAttack * SkillModifier)/(FinalDefense/300 + 1);
 
