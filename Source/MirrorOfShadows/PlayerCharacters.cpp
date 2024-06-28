@@ -11,6 +11,7 @@
 #include "BaseAttributeSet.h"
 #include "Components/PlayerStatComponent.h"
 #include "PlayerCore.h"
+#include "Components/EquipmentComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -39,6 +40,7 @@ APlayerCharacters::APlayerCharacters()
 	Stats = CreateDefaultSubobject<UPlayerStatComponent>("Stats");
 	
 	CharacterCore = CreateDefaultSubobject<UPlayerCore>(TEXT("PlayerCore"));
+	EquipmentComponent = CreateDefaultSubobject<UEquipmentComponent>(TEXT("Equipment Component"));
 
 	// bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;

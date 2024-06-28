@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "Item.h"
+#include "RPGItem.h"
 #include "GameplayTagContainer.h"
 
 #include "Equipment.generated.h"
@@ -13,7 +13,7 @@
  * 
  */
 UCLASS()
-class MIRROROFSHADOWS_API UEquipment : public UItem
+class MIRROROFSHADOWS_API UEquipment : public URPGItem
 {
     GENERATED_BODY()
     protected:

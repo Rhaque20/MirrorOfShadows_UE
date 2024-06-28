@@ -6,13 +6,13 @@
 #include "Engine/DataAsset.h"
 #include "../Enumerator/ItemEnum.h"
 
-#include "Item.generated.h"
+#include "RPGItem.generated.h"
 
 /**
  * 
  */
-UCLASS()
-class MIRROROFSHADOWS_API UItem : public UDataAsset
+UCLASS(BlueprintType)
+class MIRROROFSHADOWS_API URPGItem : public UDataAsset
 {
 	GENERATED_BODY()
 	protected:
@@ -20,6 +20,8 @@ class MIRROROFSHADOWS_API UItem : public UDataAsset
 		FString ItemName;
 		UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 		EGrade ItemRarity;
-		UPROPERTY(BlueprintReadOnly,EditDefaultsOnly)
-		class UTexture2D* ItemIcon;
+
+		UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Icon")
+		class UPaperSprite* Icon;
+
 };
