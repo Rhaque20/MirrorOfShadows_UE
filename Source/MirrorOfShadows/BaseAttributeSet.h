@@ -116,6 +116,7 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		float HPRatio = 1.0f;
 		virtual void HandleEvaluatedData(const FGameplayEffectModCallbackData& Data, bool IsPostEffect);
 	protected:
+		UFUNCTION(BlueprintCallable)
 		virtual void RecalculateTotalHP();
 
 };

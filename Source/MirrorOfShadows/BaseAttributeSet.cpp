@@ -86,6 +86,7 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
             const float NewHealth = GetCurrentHP() - LocalDamage;
             SetCurrentHP(FMath::Clamp(NewHealth, 0.0f,GetTotalHP()));
 			UE_LOG(LogTemp, Display, TEXT("%s has %f HP remaining"),*(TargetActor->GetName()),GetCurrentHP());
+			HPRatio = GetCurrentHP()/GetTotalHP();
         }
     }
 	else
