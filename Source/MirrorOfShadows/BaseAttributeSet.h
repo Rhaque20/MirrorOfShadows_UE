@@ -21,11 +21,6 @@ UCLASS()
 class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
-
-	// public:
-	// 	void OnRep_CurrentHP(const FGameplayAttributeData& OldHP);
-	// 	void OnRep_HP(const FGameplayAttributeData& OldMaxHP);
-
 	public:
 		UPROPERTY(BlueprintReadOnly, Category = "Level")
 		FGameplayAttributeData Level;
@@ -38,6 +33,10 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		UPROPERTY(BlueprintReadOnly, Category = "Max Health")
 		FGameplayAttributeData HP;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, HP);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Total Health")
+		FGameplayAttributeData TotalHP;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, TotalHP);
 
 		UPROPERTY(BlueprintReadOnly, Category = "Attack")
 		FGameplayAttributeData ATK;
@@ -99,7 +98,24 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		FGameplayAttributeData MaxPoise;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,MaxPoise);
 
+		UPROPERTY(BlueprintReadOnly, Category = "Attack Speed")
+		FGameplayAttributeData AttackSpeed;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,AttackSpeed);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Charge Rate")
+		FGameplayAttributeData ChargeRate;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,ChargeRate);
+
+		UPROPERTY(BlueprintReadOnly, Category = "Total DMG Boost")
+		FGameplayAttributeData TotalDMGBoost;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,TotalDMGBoost);
+
 	public:
 		virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	protected:
+		float HPRatio = 1.0f;
+		virtual void HandleEvaluatedData(const FGameplayEffectModCallbackData& Data, bool IsPostEffect);
+	protected:
+		virtual void RecalculateTotalHP();
 
 };

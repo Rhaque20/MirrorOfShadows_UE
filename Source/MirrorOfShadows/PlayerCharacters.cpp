@@ -8,7 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
 #include "AbilitySystemComponent.h"
-#include "BaseAttributeSet.h"
+#include "GAS/PlayerAttributeSet.h"
 #include "Components/PlayerStatComponent.h"
 #include "PlayerCore.h"
 #include "Components/EquipmentComponent.h"
@@ -35,7 +35,7 @@ APlayerCharacters::APlayerCharacters()
 	Camera->SetupAttachment(SpringArm);
 
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
-	AttributeSet = CreateDefaultSubobject<UBaseAttributeSet>("AttributeSet");
+	AttributeSet = CreateDefaultSubobject<UPlayerAttributeSet>("PlayerAttributeSet");
 
 	Stats = CreateDefaultSubobject<UPlayerStatComponent>("Stats");
 	
@@ -82,6 +82,10 @@ void APlayerCharacters::SetSkillModifier(float modifier)
 	if(AttributeSet)
 	{
 		AttributeSet->SetSkillModifier(modifier);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("%s attribute set is null"),*GetName());
 	}
 }
 

@@ -83,6 +83,8 @@ void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecuti
 
     FinalDamage = FMath::Floor(FinalDamage);
 
+    UE_LOG(LogTemp, Display, TEXT("Final Damage calculated: %f"),FinalDamage);
+
     OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(DamageStatics().DamageProperty, EGameplayModOp::Override, FinalDamage));
 
 }

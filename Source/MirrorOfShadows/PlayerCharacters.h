@@ -89,8 +89,8 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Combat Component")
 	class UPlayerCore* CharacterCore;
 
-	UPROPERTY(VisibleAnywhere)
-	class UBaseAttributeSet* AttributeSet;
+	UPROPERTY(EditAnywhere)
+	class UPlayerAttributeSet* AttributeSet;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Gameplay Tag")
 	FGameplayTagContainer GameplayTagContainer;

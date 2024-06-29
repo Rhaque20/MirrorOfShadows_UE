@@ -13,10 +13,14 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 {
     Super::PostGameplayEffectExecute(Data);
 
+	// Getting the spec of the gameplay effect being applied
 	FGameplayEffectContextHandle Context = Data.EffectSpec.GetContext();
+
+	// Getting the ability system and their tags from the actor that applied the ability
 	UAbilitySystemComponent* Source = Context.GetOriginalInstigatorAbilitySystemComponent();
 	const FGameplayTagContainer& SourceTags = *Data.EffectSpec.CapturedSourceTags.GetAggregatedTags();
 	FGameplayTagContainer SpecAssetTags;
+	// Get the asset tags from the gameplay effect
 	Data.EffectSpec.GetAllAssetTags(SpecAssetTags);
 
 	// Get the Target actor, which should be our owner
@@ -84,7 +88,13 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			UE_LOG(LogTemp, Display, TEXT("%s has %f HP remaining"),*(TargetActor->GetName()),GetCurrentHP());
         }
     }
-	else if (Data.EvaluatedData.Attribute == GetHPAttribute())
+	else
+		HandleEvaluatedData(Data,true);
+}
+
+void UBaseAttributeSet::HandleEvaluatedData(const FGameplayEffectModCallbackData& Data, bool IsPostEffect) 
+{
+	if (Data.EvaluatedData.Attribute == GetHPAttribute())
 	{
 		SetCurrentHP(GetHP());
 		UE_LOG(LogTemp, Display, TEXT("HP is now %f with max HP of %f"),GetCurrentHP(),GetHP());
@@ -93,6 +103,15 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		UE_LOG(LogTemp, Display, TEXT("Gained %f Percent ATK"),GetATKBonusPercent());
 	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Altering a base attribute stat and not player"));
+	}
+}
+
+void UBaseAttributeSet::RecalculateTotalHP()
+{
+	SetTotalHP(GetHP());
 }
 
 // void UBaseAttributeSet::OnRep_CurrentHP(const FGameplayAttributeData& OldHP) 
