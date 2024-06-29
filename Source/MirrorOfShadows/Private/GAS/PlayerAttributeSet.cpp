@@ -13,6 +13,8 @@ void UPlayerAttributeSet::HandleEvaluatedData(const FGameplayEffectModCallbackDa
 	// 	UE_LOG(LogTemp, Display, TEXT("Gained %f Percent ATK"),GetATKBonusPercent());
 	// }
 
+    // Super::HandleEvaluatedData(Data,IsPostEffect);
+
 
     if(IsPostEffect)
     {
@@ -21,6 +23,12 @@ void UPlayerAttributeSet::HandleEvaluatedData(const FGameplayEffectModCallbackDa
         Data.EvaluatedData.Attribute == GetHPBonusPercentAttribute())
         {
             RecalculateTotalHP();
+        }
+        else if(Data.EvaluatedData.Attribute == GetCurrentHPAttribute())
+        {
+            RecalculateTotalHP();
+            UE_LOG(LogTemp, Display, TEXT("Setting Ratio of current HP"));
+            HPRatio = GetCurrentHP()/GetTotalHP();
         }
     }
 }
@@ -31,6 +39,8 @@ void UPlayerAttributeSet::RecalculateTotalHP()
     float HPBonusfromFlat = GetHPBonusFlat();
     float FinalHP = GetHP() + HPBonusfromPercent + HPBonusfromFlat;
     SetTotalHP(FinalHP);
+    SetCurrentHP(FinalHP * HPRatio);
+    UE_LOG(LogTemp, Display, TEXT("HP Ratio is %f"),HPRatio);
     UE_LOG(LogTemp, Display, TEXT("Recalculated HP is %f using base HP of %f, HP Bonus %f, and HP Flat Bonus %f"),FinalHP,
     GetHP(),HPBonusfromPercent,HPBonusfromFlat);
 }

@@ -84,7 +84,7 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
         if(LocalDamage > 0.f)
         {
             const float NewHealth = GetCurrentHP() - LocalDamage;
-            SetCurrentHP(FMath::Clamp(NewHealth, 0.0f,GetHP()));
+            SetCurrentHP(FMath::Clamp(NewHealth, 0.0f,GetTotalHP()));
 			UE_LOG(LogTemp, Display, TEXT("%s has %f HP remaining"),*(TargetActor->GetName()),GetCurrentHP());
         }
     }
@@ -96,6 +96,7 @@ void UBaseAttributeSet::HandleEvaluatedData(const FGameplayEffectModCallbackData
 {
 	if (Data.EvaluatedData.Attribute == GetHPAttribute())
 	{
+		RecalculateTotalHP();
 		SetCurrentHP(GetHP());
 		UE_LOG(LogTemp, Display, TEXT("HP is now %f with max HP of %f"),GetCurrentHP(),GetHP());
 	}
@@ -103,10 +104,7 @@ void UBaseAttributeSet::HandleEvaluatedData(const FGameplayEffectModCallbackData
 	{
 		UE_LOG(LogTemp, Display, TEXT("Gained %f Percent ATK"),GetATKBonusPercent());
 	}
-	else
-	{
-		UE_LOG(LogTemp, Display, TEXT("Altering a base attribute stat and not player"));
-	}
+	
 }
 
 void UBaseAttributeSet::RecalculateTotalHP()
