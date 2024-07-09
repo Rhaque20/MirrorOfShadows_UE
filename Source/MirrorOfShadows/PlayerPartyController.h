@@ -19,7 +19,6 @@ class MIRROROFSHADOWS_API APlayerPartyController : public APlayerController
 		APlayerPartyController();
 		void SetUpMembers(TArray<UPlayerData*> PartyList);
 	private:
-		TArray<UPlayerData*> PartyMembers;
 		int CurrentCharacter = 0;
 		int AliveMembers = 0;
 	private:
@@ -28,4 +27,8 @@ class MIRROROFSHADOWS_API APlayerPartyController : public APlayerController
 		void SwapCharacterLeft();
 		UFUNCTION(BlueprintCallable)
 		void SwapCharacterRight();
+
+	protected:
+		UPROPERTY(BlueprintReadWrite,EditAnywhere)
+		TArray<UPlayerData*> PartyMembers;
 };

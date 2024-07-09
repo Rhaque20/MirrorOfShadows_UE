@@ -22,7 +22,7 @@ void APlayerPartyController::SetUpMembers(TArray<UPlayerData*> PartyList)
 void APlayerPartyController::BeginPlay()
 {
     // UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerCharacters::StaticClass(), PartyMembers);
-    // AliveMembers = PartyMembers.Num();
+    AliveMembers = PartyMembers.Num();
     // for(int i = 1; i < AliveMembers;i++)
     // {
     //     Cast<APlayerCharacters>(PartyMembers[i])->SetPlayerActive(false);
