@@ -10,6 +10,7 @@
  * 
  */
 class UPlayerData;
+class APlayerCharacters;
 
 UCLASS()
 class MIRROROFSHADOWS_API APlayerPartyController : public APlayerController
@@ -17,7 +18,7 @@ class MIRROROFSHADOWS_API APlayerPartyController : public APlayerController
 	GENERATED_BODY()
 	public:
 		APlayerPartyController();
-		void SetUpMembers(TArray<UPlayerData*> PartyList);
+		void SetUpMembers(TArray<APlayerCharacters*> PartyList);
 	private:
 		int CurrentCharacter = 0;
 		int AliveMembers = 0;
@@ -28,7 +29,8 @@ class MIRROROFSHADOWS_API APlayerPartyController : public APlayerController
 		UFUNCTION(BlueprintCallable)
 		void SwapCharacterRight();
 
+		void SwapCharacter(int SwapToIndex);
+
 	protected:
-		UPROPERTY(BlueprintReadWrite,EditAnywhere)
-		TArray<UPlayerData*> PartyMembers;
+		TArray<APlayerCharacters*> SummonedActorReferences;
 };

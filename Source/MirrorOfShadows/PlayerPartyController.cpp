@@ -13,19 +13,25 @@ APlayerPartyController::APlayerPartyController()
     
 }
 
-void APlayerPartyController::SetUpMembers(TArray<UPlayerData*> PartyList)
+void APlayerPartyController::SetUpMembers(TArray<APlayerCharacters*> PartyList)
 {
-    PartyMembers = PartyList;
-    AliveMembers = PartyMembers.Num();
+    SummonedActorReferences = PartyList;
+    AliveMembers = SummonedActorReferences.Num();
 }
 
 void APlayerPartyController::BeginPlay()
 {
     // UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerCharacters::StaticClass(), PartyMembers);
-    AliveMembers = PartyMembers.Num();
+    // APlayerCharacters *Temp;
+
+    // AGameModeBase *ActiveGameMode = UGameplayStatics::GetGameMode(this);
+    // ActiveGameMode->DefaultPawnClass = PartyMembers[0]->GetCharacterClass();
+
     // for(int i = 1; i < AliveMembers;i++)
     // {
-    //     Cast<APlayerCharacters>(PartyMembers[i])->SetPlayerActive(false);
+    //     Temp = GetWorld()->SpawnActor<APlayerCharacters>(PartyMembers[i]->GetCharacterClass(),FVector(0,0,0),FRotator(0,0,0));
+    //     Temp->SetPlayerActive(false);
+    //     SummonedActors->Add(Temp);
     // }
     
 }
@@ -45,12 +51,28 @@ void APlayerPartyController::SwapCharacterLeft()
     int SwapToIndex = CurrentCharacter - 1;
     if (SwapToIndex < 0) SwapToIndex = AliveMembers - 1;
 
+    SwapCharacter(SwapToIndex);
+}
+
+void APlayerPartyController::SwapCharacterRight()
+{
+    // int SwapToIndex = (CurrentCharacter + 1) % AliveMembers;
+
+    // Possess(Cast<APawn>(PartyMembers[SwapToIndex]));
+
+    // CurrentCharacter = SwapToIndex;
+}
+
+void APlayerPartyController::SwapCharacter(int SwapToIndex) 
+{
     APawn* ActivePawn = GetPawn();
 
     FVector CurrentPos = ActivePawn->GetActorLocation();
     FRotator CurrentRot = ActivePawn->GetActorRotation();
 
-    APlayerCharacters* SwapToPlayer = GetWorld()->SpawnActor<APlayerCharacters>(PartyMembers[SwapToIndex]->GetCharacterClass(),CurrentPos,CurrentRot);
+    // APlayerCharacters* SwapToPlayer = GetWorld()->SpawnActor<APlayerCharacters>(PartyMembers[SwapToIndex]->GetCharacterClass(),CurrentPos,CurrentRot);
+
+    APlayerCharacters* SwapToPlayer = SummonedActorReferences[SwapToIndex];
 
     FRotator CameraRot = ActivePawn->GetController()->GetControlRotation();
 
@@ -59,7 +81,7 @@ void APlayerPartyController::SwapCharacterLeft()
     SwapToPlayer->SetActorLocation(CurrentPos);
     SwapToPlayer->SetActorRotation(CurrentRot);
 
-    ActivePawn->Destroy();
+    // ActivePawn->Destroy();
 
     SwapToPlayer->GetController()->SetControlRotation(CameraRot);
     
@@ -70,22 +92,13 @@ void APlayerPartyController::SwapCharacterLeft()
     // // Note camera rotation needs to be adjusted on the character swap
     // // Also create onswitch event to ensure normal attacks can still work.
 
-    // Cast<APlayerCharacters>(PartyMembers[SwapToIndex])->SetPlayerActive(true);
-    // Cast<APlayerCharacters>(PartyMembers[CurrentCharacter])->SetPlayerActive(false);
+    SummonedActorReferences[SwapToIndex]->SetPlayerActive(true);
+    SummonedActorReferences[CurrentCharacter]->SetPlayerActive(false);
 
     // PartyMembers[SwapToIndex]->SetActorLocation(CurrentPos);
     // PartyMembers[SwapToIndex]->SetActorRotation(CurrentRot);
 
     CurrentCharacter = SwapToIndex;
-}
-
-void APlayerPartyController::SwapCharacterRight()
-{
-    // int SwapToIndex = (CurrentCharacter + 1) % AliveMembers;
-
-    // Possess(Cast<APawn>(PartyMembers[SwapToIndex]));
-
-    // CurrentCharacter = SwapToIndex;
 }
 
 

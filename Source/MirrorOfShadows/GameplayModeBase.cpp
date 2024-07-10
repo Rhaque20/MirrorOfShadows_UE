@@ -26,10 +26,21 @@ void AGameplayModeBase::StartGame()
     FRotator CurrentRot = Pawn->GetActorRotation();
     if (PartyMembers[0] != nullptr && PlayerPartyController != nullptr)
     {
-        APlayerCharacters* CurrentPlayer = GetWorld()->SpawnActor<APlayerCharacters>(PartyMembers[0]->GetCharacterClass(),CurrentPos,CurrentRot);
-        PlayerPartyController->Possess(Cast<APawn>(CurrentPlayer));
+        for(int i = 0; i < PartyMembers.Num(); i++)
+        {
+            APlayerCharacters* CurrentPlayer = GetWorld()->SpawnActor<APlayerCharacters>(PartyMembers[i]->GetCharacterClass(),CurrentPos,CurrentRot);
+            if (i == 0)
+            {
+                PlayerPartyController->Possess(Cast<APawn>(CurrentPlayer));
+            }
+            else
+            {
+                CurrentPlayer->SetPlayerActive(false);
+            }
+            SummonedActors.Add(CurrentPlayer);
+        }
 
-        PlayerPartyController->SetUpMembers(PartyMembers);
+        PlayerPartyController->SetUpMembers(SummonedActors);
     }
     else
     {
