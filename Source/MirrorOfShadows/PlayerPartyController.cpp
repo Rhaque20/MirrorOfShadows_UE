@@ -95,6 +95,7 @@ void APlayerPartyController::SwapCharacter(int SwapToIndex)
     SummonedActorReferences[SwapToIndex]->SetPlayerActive(true);
     SummonedActorReferences[CurrentCharacter]->SetPlayerActive(false);
 
+    SummonedActorReferences[SwapToIndex]->SwapIn();
     // PartyMembers[SwapToIndex]->SetActorLocation(CurrentPos);
     // PartyMembers[SwapToIndex]->SetActorRotation(CurrentRot);
 
