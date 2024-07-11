@@ -123,6 +123,12 @@ void APlayerCharacters::SetPlayerActive(bool IsActive)
 	SetActorEnableCollision(IsActive);
 }
 
+void APlayerCharacters::SwapIn() 
+{
+	CanMove = true;
+	CharacterCore->ResetAttackState();
+}
+
 // Called to bind functionality to input
 void APlayerCharacters::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

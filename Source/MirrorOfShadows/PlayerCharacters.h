@@ -40,6 +40,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void SetPlayerActive(bool IsActive);
+	void SwapIn();
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

@@ -69,6 +69,13 @@ void UPlayerCore::Hit()
     InflictDamage(Results);
 }
 
+void UPlayerCore::ResetAttackState() 
+{
+    Recover();
+    CurrentChain = 0;
+    HasBuffer = false;
+}
+
 void UPlayerCore::SetUpAttackAnim()
 {
     bIsAttacking = true;
