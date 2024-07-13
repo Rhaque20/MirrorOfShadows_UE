@@ -89,6 +89,12 @@ void APlayerCharacters::SetSkillModifier(float modifier)
 	}
 }
 
+void APlayerCharacters::SetUpLockOn(bool LockOnToggle, AActor* Target) 
+{
+	HasLockOn = LockOnToggle;
+	LockOnTarget = Target;
+}
+
 float APlayerCharacters::GetDamage() const
 {
 	if (AttributeSet)
@@ -127,6 +133,12 @@ void APlayerCharacters::SwapIn()
 {
 	CanMove = true;
 	CharacterCore->ResetAttackState();
+}
+
+void APlayerCharacters::SwapOut() 
+{
+	HasLockOn = false;
+	LockOnTarget = NULL;
 }
 
 // Called to bind functionality to input

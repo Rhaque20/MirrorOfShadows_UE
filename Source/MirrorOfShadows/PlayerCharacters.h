@@ -41,6 +41,7 @@ public:
 
 	void SetPlayerActive(bool IsActive);
 	void SwapIn();
+	void SwapOut();
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -64,6 +65,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetSkillModifier(float modifier);
+
+	UFUNCTION(BlueprintCallable)
+	void SetUpLockOn(bool LockOnToggle, AActor* Target);
 
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera Component")
@@ -108,10 +112,14 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Equipment")
 	class UEquipmentComponent* EquipmentComponent;
 
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAbilitySystemComponent* AbilitySystem;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category =" Lock On System")
+	bool HasLockOn = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category =" Lock On System")
+	AActor* LockOnTarget;
 	// Maybe add start up effect?
 
 private:
