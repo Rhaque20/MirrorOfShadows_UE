@@ -60,6 +60,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Normal Attack")
 	TArray<class UEnemySkill*> Moveset;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float MaxStatusDisplayDistance = 1200;
+
 public:
 	UPROPERTY(VisibleAnywhere)
 	class UEnemyAttributeSet* AttributeSet;
