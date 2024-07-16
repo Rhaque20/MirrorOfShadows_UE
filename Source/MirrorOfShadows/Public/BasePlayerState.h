@@ -18,8 +18,5 @@ class MIRROROFSHADOWS_API ABasePlayerState : public APlayerState
 		void CancelSlowMotion();// Used for counter edge or incase some game over condition is met.
 	protected:
 		UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		class APlayerCharacters* ActiveCharacter;
-
-		UPROPERTY(BlueprintReadWrite, EditAnywhere)
 		bool inCounterWindow = false;
 };

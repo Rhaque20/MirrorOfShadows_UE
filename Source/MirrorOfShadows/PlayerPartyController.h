@@ -19,8 +19,6 @@ class MIRROROFSHADOWS_API APlayerPartyController : public APlayerController
 	public:
 		APlayerPartyController();
 		void SetUpMembers(TArray<APlayerCharacters*> PartyList);
-	private:
-		int AliveMembers = 0;
 
 	protected:
 		UPROPERTY(BlueprintReadWrite, EditAnywhere, Category =" Lock On System")
@@ -29,7 +27,11 @@ class MIRROROFSHADOWS_API APlayerPartyController : public APlayerController
 		AActor* LockOnTarget;
 		UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 		int CurrentCharacter = 0;
-	private:
+		int AliveMembers = 0;
+
+		UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+		APlayerCharacters* ActiveCharacter;
+	protected:
 		virtual void BeginPlay();
 		UFUNCTION(BlueprintCallable)
 		void SwapCharacterLeft();
@@ -37,6 +39,8 @@ class MIRROROFSHADOWS_API APlayerPartyController : public APlayerController
 		void SwapCharacterRight();
 
 		void SwapCharacter(int SwapToIndex);
+		UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+		void SwitchResponse(); // Used for switch parries, attack switching, ordinary switches, and counter switch
 
 	protected:
 		UPROPERTY(BlueprintReadWrite)

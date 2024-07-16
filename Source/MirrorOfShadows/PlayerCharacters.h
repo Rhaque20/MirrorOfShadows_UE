@@ -60,6 +60,9 @@ public:
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void NormalAttackAbility();
 
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void CounterEdgeAbility();// To be used for when performing a switch counter edge
+
 	UFUNCTION(BlueprintCallable)
 	void InitializeAttributes();
 
@@ -115,19 +118,33 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAbilitySystemComponent* AbilitySystem;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category =" Lock On System")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category ="Lock On System")
 	bool HasLockOn = false;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category =" Lock On System")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category ="Lock On System")
 	AActor* LockOnTarget;
-	// Maybe add start up effect?
 
-private:
-	UPROPERTY(BlueprintReadWrite, Category = "Ground Variables",meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Defense Action")
+	UAnimMontage* ForwardRollMontage;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Defense Action")
+	UAnimMontage* BackRollMontage;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Defense Action")
+	UAnimMontage* ParryAnimation;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Defense Action")
+	bool CanBlock = false;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Defense Action")
+	bool CanEvade = false;
+
+	// Maybe add start up effect?
+	UPROPERTY(BlueprintReadWrite, Category = "Ground Variables")
 	bool CanMove = true;
-	UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables",meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables")
 	bool OnGround = true;
-	UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables",meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables")
 	float AerialVelocity = 0.f;
 
 };

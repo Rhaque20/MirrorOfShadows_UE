@@ -17,6 +17,7 @@ void APlayerPartyController::SetUpMembers(TArray<APlayerCharacters*> PartyList)
 {
     SummonedActorReferences = PartyList;
     AliveMembers = SummonedActorReferences.Num();
+    ActiveCharacter = SummonedActorReferences[0];
 }
 
 void APlayerPartyController::BeginPlay()
@@ -56,11 +57,18 @@ void APlayerPartyController::SwapCharacterLeft()
 
 void APlayerPartyController::SwapCharacterRight()
 {
-    // int SwapToIndex = (CurrentCharacter + 1) % AliveMembers;
+    if (AliveMembers == 0)
+    {
+         UE_LOG(LogTemp, Error, TEXT("Party Member TArray is empty"));
+         return;
+    }
+    else
+    {
+         UE_LOG(LogTemp, Display, TEXT("Party Member Array count is %d"),AliveMembers);
+    }
+    int SwapToIndex = (CurrentCharacter + 1) % SummonedActorReferences.Num();
 
-    // Possess(Cast<APawn>(PartyMembers[SwapToIndex]));
-
-    // CurrentCharacter = SwapToIndex;
+    SwapCharacter(SwapToIndex);
 }
 
 void APlayerPartyController::SwapCharacter(int SwapToIndex) 
@@ -99,8 +107,8 @@ void APlayerPartyController::SwapCharacter(int SwapToIndex)
     SummonedActorReferences[CurrentCharacter]->SwapOut();
 
     SummonedActorReferences[SwapToIndex]->SetUpLockOn(IsLockedOn,LockOnTarget);
-    // PartyMembers[SwapToIndex]->SetActorLocation(CurrentPos);
-    // PartyMembers[SwapToIndex]->SetActorRotation(CurrentRot);
+
+    ActiveCharacter = SummonedActorReferences[SwapToIndex];
 
     CurrentCharacter = SwapToIndex;
 }
