@@ -50,6 +50,12 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 		bool HasDifferentMods = false;
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
+		UCurveFloat* LaunchCurve;
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
+		float LaunchForce = 100.f;
 	public:
 		UFUNCTION(BlueprintCallable)
 		UAnimMontage* GetAnimation(int index) const;
