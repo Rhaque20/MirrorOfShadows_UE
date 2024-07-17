@@ -72,6 +72,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetUpLockOn(bool LockOnToggle, AActor* Target);
 
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void PlayerRecover();
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera Component")
 	class UCameraComponent* Camera;

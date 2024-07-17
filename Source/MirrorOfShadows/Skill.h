@@ -24,20 +24,20 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasDifferentMods == true", EditConditionHides))
 		TArray<float> SkillModifiers;
 
-		UPROPERTY(EditDefaultsOnly)
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 		float ResistInterruptMod = 0.f;
 
-		UPROPERTY(EditDefaultsOnly)
+		UPROPERTY(EditDefaultsOnly,meta = (EditCondition = "HasDifferentPoiseDMG == false", EditConditionHides))
 		float PoiseDamage = 0.f;
+
+		UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasDifferentPoiseDMG == true", EditConditionHides))
+		TArray<float> PoiseDamageValues;
 
 		UPROPERTY(EditDefaultsOnly)
 		TArray<UAnimMontage*> AnimationMontages;
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
 		FVector HitBoxScale = FVector(1,1,1);
-
-		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
-		bool HasDifferentLocations = false;
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,meta = (EditCondition = "HasDifferentLocations == false", EditConditionHides))
 		FVector HitBoxLocation = FVector(1,1,1);
@@ -48,8 +48,14 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		UPROPERTY(EditDefaultsOnly)
 		bool IsProjectile = false;
 
-		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Multi-Hit Settings")
 		bool HasDifferentMods = false;
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Multi-Hit Settings")
+		bool HasDifferentLocations = false;
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Multi-Hit Settings")
+		bool HasDifferentPoiseDMG = false;
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
 		UCurveFloat* LaunchCurve;
@@ -69,10 +75,21 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		{
 			if(SkillModifiers.Num() == 0)
 			{
-				return 0.0f;
+				return SkillModifier;
 			}
 
 			return SkillModifiers[index % SkillModifiers.Num()];
+		};
+
+		UFUNCTION(BlueprintCallable)
+		float ReturnPoiseDamage(int index) const
+		{
+			if (PoiseDamageValues.Num() == 0 || !HasDifferentPoiseDMG)
+			{
+				return PoiseDamage;
+			}
+
+			return PoiseDamageValues[index % PoiseDamageValues.Num()];
 		};
 
 		UFUNCTION(BlueprintCallable)
@@ -82,7 +99,7 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		FVector ReturnLocationAtSequence(int index) const
 		{
 			if (HitBoxLocations.Num() == 0)
-				return FVector(1,1,1);
+				return HitBoxLocation;
 			
 			return HitBoxLocations[index % HitBoxLocations.Num()];
 		};

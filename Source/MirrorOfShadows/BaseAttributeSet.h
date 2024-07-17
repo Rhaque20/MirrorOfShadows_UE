@@ -66,6 +66,10 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		FGameplayAttributeData Damage;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, Damage);
 
+		UPROPERTY(BlueprintReadOnly, Category = "PoiseDMG")
+		FGameplayAttributeData PoiseDMG;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, PoiseDMG);
+
 		UPROPERTY(BlueprintReadOnly, Category = "HP Bonus %")
 		FGameplayAttributeData HPBonusPercent;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, HPBonusPercent);
@@ -91,8 +95,8 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,PoiseMod);
 
 		UPROPERTY(BlueprintReadOnly, Category = "Current Poise")
-		FGameplayAttributeData CurPoise;
-		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,CurPoise);
+		FGameplayAttributeData CurrentPoise;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,CurrentPoise);
 
 		UPROPERTY(BlueprintReadOnly, Category = "Max Poise")
 		FGameplayAttributeData MaxPoise;
@@ -115,6 +119,7 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 	protected:
 		float HPRatio = 1.0f;
 		virtual void HandleEvaluatedData(const FGameplayEffectModCallbackData& Data, bool IsPostEffect);
+		virtual void PoiseBreak(const FGameplayEffectModCallbackData& Data);
 	protected:
 		UFUNCTION(BlueprintCallable)
 		virtual void RecalculateTotalHP();

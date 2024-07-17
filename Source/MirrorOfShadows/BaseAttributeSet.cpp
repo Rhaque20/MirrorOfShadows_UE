@@ -89,6 +89,23 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			HPRatio = GetCurrentHP()/GetTotalHP();
         }
     }
+	else if(Data.EvaluatedData.Attribute == GetPoiseDMGAttribute())
+	{
+		const float LocalPoiseDMG = GetPoiseDMG();
+        SetPoiseDMG(0.0f);
+        UE_LOG(LogTemp, Display, TEXT("%s took %f poise damage"),*(TargetActor->GetName()),LocalPoiseDMG);
+
+        if(LocalPoiseDMG > 0.0f)
+        {
+            const float NewPoiseDMG = GetCurrentPoise() + LocalPoiseDMG;
+            SetCurrentPoise(FMath::Clamp(NewPoiseDMG, 0.0f,GetMaxPoise()));
+
+			if (GetCurrentPoise() >= GetMaxPoise())
+			{
+				PoiseBreak(Data);
+			}
+        }
+	} 
 	else
 		HandleEvaluatedData(Data,true);
 }
@@ -105,6 +122,11 @@ void UBaseAttributeSet::HandleEvaluatedData(const FGameplayEffectModCallbackData
 	{
 		UE_LOG(LogTemp, Display, TEXT("Gained %f Percent ATK"),GetATKBonusPercent());
 	}
+	
+}
+
+void UBaseAttributeSet::PoiseBreak(const FGameplayEffectModCallbackData& Data) 
+{
 	
 }
 

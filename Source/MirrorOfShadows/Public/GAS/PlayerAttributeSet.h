@@ -53,7 +53,9 @@ class MIRROROFSHADOWS_API UPlayerAttributeSet : public UBaseAttributeSet
     protected:
         virtual void RecalculateTotalHP() override;
         virtual void HandleEvaluatedData(const FGameplayEffectModCallbackData& Data, bool IsPostEffect) override;
+		virtual void PoiseBreak(const FGameplayEffectModCallbackData& Data) override;
 };
+
 
 
 

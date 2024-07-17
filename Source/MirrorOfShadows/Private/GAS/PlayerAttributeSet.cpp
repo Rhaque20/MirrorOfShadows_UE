@@ -44,3 +44,8 @@ void UPlayerAttributeSet::RecalculateTotalHP()
     UE_LOG(LogTemp, Display, TEXT("Recalculated HP is %f using base HP of %f, HP Bonus %f, and HP Flat Bonus %f"),FinalHP,
     GetHP(),HPBonusfromPercent,HPBonusfromFlat);
 }
+
+void UPlayerAttributeSet::PoiseBreak(const FGameplayEffectModCallbackData& Data) 
+{
+	
+}
