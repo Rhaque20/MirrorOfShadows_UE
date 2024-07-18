@@ -14,8 +14,10 @@ class MIRROROFSHADOWS_API UEnemySkill : public USkill
 {
 	GENERATED_BODY()
 	protected:
-		UPROPERTY(EditDefaultsOnly)
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Cooldown")
 		float MaxCooldown = 0.f;
-		UPROPERTY(EditDefaultsOnly)
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Cooldown")
 		float StartCooldown = 0.f;
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Cooldown")
+		float InternalCooldown = 0.f;
 };
