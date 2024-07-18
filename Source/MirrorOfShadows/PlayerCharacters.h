@@ -10,6 +10,7 @@
 
 #include "PlayerCharacters.generated.h"
 
+class UStaggerComponent;
 UCLASS()
 class MIRROROFSHADOWS_API APlayerCharacters : public ACharacter, public IAbilitySystemInterface,public IGameplayTagAssetInterface
 {
@@ -55,6 +56,11 @@ public:
 	{
 		OwnedTags = GameplayTagContainer; 
 		return;
+	}
+
+	UStaggerComponent* ReturnStaggerComponent() const
+	{
+		return StaggerComponent;
 	}
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
@@ -108,6 +114,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Stat Component")
 	class UPlayerStatComponent* Stats;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "StaggerComponent")
+	UStaggerComponent* StaggerComponent;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;

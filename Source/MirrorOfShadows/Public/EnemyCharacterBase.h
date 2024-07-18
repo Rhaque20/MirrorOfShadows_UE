@@ -8,6 +8,8 @@
 
 #include "EnemyCharacterBase.generated.h"
 
+
+class UStaggerComponent;
 UCLASS()
 class MIRROROFSHADOWS_API AEnemyCharacterBase : public ACharacter,public IAbilitySystemInterface
 {
@@ -27,6 +29,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DetectionFill();
+
+	UStaggerComponent* ReturnStaggerComponent() const
+	{
+		return StaggerCore;
+	}
 
 protected:
 	// Called when the game starts or when spawned
@@ -62,6 +69,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float MaxStatusDisplayDistance = 1200;
+
+	// UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "StaggerComponent")
+	// UStaggerComponent* StaggerComponent;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "StaggerComponent")
+	UStaggerComponent* StaggerCore;
 
 public:
 	UPROPERTY(VisibleAnywhere)

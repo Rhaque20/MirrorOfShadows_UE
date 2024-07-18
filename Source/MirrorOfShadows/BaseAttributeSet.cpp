@@ -105,6 +105,11 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				PoiseBreak(Data);
 			}
         }
+	}
+	else if(Data.EvaluatedData.Attribute == GetCurrentPoiseAttribute())
+	{
+		UE_LOG(LogTemp, Display, TEXT("%s current poise is %f poise"),*(TargetActor->GetName()),GetCurrentPoise());
+		SetCurrentPoise(FMath::Clamp(GetCurrentPoise(), 0.0f,GetMaxPoise()));
 	} 
 	else
 		HandleEvaluatedData(Data,true);

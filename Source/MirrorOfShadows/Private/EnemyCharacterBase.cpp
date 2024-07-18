@@ -4,6 +4,7 @@
 #include "EnemyCharacterBase.h"
 #include "AbilitySystemComponent.h"
 #include "../EnemyAttributeSet.h"
+#include "StaggerComponent.h"
 
 // Sets default values
 AEnemyCharacterBase::AEnemyCharacterBase()
@@ -12,6 +13,7 @@ AEnemyCharacterBase::AEnemyCharacterBase()
 	PrimaryActorTick.bCanEverTick = true;
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
 	AttributeSet = CreateDefaultSubobject<UEnemyAttributeSet>("AttributeSet");
+	// StaggerComponent = CreateDefaultSubobject<UStaggerComponent>(TEXT("Stagger Component"));
 
 }
 

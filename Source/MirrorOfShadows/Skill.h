@@ -62,6 +62,9 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
 		float LaunchForce = 100.f;
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
+		float KnockbackForce = 100.f;
 	public:
 		UFUNCTION(BlueprintCallable)
 		UAnimMontage* GetAnimation(int index) const;

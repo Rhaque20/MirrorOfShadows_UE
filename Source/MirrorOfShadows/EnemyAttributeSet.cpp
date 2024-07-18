@@ -6,7 +6,7 @@
 #include "GameplayEffect.h"
 #include "GameplayEffectExtension.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "StaggerComponent.h"
 
 void UEnemyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) 
 {
@@ -62,5 +62,16 @@ void UEnemyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
 
 void UEnemyAttributeSet::PoiseBreak(const FGameplayEffectModCallbackData& Data) 
 {
+    AActor* TargetActor = nullptr;
+	AEnemyCharacterBase* TargetCharacter = nullptr;
+	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+	{
+		TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+		TargetCharacter = Cast<AEnemyCharacterBase>(TargetActor);
+	}
+
     UE_LOG(LogTemp, Display, TEXT("Enemy got poise broken!"));
+
+    TargetCharacter->ReturnStaggerComponent()->OnPoiseBreak();
+
 }

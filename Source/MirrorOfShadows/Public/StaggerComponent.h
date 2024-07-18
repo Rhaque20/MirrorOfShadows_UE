@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "StaggerComponent.generated.h"
 
-
+class USkill;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),Blueprintable)
 class MIRROROFSHADOWS_API UStaggerComponent : public UActorComponent
 {
@@ -20,6 +20,12 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+protected:
+	UPROPERTY(BlueprintReadWrite,VisibleAnywhere)
+	USkill* SkillData;
+	UPROPERTY(BlueprintReadWrite,VisibleAnywhere)
+	AActor* AttackingActor;
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -29,6 +35,16 @@ public:
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void OnStanceBreak();
+
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void OnInterrupt();
+
+	UFUNCTION(BlueprintCallable)
+	void SetUpAttackedData(USkill* ReceivingSkill, AActor* Attacker)
+	{
+		SkillData = ReceivingSkill;
+		AttackingActor = Attacker;
+	};
 
 		
 };

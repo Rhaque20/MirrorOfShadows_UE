@@ -12,6 +12,7 @@
 #include "Components/PlayerStatComponent.h"
 #include "PlayerCore.h"
 #include "Components/EquipmentComponent.h"
+#include "StaggerComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -41,6 +42,7 @@ APlayerCharacters::APlayerCharacters()
 	
 	CharacterCore = CreateDefaultSubobject<UPlayerCore>(TEXT("PlayerCore"));
 	EquipmentComponent = CreateDefaultSubobject<UEquipmentComponent>(TEXT("Equipment Component"));
+	StaggerComponent = CreateDefaultSubobject<UStaggerComponent>(TEXT("Stagger Component"));
 
 	// bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
