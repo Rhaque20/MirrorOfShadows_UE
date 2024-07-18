@@ -4,7 +4,7 @@
 #include "EnemyCharacterBase.h"
 #include "AbilitySystemComponent.h"
 #include "../EnemyAttributeSet.h"
-#include "StaggerComponent.h"
+#include "Components/StaggerComponent.h"
 
 // Sets default values
 AEnemyCharacterBase::AEnemyCharacterBase()

@@ -13,7 +13,6 @@ ACecilePlayable::ACecilePlayable()
 {
     CecilePassive = CreateDefaultSubobject<UCecileCore>(TEXT("Cecile Core Mechanics"));
 	CecilePassive->SetSkeletalMeshVar(GetMesh());
-	CecilePassive->SetPlayerStatComponent(Stats);
 	CharacterCore = CecilePassive;
 }
 

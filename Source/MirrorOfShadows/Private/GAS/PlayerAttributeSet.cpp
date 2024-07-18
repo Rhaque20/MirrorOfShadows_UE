@@ -1,6 +1,8 @@
 #include "GAS/PlayerAttributeSet.h"
 #include "GameplayEffectExtension.h"
 #include "Math/UnrealMathUtility.h"
+#include "../PlayerCharacters.h"
+#include "Components/StaggerComponent.h"
 
 void UPlayerAttributeSet::HandleEvaluatedData(const FGameplayEffectModCallbackData& Data, bool IsPostEffect) 
 {
@@ -47,5 +49,13 @@ void UPlayerAttributeSet::RecalculateTotalHP()
 
 void UPlayerAttributeSet::PoiseBreak(const FGameplayEffectModCallbackData& Data) 
 {
-	
+	AActor* TargetActor = nullptr;
+	APlayerCharacters* TargetCharacter = nullptr;
+	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+	{
+		TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+		TargetCharacter = Cast<APlayerCharacters>(TargetActor);
+
+        TargetCharacter->ReturnStaggerComponent()->OnPoiseBreak();
+	}
 }

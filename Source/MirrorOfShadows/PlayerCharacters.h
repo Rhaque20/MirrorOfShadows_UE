@@ -112,10 +112,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category = "Gameplay Tag")
 	FGameplayTagContainer GameplayTagContainer;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Stat Component")
-	class UPlayerStatComponent* Stats;
-
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "StaggerComponent")
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite, Category = "StaggerComponent")
 	UStaggerComponent* StaggerComponent;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")

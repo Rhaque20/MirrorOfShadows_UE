@@ -9,10 +9,9 @@
 #include "InputActionValue.h"
 #include "AbilitySystemComponent.h"
 #include "GAS/PlayerAttributeSet.h"
-#include "Components/PlayerStatComponent.h"
 #include "PlayerCore.h"
 #include "Components/EquipmentComponent.h"
-#include "StaggerComponent.h"
+#include "Components/StaggerComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -38,11 +37,9 @@ APlayerCharacters::APlayerCharacters()
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
 	AttributeSet = CreateDefaultSubobject<UPlayerAttributeSet>("PlayerAttributeSet");
 
-	Stats = CreateDefaultSubobject<UPlayerStatComponent>("Stats");
-	
 	CharacterCore = CreateDefaultSubobject<UPlayerCore>(TEXT("PlayerCore"));
 	EquipmentComponent = CreateDefaultSubobject<UEquipmentComponent>(TEXT("Equipment Component"));
-	StaggerComponent = CreateDefaultSubobject<UStaggerComponent>(TEXT("Stagger Component"));
+	// StaggerComponent = CreateDefaultSubobject<UStaggerComponent>(TEXT("Stagger Component"));
 
 	// bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;

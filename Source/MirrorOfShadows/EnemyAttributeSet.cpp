@@ -6,7 +6,7 @@
 #include "GameplayEffect.h"
 #include "GameplayEffectExtension.h"
 #include "Kismet/GameplayStatics.h"
-#include "StaggerComponent.h"
+#include "Components/StaggerComponent.h"
 
 void UEnemyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) 
 {

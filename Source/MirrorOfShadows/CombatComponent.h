@@ -7,7 +7,6 @@
 #include "CombatComponent.generated.h"
 
 class USkeletalMeshComponent;
-class UStatComponent;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent),Blueprintable )
 class MIRROROFSHADOWS_API UCombatComponent : public UActorComponent
@@ -30,8 +29,6 @@ protected:
 	bool bIsAttacking = false;
 	UPROPERTY(EditAnywhere, Category = "Combat");
 	TSubclassOf<class UCameraShakeBase> HitCameraShakeClass;
-	UPROPERTY(VisibleAnywhere, Category ="Stats")
-	UStatComponent* StatComponent;
 
 public:	
 	// Called every frame
@@ -47,7 +44,6 @@ public:
 	virtual void InflictDamageToSingle(FHitResult Result);
 	virtual void SkillSelect();
 	void SetSkeletalMeshVar(USkeletalMeshComponent* SkeletalMeshAddress);
-	virtual void SetStatComponent(UStatComponent* Stats);
 	virtual void Recover();
 	virtual bool IsBehindTarget(AActor* Target);
 
