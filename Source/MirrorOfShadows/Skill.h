@@ -25,13 +25,19 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		TArray<float> SkillModifiers;
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
-		float ResistInterruptMod = 0.f;
+		float ResistInterruptMod = 1.f;
 
-		UPROPERTY(EditDefaultsOnly,meta = (EditCondition = "HasDifferentPoiseDMG == false", EditConditionHides))
+		UPROPERTY(EditDefaultsOnly,meta = (EditCondition = "HasDifferentPoiseDMG == false", EditConditionHides),Category="Stagger System")
 		float PoiseDamage = 0.f;
 
-		UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasDifferentPoiseDMG == true", EditConditionHides))
+		UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasDifferentPoiseDMG == true", EditConditionHides),Category="Stagger System")
 		TArray<float> PoiseDamageValues;
+
+		UPROPERTY(EditDefaultsOnly,meta = (EditCondition = "HasDifferentStanceDMG == false", EditConditionHides),Category="Stagger System")
+		float StanceDamage = 0.f;
+
+		UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasDifferentStanceDMG == true", EditConditionHides),Category="Stagger System")
+		TArray<float> StanceDamageValues;
 
 		UPROPERTY(EditDefaultsOnly)
 		TArray<UAnimMontage*> AnimationMontages;
@@ -57,6 +63,9 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Multi-Hit Settings")
 		bool HasDifferentPoiseDMG = false;
 
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Multi-Hit Settings")
+		bool HasDifferentStanceDMG = false;
+
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
 		UCurveFloat* LaunchCurve;
 
@@ -65,6 +74,11 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
 		float KnockbackForce = 100.f;
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Stagger System")
+		bool IsParryable = true;
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Stagger System")
+		bool IsDodgeable = true;
 	public:
 		UFUNCTION(BlueprintCallable)
 		UAnimMontage* GetAnimation(int index) const;
@@ -93,6 +107,17 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 			}
 
 			return PoiseDamageValues[index % PoiseDamageValues.Num()];
+		};
+
+		UFUNCTION(BlueprintCallable)
+		float ReturnStanceDamage(int index) const
+		{
+			if (StanceDamageValues.Num() == 0 || !HasDifferentStanceDMG)
+			{
+				return StanceDamage;
+			}
+
+			return StanceDamageValues[index % StanceDamageValues.Num()];
 		};
 
 		UFUNCTION(BlueprintCallable)
