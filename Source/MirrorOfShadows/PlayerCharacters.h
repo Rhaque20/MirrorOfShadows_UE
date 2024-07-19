@@ -34,6 +34,7 @@ protected:
 
 	void Move(const struct FInputActionValue& InputValue);
 	void Look(const struct FInputActionValue& InputValue);
+	void LookUpRate(const struct FInputActionValue& InputValue);
 	void Jump();
 
 public:	
@@ -101,6 +102,9 @@ protected:
 	class UInputAction* LookAction;
 
 	UPROPERTY(EditAnywhere, Category = "Enhanced Input")
+	class UInputAction* LookUpRateAction;
+
+	UPROPERTY(EditAnywhere, Category = "Enhanced Input")
 	class UInputAction* NormalAttackAction;
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Combat Component")
@@ -155,5 +159,7 @@ protected:
 	bool OnGround = true;
 	UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables")
 	float AerialVelocity = 0.f;
+	UPROPERTY(EditAnywhere)
+	float RotationRate = 10.f;
 
 };

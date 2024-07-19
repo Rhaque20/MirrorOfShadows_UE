@@ -159,6 +159,7 @@ void APlayerCharacters::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		Input->BindAction(MoveAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Move);
 		Input->BindAction(LookAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Look);
 		Input->BindAction(JumpAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Jump);
+		Input->BindAction(LookUpRateAction,ETriggerEvent::Triggered,this,&APlayerCharacters::LookUpRate);
 	}
 }
 
@@ -213,6 +214,17 @@ void APlayerCharacters::Look(const FInputActionValue& InputValue)
 	{
 		AddControllerYawInput(InputVector.X);
 		AddControllerPitchInput(InputVector.Y);
+	}
+}
+
+void APlayerCharacters::LookUpRate(const struct FInputActionValue& InputValue) 
+{
+	FVector2D InputVector = InputValue.Get<FVector2D>();
+	if (IsValid(Controller))
+	{
+		float RotationMod = RotationRate * GetWorld()->GetDeltaSeconds();
+		AddControllerYawInput(InputVector.X * RotationMod);
+		AddControllerPitchInput(InputVector.Y * RotationMod);
 	}
 }
 
