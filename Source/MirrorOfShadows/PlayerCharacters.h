@@ -3,16 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
 #include "GameplayTagContainer.h"
 #include "GameplayTagAssetInterface.h"
 #include "AbilitySystemInterface.h"
+#include "RPGCharacterBase.h"
 
 #include "PlayerCharacters.generated.h"
 
 class UStaggerComponent;
 UCLASS()
-class MIRROROFSHADOWS_API APlayerCharacters : public ACharacter, public IAbilitySystemInterface,public IGameplayTagAssetInterface
+class MIRROROFSHADOWS_API APlayerCharacters : public ARPGCharacterBase,public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 
@@ -48,20 +48,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override
-	{
-		return AbilitySystem;
-	}
-
 	virtual void GetOwnedGameplayTags(FGameplayTagContainer& OwnedTags) const override
 	{
 		OwnedTags = GameplayTagContainer; 
 		return;
-	}
-
-	UStaggerComponent* ReturnStaggerComponent() const
-	{
-		return StaggerComponent;
 	}
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
@@ -116,8 +106,8 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category = "Gameplay Tag")
 	FGameplayTagContainer GameplayTagContainer;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite, Category = "StaggerComponent")
-	UStaggerComponent* StaggerComponent;
+	// UPROPERTY(VisibleAnywhere,BlueprintReadWrite, Category = "StaggerComponent")
+	// UStaggerComponent* StaggerComponent;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;
@@ -127,9 +117,6 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Equipment")
 	class UEquipmentComponent* EquipmentComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UAbilitySystemComponent* AbilitySystem;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category ="Lock On System")
 	bool HasLockOn = false;

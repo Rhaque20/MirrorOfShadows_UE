@@ -25,6 +25,12 @@ protected:
 	USkill* SkillData;
 	UPROPERTY(BlueprintReadWrite,VisibleAnywhere)
 	AActor* AttackingActor;
+	
+	UPROPERTY(BlueprintReadOnly,EditDefaultsOnly, Category="Hit Reaction")
+	UAnimMontage* LightStaggerAnim;
+
+	UPROPERTY(BlueprintReadOnly,EditDefaultsOnly, Category="Hit Reaction")
+	UAnimMontage* BlockingAnim;
 
 public:	
 	// Called every frame
@@ -38,6 +44,9 @@ public:
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void OnInterrupt();
+
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void OnHit();
 
 	UFUNCTION(BlueprintCallable)
 	void SetUpAttackedData(USkill* ReceivingSkill, AActor* Attacker)

@@ -1,0 +1,35 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
+#include "Components/StaggerComponent.h"
+
+#include "RPGCharacterBase.generated.h"
+
+
+class UStaggerComponent;
+UCLASS()
+class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilitySystemInterface
+{
+    GENERATED_BODY()
+    public:
+        virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override
+        {
+            return AbilitySystem;
+        }
+
+        UStaggerComponent* ReturnStaggerComponent() const
+        {
+            return StaggerComponent;
+        }
+
+    protected:
+        UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+        UAbilitySystemComponent* AbilitySystem;
+
+        UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "StaggerComponent")
+	    UStaggerComponent* StaggerComponent;
+};

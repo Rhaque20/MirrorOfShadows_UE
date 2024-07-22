@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "RPGCharacterBase.h"
 #include "AbilitySystemInterface.h"
 
 #include "EnemyCharacterBase.generated.h"
@@ -11,7 +11,7 @@
 
 class UStaggerComponent;
 UCLASS()
-class MIRROROFSHADOWS_API AEnemyCharacterBase : public ACharacter,public IAbilitySystemInterface
+class MIRROROFSHADOWS_API AEnemyCharacterBase : public ARPGCharacterBase
 {
 	GENERATED_BODY()
 
@@ -30,18 +30,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DetectionFill();
 
-	UStaggerComponent* ReturnStaggerComponent() const
-	{
-		return StaggerCore;
-	}
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UAbilitySystemComponent* AbilitySystem;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;
@@ -72,9 +65,6 @@ protected:
 
 	// UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "StaggerComponent")
 	// UStaggerComponent* StaggerComponent;
-
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "StaggerComponent")
-	UStaggerComponent* StaggerCore;
 
 public:
 	UPROPERTY(VisibleAnywhere)
