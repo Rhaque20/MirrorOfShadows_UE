@@ -139,13 +139,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Defense Action")
 	bool CanEvade = false;
 
-	// Maybe add start up effect?
-	UPROPERTY(BlueprintReadWrite, Category = "Ground Variables")
-	bool CanMove = true;
-	UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables")
-	bool OnGround = true;
-	UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables")
-	float AerialVelocity = 0.f;
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 10.f;
 

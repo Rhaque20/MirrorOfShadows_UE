@@ -48,6 +48,12 @@ public:
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void OnHit();
 
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void OnParry();
+
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void OnGetParried();
+
 	UFUNCTION(BlueprintCallable)
 	void SetUpAttackedData(USkill* ReceivingSkill, AActor* Attacker)
 	{

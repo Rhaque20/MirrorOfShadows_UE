@@ -32,4 +32,14 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 
         UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "StaggerComponent")
 	    UStaggerComponent* StaggerComponent;
+
+        UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "Mobility")
+        bool CanMove = true;
+
+        UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables")
+        bool OnGround = true;
+        UPROPERTY(BlueprintReadWrite, Category = "Aerial Variables")
+        float AerialVelocity = 0.f;
+        UPROPERTY(BlueprintReadWrite, Category = "CurrentSkill")
+        class USkill* ActiveSkill;
 };

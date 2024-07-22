@@ -46,9 +46,6 @@ protected:
 	bool IsAttacking = false;
 
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
-	bool CanMove = true;
-
-	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	bool DetectedTarget = false;
 
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
