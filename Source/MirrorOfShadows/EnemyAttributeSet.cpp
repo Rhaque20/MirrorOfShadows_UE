@@ -32,6 +32,10 @@ void UEnemyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
         {
             const float NewStanceDMG = GetCurrentStance() + LocalStanceDMG;
             SetCurrentStance(FMath::Clamp(NewStanceDMG, 0.0f,GetMaxStance()));
+            if (GetCurrentStance() >= GetMaxStance())
+            {
+                
+            }
         }
 
     }
@@ -74,4 +78,19 @@ void UEnemyAttributeSet::PoiseBreak(const FGameplayEffectModCallbackData& Data)
 
     TargetCharacter->ReturnStaggerComponent()->OnPoiseBreak();
 
+}
+
+void UEnemyAttributeSet::StanceBreak(const FGameplayEffectModCallbackData& Data) 
+{
+    AActor* TargetActor = nullptr;
+	AEnemyCharacterBase* TargetCharacter = nullptr;
+	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+	{
+		TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+		TargetCharacter = Cast<AEnemyCharacterBase>(TargetActor);
+	}
+
+    UE_LOG(LogTemp, Display, TEXT("Enemy got stance broken!"));
+
+    TargetCharacter->ReturnStaggerComponent()->OnStanceBreak();
 }

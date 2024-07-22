@@ -84,13 +84,11 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		UAnimMontage* GetAnimation(int index) const;
 		UFUNCTION(BlueprintCallable)
 		FVector GetHitBoxScale() const {return HitBoxScale;};
-		UFUNCTION(BlueprintCallable)
-		float ReturnModifier() const {return SkillModifier;};
 
 		UFUNCTION(BlueprintCallable)
-		float ReturnModfierAtSequence(int index) const
+		float ReturnSkillModifier(int index) const
 		{
-			if(SkillModifiers.Num() == 0)
+			if(SkillModifiers.Num() == 0 || !HasDifferentMods)
 			{
 				return SkillModifier;
 			}

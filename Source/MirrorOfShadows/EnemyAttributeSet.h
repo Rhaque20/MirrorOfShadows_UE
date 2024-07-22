@@ -31,5 +31,7 @@ class MIRROROFSHADOWS_API UEnemyAttributeSet : public UBaseAttributeSet
 		virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 		// virtual void HandleEvaluatedData(const FGameplayEffectModCallbackData& Data, bool IsPostEffect);
 		virtual void PoiseBreak(const FGameplayEffectModCallbackData& Data) override;
+
+		void StanceBreak(const FGameplayEffectModCallbackData& Data);
 	
 };
