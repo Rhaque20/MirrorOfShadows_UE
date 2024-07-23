@@ -26,6 +26,12 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
             return StaggerComponent;
         }
 
+        UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
+        void PerformDodge();
+
+        UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
+        void CancelDodge();
+
     protected:
         UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
         UAbilitySystemComponent* AbilitySystem;
