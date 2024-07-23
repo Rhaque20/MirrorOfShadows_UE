@@ -34,7 +34,7 @@ void UEnemyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallb
             SetCurrentStance(FMath::Clamp(NewStanceDMG, 0.0f,GetMaxStance()));
             if (GetCurrentStance() >= GetMaxStance())
             {
-                
+                StanceBreak(Data);
             }
         }
 
