@@ -5,6 +5,8 @@
 #include "../BaseAttributeSet.h"
 #include "AbilitySystemComponent.h"
 #include "Math/UnrealMathUtility.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "RPGCharacterBase.h"
 
 struct FDamageStatics
 {
@@ -14,15 +16,21 @@ struct FDamageStatics
     DECLARE_ATTRIBUTE_CAPTUREDEF(ATKBonusPercent);
     DECLARE_ATTRIBUTE_CAPTUREDEF(SkillModifier);
     DECLARE_ATTRIBUTE_CAPTUREDEF(DMGRes);
+    DECLARE_ATTRIBUTE_CAPTUREDEF(BlockPower);
     DECLARE_ATTRIBUTE_CAPTUREDEF(Damage);
+    DECLARE_ATTRIBUTE_CAPTUREDEF(CritRate);
+    DECLARE_ATTRIBUTE_CAPTUREDEF(CritDMG);
 
     FDamageStatics()
     {
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,HP, Source,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,ATK, Source,false);
+        DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,CritRate, Source,false);
+        DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,CritDMG, Source,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,SkillModifier, Source,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,ATKBonusPercent,Source,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,DMGRes,Target,false);
+        DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,BlockPower,Target,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,Damage, Target,false);
         DEFINE_ATTRIBUTE_CAPTUREDEF(UBaseAttributeSet,DEF, Target,false);
     }
@@ -42,7 +50,19 @@ UGEC_AttackScale::UGEC_AttackScale()
     RelevantAttributesToCapture.Add(DamageStatics().DamageDef);
     RelevantAttributesToCapture.Add(DamageStatics().SkillModifierDef);
     RelevantAttributesToCapture.Add(DamageStatics().DMGResDef);
+    RelevantAttributesToCapture.Add(DamageStatics().BlockPowerDef);
     RelevantAttributesToCapture.Add(DamageStatics().ATKBonusPercentDef);
+    RelevantAttributesToCapture.Add(DamageStatics().CritRateDef);
+    RelevantAttributesToCapture.Add(DamageStatics().CritDMGDef);
+}
+
+bool UGEC_AttackScale::IsBlocked(AActor* Target, AActor* Attacker) const
+{
+    FVector AttackerVector = Attacker->GetActorForwardVector();
+	FVector TargetLocation = Target->GetActorForwardVector();
+
+	double dotProduct = UKismetMathLibrary::Dot_VectorVector(TargetLocation,AttackerVector);
+	return dotProduct <= -0.7f;
 }
 
 void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const 
@@ -72,11 +92,29 @@ void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecuti
     float FinalDamage = 0.0f;
     float ATKBonusPercent = 0.0f;
     float FinalDMGRes = 0.0f;
+    float BlockPower = 0.0f;
+    float CriticalChance = 0.05f;
+    float CriticalDMG = 0.0f;
+    int DidHit = 0;// -1 = Missed, 0 = Hit, 1 = Critical Hit
 
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ATKDef, EvaluationParameters, FinalAttack);
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ATKBonusPercentDef, EvaluationParameters, ATKBonusPercent);
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().DEFDef, EvaluationParameters, FinalDefense);
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().DMGResDef, EvaluationParameters, FinalDMGRes);
+    ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CritRateDef, EvaluationParameters, CriticalChance);
+
+    if (IsBlocked(TargetActor,OwningActor) && TargetASC->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag("Effect.Defensive.Block")))
+    {
+        ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockPowerDef, EvaluationParameters, BlockPower);
+    }
+
+    if(FMath::RandRange(1.0f, 100.0f) < CriticalChance)
+    {
+        UE_LOG(LogTemp, Display, TEXT("CRITICAL HIT!"));
+        ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CritDMGDef, EvaluationParameters, CriticalDMG);
+        CriticalDMG = FMath::Max(CriticalDMG, 1.5f);
+        DidHit = 1;
+    }
 
     FinalDMGRes = FMath::Clamp(FinalDMGRes,-1.0f,0.75f);
 
@@ -87,12 +125,14 @@ void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecuti
     UE_LOG(LogTemp, Display, TEXT("Attacker's Attack with ATK Bonus: %f"),FinalAttack);
 
     FinalDamage = (FinalAttack * SkillModifier)/(FinalDefense/300 + 1);
-    FinalDamage *= (1 - FinalDMGRes);
+    FinalDamage *= (1 - FinalDMGRes) * (1 - BlockPower) * (1 + CriticalDMG);
 
     FinalDamage = FMath::Floor(FinalDamage);
 
     UE_LOG(LogTemp, Display, TEXT("Final Damage calculated: %f"),FinalDamage);
 
     OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(DamageStatics().DamageProperty, EGameplayModOp::Override, FinalDamage));
+
+    Cast<ARPGCharacterBase>(TargetActor)->DisplayDamageNumber(*SourceTags,FinalDamage,DidHit);
 
 }

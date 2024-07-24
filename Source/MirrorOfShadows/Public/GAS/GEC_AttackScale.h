@@ -17,7 +17,9 @@ class MIRROROFSHADOWS_API UGEC_AttackScale : public UGameplayEffectExecutionCalc
 		UGEC_AttackScale();
 		// Does the calculation for the effect
 		virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
+		virtual bool IsBlocked(AActor* Target, AActor* Attacker) const;
 	
 };
+
 
 

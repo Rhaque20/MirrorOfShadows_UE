@@ -55,12 +55,12 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, RESISTANCE);
 
 		UPROPERTY(BlueprintReadOnly, Category = "Critical Rate")
-		FGameplayAttributeData CRITRATE;
-		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, CRITRATE);
+		FGameplayAttributeData CritRate;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, CritRate);
 
 		UPROPERTY(BlueprintReadOnly, Category = "Critical Damage")
-		FGameplayAttributeData CRITDMG;
-		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, CRITDMG);
+		FGameplayAttributeData CritDMG;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, CritDMG);
 
 		UPROPERTY(BlueprintReadOnly, Category = "Damage")
 		FGameplayAttributeData Damage;
@@ -89,6 +89,10 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		UPROPERTY(BlueprintReadOnly, Category = "DMG Resistance")
 		FGameplayAttributeData DMGRes;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, DMGRes);
+
+		UPROPERTY(BlueprintReadOnly, Category = "BlockPower")
+		FGameplayAttributeData BlockPower;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet, BlockPower);
 		
 		UPROPERTY(BlueprintReadOnly, Category = "Poise Mod")
 		FGameplayAttributeData PoiseMod;
