@@ -108,11 +108,11 @@ void UGEC_AttackScale::Execute_Implementation(const FGameplayEffectCustomExecuti
         ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockPowerDef, EvaluationParameters, BlockPower);
     }
 
-    if(FMath::RandRange(1.0f, 100.0f) < CriticalChance)
+    if(FMath::RandRange(1.0f, 100.0f) <= CriticalChance)
     {
         UE_LOG(LogTemp, Display, TEXT("CRITICAL HIT!"));
         ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CritDMGDef, EvaluationParameters, CriticalDMG);
-        CriticalDMG = FMath::Max(CriticalDMG, 1.5f);
+        CriticalDMG = FMath::Max(CriticalDMG, 0.5f);
         DidHit = 1;
     }
 
