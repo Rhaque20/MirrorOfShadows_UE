@@ -60,9 +60,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float MaxStatusDisplayDistance = 1200;
 
-	// UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "StaggerComponent")
-	// UStaggerComponent* StaggerComponent;
-
 public:
 	UPROPERTY(VisibleAnywhere)
 	class UEnemyAttributeSet* AttributeSet;
