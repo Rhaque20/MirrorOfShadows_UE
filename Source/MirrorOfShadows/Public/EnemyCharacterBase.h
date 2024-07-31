@@ -30,6 +30,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DetectionFill();
 
+	UFUNCTION(BlueprintCallable)
+	void GetConditionParameters(APawn *TargetPawn, float& Distance, float& Angle, float& Height) const;
+
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	bool SelectAttack(float Distance, float Angle, float Height);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -60,6 +66,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float MaxStatusDisplayDistance = 1200;
 
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
+	AActor* AttackTarget;
+
 public:
 	UPROPERTY(VisibleAnywhere)
 	class UEnemyAttributeSet* AttributeSet;
@@ -82,3 +91,4 @@ public:
 	void SetSkillModifier(float modifier);
 
 };
+

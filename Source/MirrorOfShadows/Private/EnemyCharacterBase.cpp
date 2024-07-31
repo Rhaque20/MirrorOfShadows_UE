@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "../EnemyAttributeSet.h"
 #include "Components/StaggerComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AEnemyCharacterBase::AEnemyCharacterBase()
@@ -112,5 +113,25 @@ void AEnemyCharacterBase::SetSkillModifier(float modifier)
 	{
 		AttributeSet->SetSkillModifier(modifier);
 	}
+}
+
+void AEnemyCharacterBase::GetConditionParameters(APawn *TargetPawn, float& Distance, float& Angle, float& Height) const
+{
+	FVector TargetLocation = TargetPawn->GetActorLocation();
+	// Distance between attacker (this) and the target (not necessarily the player)
+	Distance = FVector::Dist(this->GetActorLocation(),TargetLocation);
+	// Height difference between the attacker (this) and the target
+	// Maybe should replace location with eye height location in the future.
+	Height = TargetLocation.Z - this->GetActorLocation().Z;
+
+	FVector AttackerVector = this->GetActorForwardVector();
+
+	double DotProduct = UKismetMathLibrary::Dot_VectorVector(AttackerVector,TargetLocation);
+
+	// Calculate the angle in radians
+	float AngleInRadians = FMath::Acos(DotProduct);
+
+	// Convert the angle to degrees between the actor
+	Angle = FMath::RadiansToDegrees(AngleInRadians);
 }
 
