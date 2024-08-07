@@ -46,13 +46,16 @@ public:
 	void OnInterrupt();
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
-	void OnHit();
+	void OnHit(bool& HitResult);
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
-	void OnParry();
+	void OnParry(bool& ParryResult);
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void OnGetParried();
+
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
+	void OnBlocking(bool DidBlock);
 
 	UFUNCTION(BlueprintCallable)
 	void SetUpAttackedData(USkill* ReceivingSkill, AActor* Attacker)
