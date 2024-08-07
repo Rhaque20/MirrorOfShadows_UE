@@ -126,7 +126,10 @@ void AEnemyCharacterBase::GetConditionParameters(APawn *TargetPawn, float& Dista
 
 	FVector AttackerVector = this->GetActorForwardVector();
 
-	double DotProduct = UKismetMathLibrary::Dot_VectorVector(AttackerVector,TargetLocation);
+	FVector Difference = TargetLocation - this->GetActorLocation();
+	Difference.Z = 0;
+
+	double DotProduct = UKismetMathLibrary::Dot_VectorVector(AttackerVector,Difference.GetSafeNormal());
 
 	// Calculate the angle in radians
 	float AngleInRadians = FMath::Acos(DotProduct);

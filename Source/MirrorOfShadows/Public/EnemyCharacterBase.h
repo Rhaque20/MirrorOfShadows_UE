@@ -34,7 +34,7 @@ public:
 	void GetConditionParameters(APawn *TargetPawn, float& Distance, float& Angle, float& Height) const;
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
-	bool SelectAttack(float Distance, float Angle, float Height);
+	void SelectAttack(float Distance, float Angle, float Height, bool& Selected);
 
 protected:
 	// Called when the game starts or when spawned
