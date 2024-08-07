@@ -18,6 +18,9 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		UPROPERTY(EditDefaultsOnly)
 		FString SkillName;
 
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+		TSubclassOf<class UGameplayEffect> DamageEffectTypeClass;
+
 		UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasDifferentMods == false", EditConditionHides))
 		float SkillModifier = 1.f;
 

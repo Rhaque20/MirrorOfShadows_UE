@@ -20,6 +20,13 @@ class MIRROROFSHADOWS_API UEnemySkill : public USkill
 		float StartCooldown = 0.f;
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Cooldown")
 		float InternalCooldown = 0.f;
+		
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Stance System")
 		bool IsFrenzy = false;// if true, attack will NOT trigger an stance interrupt until the last hit.
+
+
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Range Requirement")
+		float MinRangeReq = 0;
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Range Requirement")
+		float MaxRangeReq = 300;
 };
