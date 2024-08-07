@@ -49,7 +49,7 @@ public:
 	void OnHit(bool& HitResult);
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
-	void OnParry(bool& ParryResult);
+	void OnParry();
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void OnGetParried();
