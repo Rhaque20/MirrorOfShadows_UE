@@ -13,5 +13,9 @@ UCLASS()
 class MIRROROFSHADOWS_API UGEC_IFrameExtend : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
-	
+	public:
+		UGEC_IFrameExtend();
+		virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 };
+
+

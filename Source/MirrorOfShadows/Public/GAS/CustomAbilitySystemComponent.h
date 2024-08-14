@@ -13,5 +13,15 @@ UCLASS()
 class MIRROROFSHADOWS_API UCustomAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
+
+	public:
+		FActiveGameplayEffect* GetActiveGameplayEffect_Mutable(FActiveGameplayEffectHandle Handle);
+ 
+		/** Returns all active gameplay effect handles */
+		TArray<FActiveGameplayEffectHandle> GetAllActiveEffectHandles() const;
+	
+		/** Checks the active effect duration and runs any logic, checks to see if the GE is expired and removes it. */
+		void CheckActiveEffectDuration(const FActiveGameplayEffectHandle& Handle);
 	
 };
+

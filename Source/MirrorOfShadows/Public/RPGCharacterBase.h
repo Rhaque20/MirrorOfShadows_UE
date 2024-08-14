@@ -16,10 +16,7 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 {
     GENERATED_BODY()
     public:
-        virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override
-        {
-            return AbilitySystem;
-        }
+        virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
         UStaggerComponent* ReturnStaggerComponent() const
         {
@@ -37,7 +34,7 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 
     protected:
         UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-        UAbilitySystemComponent* AbilitySystem;
+        class UCustomAbilitySystemComponent* AbilitySystem;
 
         UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "StaggerComponent")
 	    UStaggerComponent* StaggerComponent;
@@ -52,3 +49,5 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
         UPROPERTY(BlueprintReadWrite, Category = "CurrentSkill")
         class USkill* ActiveSkill;
 };
+
+

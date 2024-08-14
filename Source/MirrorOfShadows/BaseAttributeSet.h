@@ -118,6 +118,10 @@ class MIRROROFSHADOWS_API UBaseAttributeSet : public UAttributeSet
 		FGameplayAttributeData TotalDMGBoost;
 		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,TotalDMGBoost);
 
+		UPROPERTY(BlueprintReadOnly, Category = "IFrameExtender")
+		FGameplayAttributeData IFrameExtender;
+		BASEGAS_ATTRIBUTE_ACCESSORS(UBaseAttributeSet,IFrameExtender);
+
 	public:
 		virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 	protected:

@@ -12,6 +12,7 @@
 #include "PlayerCore.h"
 #include "Components/EquipmentComponent.h"
 #include "Components/StaggerComponent.h"
+#include "GAS/CustomAbilitySystemComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -34,7 +35,7 @@ APlayerCharacters::APlayerCharacters()
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetupAttachment(SpringArm);
 
-	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
+	AbilitySystem = CreateDefaultSubobject<UCustomAbilitySystemComponent>("AbilitySystem");
 	AttributeSet = CreateDefaultSubobject<UPlayerAttributeSet>("PlayerAttributeSet");
 
 	CharacterCore = CreateDefaultSubobject<UPlayerCore>(TEXT("PlayerCore"));

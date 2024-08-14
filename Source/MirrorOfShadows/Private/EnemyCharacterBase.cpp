@@ -6,13 +6,14 @@
 #include "../EnemyAttributeSet.h"
 #include "Components/StaggerComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "GAS/CustomAbilitySystemComponent.h"
 
 // Sets default values
 AEnemyCharacterBase::AEnemyCharacterBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystem");
+	AbilitySystem = CreateDefaultSubobject<UCustomAbilitySystemComponent>("AbilitySystem");
 	AttributeSet = CreateDefaultSubobject<UEnemyAttributeSet>("AttributeSet");
 	// StaggerComponent = CreateDefaultSubobject<UStaggerComponent>(TEXT("Stagger Component"));
 
