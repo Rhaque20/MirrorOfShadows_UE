@@ -16,6 +16,7 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 {
     GENERATED_BODY()
     public:
+        ARPGCharacterBase();
         virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
         UStaggerComponent* ReturnStaggerComponent() const
@@ -48,6 +49,10 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
         float AerialVelocity = 0.f;
         UPROPERTY(BlueprintReadWrite, Category = "CurrentSkill")
         class USkill* ActiveSkill;
+
+        UPROPERTY(BlueprintReadOnly, EditAnywhere,Category = "Hit System")
+        USceneComponent* HitBoxLocation;
 };
+
 
 

@@ -6,3 +6,9 @@ UAbilitySystemComponent* ARPGCharacterBase::GetAbilitySystemComponent() const
 {
     return AbilitySystem;
 }
+
+ARPGCharacterBase::ARPGCharacterBase() 
+{
+    HitBoxLocation = CreateDefaultSubobject<USceneComponent>("Hitbox Spot Visual");
+    HitBoxLocation->SetupAttachment(RootComponent);
+}
