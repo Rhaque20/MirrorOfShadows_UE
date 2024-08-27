@@ -30,6 +30,9 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
         UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
         void CancelDodge();
 
+        UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+        void OnDeath();
+
         UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
         void DisplayDamageNumber(const struct FGameplayTagContainer& Container, float Damage, int DidHit);
 
@@ -52,6 +55,9 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 
         UPROPERTY(BlueprintReadOnly, EditAnywhere,Category = "Hit System")
         USceneComponent* HitBoxLocation;
+
+        UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+        TArray<TSubclassOf<class UCharacterGameplayAbility>> Abilities;
 };
 
 
