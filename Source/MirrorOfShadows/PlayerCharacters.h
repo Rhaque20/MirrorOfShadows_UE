@@ -112,9 +112,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
-	TArray<TSubclassOf<class UCharacterGameplayAbility>> CharacterAbilities;
-
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Equipment")
 	class UEquipmentComponent* EquipmentComponent;
 

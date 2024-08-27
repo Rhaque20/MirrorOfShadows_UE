@@ -52,6 +52,9 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 
         UPROPERTY(BlueprintReadOnly, EditAnywhere,Category = "Hit System")
         USceneComponent* HitBoxLocation;
+
+        UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+        TArray<TSubclassOf<class UCharacterGameplayAbility>> Abilities;
 };
 
 
