@@ -45,7 +45,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
 	TSubclassOf<class UGameplayEffect> DefaultAttributes;
 
-	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
+	TArray<TSubclassOf<class UCharacterGameplayAbility>> EnemyAbilities;
 
 	UPROPERTY(BlueprintReadWrite,EditAnywhere)
 	bool IsAttacking = false;
