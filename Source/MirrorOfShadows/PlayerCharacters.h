@@ -74,6 +74,9 @@ public:
 
 	virtual void AutoTarget() override;
 
+	UFUNCTION(BlueprintCallable)
+	bool NormalAttack();
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera Component")
 	class UCameraComponent* Camera;
@@ -143,5 +146,8 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 10.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UGameplayAbility> NormalAttackClass;
 
 };

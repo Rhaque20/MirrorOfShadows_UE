@@ -115,6 +115,30 @@ void APlayerCharacters::AutoTarget()
 	}
 }
 
+bool APlayerCharacters::NormalAttack()
+{
+	bool SuccessfulAttack = false;
+
+	if (IsValid(AbilitySystem))
+	{
+		SuccessfulAttack = AbilitySystem->TryActivateAbilityByClass(NormalAttackClass);
+		if (SuccessfulAttack)
+		{
+			AutoTarget();
+		}
+		else
+		{
+			if (!CharacterCore->ReturnHasBuffer() && CharacterCore->ReturnCanBuffer())
+			{
+				CharacterCore->SetHasBuffer(true);
+				UE_LOG(LogTemp, Display, TEXT("Buffer Ready"));
+			}
+		}
+	}
+
+	return SuccessfulAttack;
+}
+
 float APlayerCharacters::GetDamage() const
 {
 	if (AttributeSet)
