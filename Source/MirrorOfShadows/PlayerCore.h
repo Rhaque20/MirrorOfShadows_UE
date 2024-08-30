@@ -25,27 +25,6 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 		virtual void ResetAttackState();
 		virtual void SetUpAttackAnim() override;
 
-		UFUNCTION(BlueprintCallable)
-		void SetCanBuffer(bool val) { CanBuffer = val; }
-		UFUNCTION(BlueprintCallable)
-		void SetHasBuffer(bool val) { 
-			if (val)
-			{
-				UE_LOG(LogTemp, Display, TEXT("Setting the buffer"));
-			}
-			else
-			{
-				UE_LOG(LogTemp, Display, TEXT("Removing the buffer"));
-			}
-				
-			HasBuffer = val; 
-		}
-
-		UFUNCTION(BlueprintCallable)
-		bool ReturnCanBuffer() const { return CanBuffer; }
-		UFUNCTION(BlueprintCallable)
-		bool ReturnHasBuffer() const { return HasBuffer; }
-
 	protected:
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Normal Attack")
 		TArray<UPlayerSkill*> NormalAttacks;
