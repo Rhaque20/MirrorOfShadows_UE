@@ -13,6 +13,7 @@
 #include "Components/EquipmentComponent.h"
 #include "Components/StaggerComponent.h"
 #include "GAS/CustomAbilitySystemComponent.h"
+#include "GAS/CharacterGameplayAbility.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -113,6 +114,30 @@ void APlayerCharacters::AutoTarget()
 		FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetRef->GetActorLocation());
 		SetActorRotation(UKismetMathLibrary::MakeRotator(PlayerRot.Roll, PlayerRot.Pitch, LookAtRot.Yaw));
 	}
+}
+
+bool APlayerCharacters::NormalAttack()
+{
+	bool SuccessfulAttack = false;
+
+	if (IsValid(AbilitySystem))
+	{
+		SuccessfulAttack = AbilitySystem->TryActivateAbilityByClass(NormalAttackClass);
+		if (SuccessfulAttack)
+		{
+			AutoTarget();
+		}
+		else
+		{
+			if (!CharacterCore->ReturnHasBuffer() && CharacterCore->ReturnCanBuffer())
+			{
+				CharacterCore->SetHasBuffer(true);
+				UE_LOG(LogTemp, Display, TEXT("Buffer Ready"));
+			}
+		}
+	}
+
+	return SuccessfulAttack;
 }
 
 float APlayerCharacters::GetDamage() const
