@@ -72,6 +72,8 @@ public:
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void PlayerRecover();
 
+	virtual void AutoTarget() override;
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera Component")
 	class UCameraComponent* Camera;
@@ -120,6 +122,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category ="Lock On System")
 	AActor* LockOnTarget;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Lock On System")
+	AActor* CounterTarget;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Defense Action")
 	UAnimMontage* ForwardRollMontage;

@@ -36,6 +36,9 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
         UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
         void DisplayDamageNumber(const struct FGameplayTagContainer& Container, float Damage, int DidHit);
 
+        UFUNCTION(BlueprintCallable)
+        virtual void AutoTarget();
+
     protected:
         UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
         class UCustomAbilitySystemComponent* AbilitySystem;

@@ -95,6 +95,26 @@ void APlayerCharacters::SetUpLockOn(bool LockOnToggle, AActor* Target)
 	LockOnTarget = Target;
 }
 
+void APlayerCharacters::AutoTarget()
+{
+	AActor* TargetRef = nullptr;
+	if (HasLockOn)
+	{
+		TargetRef = LockOnTarget;
+	}
+	else if (IsValid(CounterTarget))
+	{
+		TargetRef = CounterTarget;
+	}
+
+	if (IsValid(TargetRef))
+	{
+		FRotator PlayerRot = GetActorRotation();
+		FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetRef->GetActorLocation());
+		SetActorRotation(UKismetMathLibrary::MakeRotator(PlayerRot.Roll, PlayerRot.Pitch, LookAtRot.Yaw));
+	}
+}
+
 float APlayerCharacters::GetDamage() const
 {
 	if (AttributeSet)
