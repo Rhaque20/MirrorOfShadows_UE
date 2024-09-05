@@ -4,6 +4,7 @@
 #include "BaseAttributeSet.h"
 #include "GameplayEffect.h"
 #include "PlayerCharacters.h"
+#include "RPGCharacterBase.h"
 #include "GameplayEffectExtension.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/DamageType.h"
@@ -26,18 +27,18 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	// Get the Target actor, which should be our owner
 	AActor* TargetActor = nullptr;
 	AController* TargetController = nullptr;
-	APlayerCharacters* TargetCharacter = nullptr;
+	ARPGCharacterBase* TargetCharacter = nullptr;
 	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
 	{
 		TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
 		TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
-		TargetCharacter = Cast<APlayerCharacters>(TargetActor);
+		TargetCharacter = Cast<ARPGCharacterBase>(TargetActor);
 	}
 
 	// Get the Source actor
 	AActor* SourceActor = nullptr;
 	AController* SourceController = nullptr;
-	APlayerCharacters* SourceCharacter = nullptr;
+	ARPGCharacterBase* SourceCharacter = nullptr;
 	if (Source && Source->AbilityActorInfo.IsValid() && Source->AbilityActorInfo->AvatarActor.IsValid())
 	{
 		SourceActor = Source->AbilityActorInfo->AvatarActor.Get();
@@ -53,11 +54,11 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		// Use the controller to find the source pawn
 		if (SourceController)
 		{
-			SourceCharacter = Cast<APlayerCharacters>(SourceController->GetPawn());
+			SourceCharacter = Cast<ARPGCharacterBase>(SourceController->GetPawn());
 		}
 		else
 		{
-			SourceCharacter = Cast<APlayerCharacters>(SourceActor);
+			SourceCharacter = Cast<ARPGCharacterBase>(SourceActor);
 		}
 
 		// Set the causer actor based on context if it's set
@@ -72,7 +73,7 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
         const float LocalDamage = GetDamage();
         SetDamage(0.0f);
 
-        UE_LOG(LogTemp, Display, TEXT("%s took %f damage"),*(TargetActor->GetName()),LocalDamage);
+        UE_LOG(LogTemp, Display, TEXT("%s took %f damage"),*(TargetCharacter->GetName()),LocalDamage);
 
         // Fix apply damage here
 		if (TargetActor != nullptr && SourceController != nullptr)
@@ -85,8 +86,13 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
         {
             const float NewHealth = GetCurrentHP() - LocalDamage;
             SetCurrentHP(FMath::Clamp(NewHealth, 0.0f,GetTotalHP()));
-			UE_LOG(LogTemp, Display, TEXT("%s has %f HP remaining"),*(TargetActor->GetName()),GetCurrentHP());
+			UE_LOG(LogTemp, Display, TEXT("%s has %f HP remaining"),*(TargetCharacter->GetName()),GetCurrentHP());
 			HPRatio = GetCurrentHP()/GetTotalHP();
+			if (HPRatio <= 0.0f)
+			{
+				UE_LOG(LogTemp, Display, TEXT("%s is dead"), *(TargetCharacter->GetName()));
+				TargetCharacter->OnDeath();
+			}
         }
     }
 	else if(Data.EvaluatedData.Attribute == GetPoiseDMGAttribute())
