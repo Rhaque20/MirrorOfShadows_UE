@@ -75,6 +75,9 @@ public:
 	virtual void AutoTarget() override;
 
 	UFUNCTION(BlueprintCallable)
+	FRotator RotationByInput() const;
+
+	UFUNCTION(BlueprintCallable)
 	bool NormalAttack();
 
 protected:
@@ -149,5 +152,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UGameplayAbility> NormalAttackClass;
+
+	UPROPERTY()
+	FVector LastMoveInput;
 
 };

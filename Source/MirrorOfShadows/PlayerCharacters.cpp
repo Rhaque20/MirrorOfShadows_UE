@@ -113,6 +113,36 @@ void APlayerCharacters::AutoTarget()
 		FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetRef->GetActorLocation());
 		SetActorRotation(UKismetMathLibrary::MakeRotator(PlayerRot.Roll, PlayerRot.Pitch, LookAtRot.Yaw));
 	}
+	else
+		SetActorRotation(RotationByInput());
+}
+
+FRotator APlayerCharacters::RotationByInput() const
+{
+	// FVector Velocity = GetVelocity();
+	// if(Velocity == FVector(0,0,0))
+	// 	return GetActorRotation();
+	
+	// FRotator ControlRot = GetControlRotation();
+
+	// return UKismetMathLibrary::FindLookAtRotation(UKismetMathLibrary::GetForwardVector(FRotator(ControlRot.Roll,0.0f,ControlRot.Yaw)).GetSafeNormal(),Velocity);
+
+	FVector LastInput = LastMoveInput;
+	if (LastInput == FVector(0,0,0))
+		return GetActorRotation();
+	
+	FRotator Rotation = Controller->GetControlRotation();
+	FRotator YawRotation = FRotator(Rotation.Roll,0.f,Rotation.Yaw);
+	// FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	// FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+	FVector ForwardDirection = UKismetMathLibrary::GetForwardVector(Rotation);
+	FVector RightDirection = UKismetMathLibrary::GetRightVector(Rotation);
+
+	FRotator FinalRotation = UKismetMathLibrary::FindLookAtRotation(ForwardDirection * LastInput.Y * -1.0f,RightDirection* LastInput.X);
+
+	LastInput = FVector(0.f,0.f,0.f);
+
+	return FinalRotation;
 }
 
 bool APlayerCharacters::NormalAttack()
@@ -250,6 +280,7 @@ void APlayerCharacters::Move(const FInputActionValue& InputValue)
 		AddMovementInput(ForwardDirection, InputVector.Y);
 		AddMovementInput(RightDirection, InputVector.X);
 	}
+	LastMoveInput = FVector(InputVector.X,InputVector.Y,0.0f);
 }
 
 void APlayerCharacters::Look(const FInputActionValue& InputValue)
