@@ -114,7 +114,10 @@ void APlayerCharacters::AutoTarget()
 		SetActorRotation(UKismetMathLibrary::MakeRotator(PlayerRot.Roll, PlayerRot.Pitch, LookAtRot.Yaw));
 	}
 	else
+	{
 		SetActorRotation(RotationByInput());
+		ResetMovementCache();
+	}
 }
 
 FRotator APlayerCharacters::RotationByInput() const
@@ -128,8 +131,11 @@ FRotator APlayerCharacters::RotationByInput() const
 	// return UKismetMathLibrary::FindLookAtRotation(UKismetMathLibrary::GetForwardVector(FRotator(ControlRot.Roll,0.0f,ControlRot.Yaw)).GetSafeNormal(),Velocity);
 
 	FVector LastInput = LastMoveInput;
-	if (LastInput == FVector(0,0,0))
+	if (!CanUseLastMoveInput)
+	{
+		UE_LOG(LogTemp, Display, TEXT("No movement input"));
 		return GetActorRotation();
+	}
 	
 	FRotator Rotation = Controller->GetControlRotation();
 	FRotator YawRotation = FRotator(Rotation.Roll,0.f,Rotation.Yaw);
@@ -140,7 +146,9 @@ FRotator APlayerCharacters::RotationByInput() const
 
 	FRotator FinalRotation = UKismetMathLibrary::FindLookAtRotation(ForwardDirection * LastInput.Y * -1.0f,RightDirection* LastInput.X);
 
-	LastInput = FVector(0.f,0.f,0.f);
+	LastInput = FVector(0,0,0);
+
+	UE_LOG(LogTemp, Display, TEXT("Using last movement input"));
 
 	return FinalRotation;
 }
@@ -167,6 +175,12 @@ bool APlayerCharacters::NormalAttack()
 	}
 
 	return SuccessfulAttack;
+}
+
+void APlayerCharacters::ResetMovementCache() 
+{
+	UE_LOG(LogTemp, Display, TEXT("Resetted movement cache"));
+	CanUseLastMoveInput = false;
 }
 
 float APlayerCharacters::GetDamage() const
@@ -232,6 +246,7 @@ void APlayerCharacters::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		Input->BindAction(MoveAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Move);
+		Input->BindAction(MoveAction,ETriggerEvent::Completed,this,&APlayerCharacters::ResetMovementCache);
 		Input->BindAction(LookAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Look);
 		Input->BindAction(JumpAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Jump);
 		Input->BindAction(LookUpRateAction,ETriggerEvent::Triggered,this,&APlayerCharacters::LookUpRate);
@@ -281,6 +296,7 @@ void APlayerCharacters::Move(const FInputActionValue& InputValue)
 		AddMovementInput(RightDirection, InputVector.X);
 	}
 	LastMoveInput = FVector(InputVector.X,InputVector.Y,0.0f);
+	CanUseLastMoveInput = true;
 }
 
 void APlayerCharacters::Look(const FInputActionValue& InputValue)

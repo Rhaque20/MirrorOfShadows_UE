@@ -80,6 +80,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool NormalAttack();
 
+	UFUNCTION(BlueprintCallable)
+	void ResetMovementCache();
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Camera Component")
 	class UCameraComponent* Camera;
@@ -155,5 +158,8 @@ protected:
 
 	UPROPERTY()
 	FVector LastMoveInput;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool CanUseLastMoveInput = false;
 
 };
