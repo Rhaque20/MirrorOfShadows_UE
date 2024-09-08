@@ -122,33 +122,16 @@ void APlayerCharacters::AutoTarget()
 
 FRotator APlayerCharacters::RotationByInput() const
 {
-	// FVector Velocity = GetVelocity();
-	// if(Velocity == FVector(0,0,0))
-	// 	return GetActorRotation();
-	
-	// FRotator ControlRot = GetControlRotation();
-
-	// return UKismetMathLibrary::FindLookAtRotation(UKismetMathLibrary::GetForwardVector(FRotator(ControlRot.Roll,0.0f,ControlRot.Yaw)).GetSafeNormal(),Velocity);
-
-	FVector LastInput = LastMoveInput;
 	if (!CanUseLastMoveInput)
 	{
-		UE_LOG(LogTemp, Display, TEXT("No movement input"));
 		return GetActorRotation();
 	}
 	
 	FRotator Rotation = Controller->GetControlRotation();
-	FRotator YawRotation = FRotator(Rotation.Roll,0.f,Rotation.Yaw);
-	// FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	// FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 	FVector ForwardDirection = UKismetMathLibrary::GetForwardVector(Rotation);
 	FVector RightDirection = UKismetMathLibrary::GetRightVector(Rotation);
 
-	FRotator FinalRotation = UKismetMathLibrary::FindLookAtRotation(ForwardDirection * LastInput.Y * -1.0f,RightDirection* LastInput.X);
-
-	LastInput = FVector(0,0,0);
-
-	UE_LOG(LogTemp, Display, TEXT("Using last movement input"));
+	FRotator FinalRotation = UKismetMathLibrary::FindLookAtRotation(ForwardDirection * LastMoveInput.Y * -1.0f,RightDirection* LastMoveInput.X);
 
 	return FinalRotation;
 }
@@ -322,6 +305,7 @@ void APlayerCharacters::LookUpRate(const struct FInputActionValue& InputValue)
 
 void APlayerCharacters::Jump()
 {
-	ACharacter::Jump();
+	if (CanMove)
+		ACharacter::Jump();
 }
 
