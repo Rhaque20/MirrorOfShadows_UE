@@ -2,6 +2,8 @@
 
 
 #include "Components/StaggerComponent.h"
+#include "RPGCharacterBase.h"
+#include "AbilitySystemComponent.h"
 
 // Sets default values for this component's properties
 UStaggerComponent::UStaggerComponent()
@@ -30,5 +32,29 @@ void UStaggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UStaggerComponent::ApplyKnockback(FVector AttackerLocation, FVector2D KnockbackPower)
+{
+	ARPGCharacterBase* Character = Cast<ARPGCharacterBase>(GetOwner());
+
+	UAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
+
+	if (!IsValid(ASC))
+		return;
+
+	if (ASC->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag("Effect.State.PoiseBroken")) ||
+		ASC->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag("Effect.State.StanceBroken")))
+	{
+		return;
+	}
+
+	FVector KnockbackDirection = (Character->GetActorLocation() - AttackerLocation);
+
+	KnockbackDirection = FVector(KnockbackDirection.X * KnockbackPower.X, KnockbackDirection.Y * KnockbackPower.X, KnockbackPower.Y);
+
+	KnockbackDirection.Normalize();
+
+	Character->LaunchCharacter(KnockbackDirection, true, true);
 }
 

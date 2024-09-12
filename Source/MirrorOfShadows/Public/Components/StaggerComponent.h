@@ -36,6 +36,9 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(BlueprintCallable)
+	void ApplyKnockback(FVector AttackerLocation, FVector2D KnockbackPower);
+
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void OnPoiseBreak();
 
