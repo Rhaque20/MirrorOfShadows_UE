@@ -46,15 +46,15 @@ void UStaggerComponent::ApplyKnockback(FVector AttackerLocation, FVector2D Knock
 	if (ASC->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag("Effect.State.PoiseBroken")) ||
 		ASC->HasMatchingGameplayTag(FGameplayTag::RequestGameplayTag("Effect.State.StanceBroken")))
 	{
-		return;
+		FVector KnockbackDirection = (Character->GetActorLocation() - AttackerLocation);
+
+		KnockbackDirection.Normalize();
+
+		KnockbackDirection = FVector(KnockbackDirection.X * KnockbackPower.X, KnockbackDirection.Y * KnockbackPower.X, KnockbackPower.Y);
+
+		Character->LaunchCharacter(KnockbackDirection, false,false);
+
+		UE_LOG(LogTemp, Display, TEXT("StaggerComponentCPP: causing knockback on enemy with knockback direction %s"),*KnockbackDirection.ToString());
 	}
-
-	FVector KnockbackDirection = (Character->GetActorLocation() - AttackerLocation);
-
-	KnockbackDirection = FVector(KnockbackDirection.X * KnockbackPower.X, KnockbackDirection.Y * KnockbackPower.X, KnockbackPower.Y);
-
-	KnockbackDirection.Normalize();
-
-	Character->LaunchCharacter(KnockbackDirection, true, true);
 }
 
