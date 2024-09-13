@@ -19,6 +19,8 @@ class MIRROROFSHADOWS_API AEnemyAIController : public AAIController
 		UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 		bool IsDead() const;
 
+		AEnemyAIController(const FObjectInitializer& ObjectInitializer = FObjectInitializer :: Get());
+
 	protected:
 		UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
 		APawn* PlayerPawn;
