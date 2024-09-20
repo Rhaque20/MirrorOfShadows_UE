@@ -77,18 +77,6 @@ int APlayerCharacters::GetLevel() const
 	return 1;
 }
 
-void APlayerCharacters::SetSkillModifier(float modifier) 
-{
-	if(AttributeSet)
-	{
-		AttributeSet->SetSkillModifier(modifier);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Display, TEXT("%s attribute set is null"),*GetName());
-	}
-}
-
 void APlayerCharacters::SetUpLockOn(bool LockOnToggle, AActor* Target) 
 {
 	HasLockOn = LockOnToggle;

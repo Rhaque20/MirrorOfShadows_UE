@@ -108,14 +108,6 @@ void AEnemyCharacterBase::DetectionFill()
 	
 }
 
-void AEnemyCharacterBase::SetSkillModifier(float modifier) 
-{
-	if(AttributeSet)
-	{
-		AttributeSet->SetSkillModifier(modifier);
-	}
-}
-
 void AEnemyCharacterBase::GetConditionParameters(APawn *TargetPawn, float& Distance, float& Angle, float& Height) const
 {
 	FVector TargetLocation = TargetPawn->GetActorLocation();
