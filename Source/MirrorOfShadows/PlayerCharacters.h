@@ -64,9 +64,6 @@ public:
 	void InitializeAttributes();
 
 	UFUNCTION(BlueprintCallable)
-	void SetSkillModifier(float modifier);
-
-	UFUNCTION(BlueprintCallable)
 	void SetUpLockOn(bool LockOnToggle, AActor* Target);
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
@@ -110,9 +107,6 @@ protected:
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Combat Component")
 	class UPlayerCore* CharacterCore;
-
-	UPROPERTY(EditAnywhere)
-	class UPlayerAttributeSet* AttributeSet;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Gameplay Tag")
 	FGameplayTagContainer GameplayTagContainer;

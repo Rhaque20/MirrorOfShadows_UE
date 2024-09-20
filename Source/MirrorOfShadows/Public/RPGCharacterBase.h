@@ -6,13 +6,14 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Components/StaggerComponent.h"
+#include "HitStopInterface.h"
 
 #include "RPGCharacterBase.generated.h"
 
 
 class UStaggerComponent;
 UCLASS()
-class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilitySystemInterface
+class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilitySystemInterface, public IHitStopInterface
 {
     GENERATED_BODY()
     public:
@@ -40,6 +41,10 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
         virtual void AutoTarget();
 
     protected:
+        UFUNCTION(BlueprintCallable)
+        void SetSkillModifier(float modifier);
+
+    protected:
         UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
         class UCustomAbilitySystemComponent* AbilitySystem;
 
@@ -61,6 +66,9 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 
         UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Abilities")
         TArray<TSubclassOf<class UCharacterGameplayAbility>> Abilities;
+
+        UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
+        class UBaseAttributeSet* AttributeSet;
 };
 
 

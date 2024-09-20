@@ -66,10 +66,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
 	AActor* AttackTarget;
 
-public:
-	UPROPERTY(VisibleAnywhere)
-	class UEnemyAttributeSet* AttributeSet;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -78,9 +74,6 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void InitializeAttributes();
-
-	UFUNCTION(BlueprintCallable)
-	void SetSkillModifier(float modifier);
 
 };
 
