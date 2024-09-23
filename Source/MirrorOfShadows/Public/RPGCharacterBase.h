@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Components/StaggerComponent.h"
-#include "HitStopInterface.h"
+#include "Interfaces/HitStopInterface.h"
 
 #include "RPGCharacterBase.generated.h"
 
