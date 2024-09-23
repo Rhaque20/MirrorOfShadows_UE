@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "../Enumerator/ItemEnum.h"
+#include "../Enumerator/ItemCategoryEnum.h"
 
 #include "RPGItem.generated.h"
 
@@ -20,6 +21,8 @@ class MIRROROFSHADOWS_API URPGItem : public UDataAsset
 		FString ItemName;
 		UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
 		EGrade ItemRarity;
+		UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)
+		EItemCategory ItemCategory;
 
 		UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Icon")
 		class UPaperSprite* Icon;

@@ -22,6 +22,9 @@ class MIRROROFSHADOWS_API UEquipment : public URPGItem
         UPROPERTY(BlueprintReadWrite, EditDefaultsOnly,Category = "MainStat")
         float MainStatValue = 0;
 
+        UPROPERTY(BlueprintReadWrite,VisibleAnywhere, Category = "GUID")
+        FGuid GUID;
+
         UPROPERTY(BlueprintReadWrite, EditDefaultsOnly,Category = "Substats")
         TMap<FGameplayTag,float> SubStats;
         
