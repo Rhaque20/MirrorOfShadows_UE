@@ -7,7 +7,7 @@
 #include "InventoryComponent.generated.h"
 
 class URPGItem;
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class MIRROROFSHADOWS_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()

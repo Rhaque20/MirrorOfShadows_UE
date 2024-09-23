@@ -17,6 +17,8 @@ class MIRROROFSHADOWS_API URPGItem : public UDataAsset
 {
 	GENERATED_BODY()
 	protected:
+		UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+		FDataTableRowHandle ItemID;
 		UPROPERTY(BlueprintReadOnly,EditDefaultsOnly)
 		FString ItemName;
 		UPROPERTY(BlueprintReadWrite,EditDefaultsOnly)

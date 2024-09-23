@@ -7,7 +7,7 @@
 #include "ItemComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class MIRROROFSHADOWS_API UItemComponent : public UActorComponent
 {
 	GENERATED_BODY()
