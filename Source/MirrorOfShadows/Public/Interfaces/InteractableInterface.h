@@ -24,7 +24,7 @@ class IInteractableInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 	public:
 		UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
-		void OnView();
+		void OnView(bool InView);
 		UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
 		void Interact();
 	// Add interface function declarations here
