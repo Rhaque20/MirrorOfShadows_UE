@@ -25,7 +25,7 @@ protected:
 protected:
 	UPROPERTY(VisibleAnywhere,Category ="SkeletalMeshRef")
 	USkeletalMeshComponent* SkeletalMesh;
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (DisplayName = "IsAttacking", ToolTip = "Determines if they are actively attacking"));
 	bool bIsAttacking = false;
 	UPROPERTY(EditAnywhere, Category = "Combat");
 	TSubclassOf<class UCameraShakeBase> HitCameraShakeClass;
