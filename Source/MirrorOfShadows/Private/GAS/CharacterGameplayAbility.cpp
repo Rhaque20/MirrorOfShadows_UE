@@ -6,7 +6,7 @@
 
 UCharacterGameplayAbility::UCharacterGameplayAbility() 
 {
-	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
+	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerExecution;
     
     // ActivationBlockedTags.AddTag(FGameplayTag::RequestGameplayTag(FName("State.Dead")));
     // ActivationBlockedTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Stat")))

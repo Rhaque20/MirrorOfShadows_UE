@@ -142,6 +142,8 @@ bool APlayerCharacters::NormalAttack()
 				CharacterCore->SetHasBuffer(true);
 				UE_LOG(LogTemp, Display, TEXT("Buffer Ready"));
 			}
+
+			UE_LOG(LogTemp, Display, TEXT(""))
 		}
 	}
 
