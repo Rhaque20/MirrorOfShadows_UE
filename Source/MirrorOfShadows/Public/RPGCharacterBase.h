@@ -69,6 +69,9 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 
         UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
         class UBaseAttributeSet* AttributeSet;
+
+        UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+        class UCurveFloat* DodgeCurve;
 };
 
 
