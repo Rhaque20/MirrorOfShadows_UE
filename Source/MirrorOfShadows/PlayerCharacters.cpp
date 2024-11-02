@@ -17,6 +17,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/NavMovementComponent.h"
 #include "Components/PrimitiveComponent.h"
@@ -130,7 +131,28 @@ bool APlayerCharacters::NormalAttack()
 
 	if (IsValid(AbilitySystem))
 	{
-		SuccessfulAttack = AbilitySystem->TryActivateAbilityByClass(NormalAttackClass);
+		if(GetCharacterMovement()->IsMovingOnGround())
+			SuccessfulAttack = AbilitySystem->TryActivateAbilityByClass(NormalAttackClass);
+		else
+		{
+			UE_LOG(LogTemp, Display, TEXT("Air Attack"));
+			if (CharacterCore->GetCurrentChain() < CharacterCore->GetMaxAttackChain(true))
+			{
+				SuccessfulAttack = AbilitySystem->TryActivateAbilityByClass(AirAttackClass);
+			}
+
+			bIsPerformingAerialAction = SuccessfulAttack;
+			if (bIsPerformingAerialAction)
+			{
+				UE_LOG(LogTemp, Display, TEXT("Successful Air attack"));
+				TriggerAirTime();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Display, TEXT("Failed Air attack"));
+			}
+		}
+
 		if (SuccessfulAttack)
 		{
 			AutoTarget();
@@ -221,7 +243,7 @@ void APlayerCharacters::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		Input->BindAction(MoveAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Move);
 		Input->BindAction(MoveAction,ETriggerEvent::Completed,this,&APlayerCharacters::ResetMovementCache);
 		Input->BindAction(LookAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Look);
-		Input->BindAction(JumpAction,ETriggerEvent::Triggered,this,&APlayerCharacters::Jump);
+		Input->BindAction(JumpAction,ETriggerEvent::Started,this,&APlayerCharacters::Jump);
 		Input->BindAction(LookUpRateAction,ETriggerEvent::Triggered,this,&APlayerCharacters::LookUpRate);
 	}
 }
@@ -296,6 +318,36 @@ void APlayerCharacters::LookUpRate(const struct FInputActionValue& InputValue)
 void APlayerCharacters::Jump()
 {
 	if (CanMove)
+	{
 		ACharacter::Jump();
+		CharacterCore->ResetAttackState();
+	}
+}
+
+void APlayerCharacters::TriggerAirTime()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(AirTimerHandle))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(AirTimerHandle);
+		UE_LOG(LogTemp, Display, TEXT("Cleared air timer"));
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(
+		AirTimerHandle, // handle to cancel timer at a later time
+		this, // the owning object
+		&APlayerCharacters::EndAirTime, // function to call on elapsed
+		2.0f, // float delay until elapsed
+		false); // looping?
+
+}
+
+void APlayerCharacters::EndAirTime()
+{
+	bIsPerformingAerialAction = false;
+
+	if (GetWorld()->GetTimerManager().IsTimerActive(AirTimerHandle))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(AirTimerHandle);
+	}
 }
 

@@ -13,6 +13,11 @@
 #define EnemyChannel ETraceTypeQuery::TraceTypeQuery14
 
 
+UPlayerCore::UPlayerCore()
+{
+    OwningPlayer = Cast<APlayerCharacters>(GetOwner());
+}
+
 void UPlayerCore::NormalAttack()
 {
     if (!bIsAttacking)
@@ -28,7 +33,12 @@ void UPlayerCore::NormalAttack()
 
 void UPlayerCore::Recover()
 {
-    CurrentChain = (CurrentChain + 1) % NormalAttacks.Num();
+    if (OwningPlayer->GetIsPerformingAerialAction())
+    {
+        CurrentChain = (CurrentChain + 1) % AerialAttacks.Num();
+    }
+    else
+        CurrentChain = (CurrentChain + 1) % NormalAttacks.Num();
 
     // EndOfChain = (CurrentChain >= NormalAttacks.Num());
 
@@ -70,6 +80,7 @@ void UPlayerCore::Hit()
 
 void UPlayerCore::ResetAttackState() 
 {
+    UE_LOG(LogTemp, Display, TEXT("Resetting attack state"));
     Recover();
     CurrentChain = 0;
     HasBuffer = false;

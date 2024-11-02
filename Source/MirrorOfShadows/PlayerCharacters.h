@@ -37,6 +37,23 @@ protected:
 	void LookUpRate(const struct FInputActionValue& InputValue);
 	void Jump();
 
+	UFUNCTION(BlueprintCallable)
+	void TriggerAirTime();
+	UFUNCTION(BlueprintCallable)
+	void EndAirTime();
+
+public:
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& OwnedTags) const override
+	{
+		OwnedTags = GameplayTagContainer;
+		return;
+	}
+
+	bool GetIsPerformingAerialAction()
+	{
+		return bIsPerformingAerialAction;
+	}
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -47,12 +64,6 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	virtual void GetOwnedGameplayTags(FGameplayTagContainer& OwnedTags) const override
-	{
-		OwnedTags = GameplayTagContainer; 
-		return;
-	}
 
 	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent)
 	void NormalAttackAbility();
@@ -149,11 +160,19 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UGameplayAbility> NormalAttackClass;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UGameplayAbility> AirAttackClass;
 
 	UPROPERTY()
 	FVector LastMoveInput;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool CanUseLastMoveInput = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (ToolTip = "Determines if the player performs an action in the air ie) attacking, dodging"));
+	bool bIsPerformingAerialAction = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (ToolTip ="Responsible for delaying falling"))
+	FTimerHandle AirTimerHandle;
 
 };

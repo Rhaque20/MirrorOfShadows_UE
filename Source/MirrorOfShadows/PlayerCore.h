@@ -16,6 +16,7 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 {
 	GENERATED_BODY()
 	public:
+		UPlayerCore();
 		virtual void NormalAttack();
 		UFUNCTION(BlueprintCallable)
 		virtual void Recover() override;
@@ -46,9 +47,24 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 		UFUNCTION(BlueprintCallable)
 		bool ReturnHasBuffer() const { return HasBuffer; }
 
+		int GetCurrentChain()
+		{
+			return CurrentChain;
+		}
+
+		int GetMaxAttackChain(bool onAir)
+		{
+			return onAir ? AerialAttacks.Num() : NormalAttacks.Num();
+		}
+
 	protected:
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Normal Attack")
 		TArray<UPlayerSkill*> NormalAttacks;
+
+		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Normal Attack")
+		TArray<UPlayerSkill*> AerialAttacks;
+
+		class APlayerCharacters* OwningPlayer;
 
 		UPROPERTY(BlueprintReadWrite)
 		int CurrentChain = 0;
