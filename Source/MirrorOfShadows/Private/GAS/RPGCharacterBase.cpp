@@ -31,13 +31,38 @@ void ARPGCharacterBase::AttackForceUpdate(float val)
 	if (ActiveSkill)
 	{
 		HorizontalCurveVal = ActiveSkill->GetLaunchCurve()->GetFloatValue(val);
-		if (ActiveSkill->ReturnHasVerticalForce())
+		/*if (ActiveSkill->ReturnHasVerticalForce())
 		{
 			VerticalForce = ActiveSkill->GetVerticalLaunchCurve()->GetFloatValue(val) * ActiveSkill->GetVerticalLaunchForce();
-		}
+			UE_LOG(LogTemp, Display, TEXT("Use Vertical force of %f "), VerticalForce);
+		}*/
 		AttackDirection = FVector(ActiveSkill->GetLaunchForce() * GetActorForwardVector() * HorizontalCurveVal);
 		GetCharacterMovement()->Velocity = FVector(AttackDirection.X,AttackDirection.Y,VerticalForce);
 
+	}
+}
+
+void ARPGCharacterBase::TriggerAirTime()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(AirTimerHandle))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(AirTimerHandle);
+		UE_LOG(LogTemp, Display, TEXT("Cleared air timer"));
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(
+		AirTimerHandle, // handle to cancel timer at a later time
+		this, // the owning object
+		&ARPGCharacterBase::EndAirTime, // function to call on elapsed
+		2.0f, // float delay until elapsed
+		false); // looping?
+}
+
+void ARPGCharacterBase::EndAirTime()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(AirTimerHandle))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(AirTimerHandle);
 	}
 }
 

@@ -39,10 +39,8 @@ protected:
 	void LookUpRate(const struct FInputActionValue& InputValue);
 	void Jump();
 
-	UFUNCTION(BlueprintCallable)
-	void TriggerAirTime();
-	UFUNCTION(BlueprintCallable)
-	void EndAirTime();
+	virtual void TriggerAirTime();
+	virtual void EndAirTime();
 
 	virtual void DodgeFunction(float val) override;
 
@@ -89,6 +87,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool NormalAttack();
+
+	UFUNCTION(BlueprintCallable)
+	bool ChargeAttack();
 
 	UFUNCTION(BlueprintCallable)
 	void ResetMovementCache();
@@ -164,6 +165,8 @@ protected:
 	TSubclassOf<class UGameplayAbility> NormalAttackClass;
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UGameplayAbility> AirAttackClass;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UGameplayAbility> ChargeAttackClass;
 
 	UPROPERTY()
 	FVector LastMoveInput;
@@ -173,8 +176,5 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (ToolTip = "Determines if the player performs an action in the air ie) attacking, dodging"));
 	bool bIsPerformingAerialAction = false;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (ToolTip ="Responsible for delaying falling"))
-	FTimerHandle AirTimerHandle;
 
 };

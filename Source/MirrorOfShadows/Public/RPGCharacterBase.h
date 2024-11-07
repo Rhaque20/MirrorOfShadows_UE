@@ -51,6 +51,11 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
         UFUNCTION()
         virtual void AttackForceUpdate(float val);
 
+        UFUNCTION(BlueprintCallable)
+        void TriggerAirTime();
+        UFUNCTION(BlueprintCallable)
+        void EndAirTime();
+
     protected:
         UFUNCTION(BlueprintCallable)
         void SetSkillModifier(float modifier);
@@ -107,6 +112,9 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 
         FOnTimelineFloat InterpFunction;
         FOnTimelineFloat DodgeInterpFunction;
+
+        UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (ToolTip = "Responsible for delaying falling"))
+        FTimerHandle AirTimerHandle;
 };
 
 

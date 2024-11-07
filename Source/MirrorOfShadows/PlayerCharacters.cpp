@@ -173,6 +173,31 @@ bool APlayerCharacters::NormalAttack()
 	return SuccessfulAttack;
 }
 
+bool APlayerCharacters::ChargeAttack()
+{
+	bool SuccessfulAttack = false;
+
+	if (IsValid(AbilitySystem))
+	{
+		if (GetCharacterMovement()->IsMovingOnGround())
+		{
+			SuccessfulAttack = AbilitySystem->TryActivateAbilityByClass(ChargeAttackClass);
+			if (SuccessfulAttack)
+				ActiveSkill = (USkill*)CharacterCore->ReturnActiveSkill(EAttackCategory::HeavyAttack);
+		}
+
+		if (SuccessfulAttack)
+		{
+			AutoTarget();
+
+			StopLaunchTimeLine();
+			AttackForceTimeline.SetTimelineLength(ActiveSkill->GetAnimation(0)->GetPlayLength());
+			AttackForceTimeline.PlayFromStart();
+		}
+	}
+	return SuccessfulAttack;
+}
+
 void APlayerCharacters::ResetMovementCache() 
 {
 	UE_LOG(LogTemp, Display, TEXT("Resetted movement cache"));
@@ -337,25 +362,20 @@ void APlayerCharacters::TriggerAirTime()
 		UE_LOG(LogTemp, Display, TEXT("Cleared air timer"));
 	}
 
-	bIsPerformingAerialAction = true;
-
 	GetWorld()->GetTimerManager().SetTimer(
 		AirTimerHandle, // handle to cancel timer at a later time
 		this, // the owning object
 		&APlayerCharacters::EndAirTime, // function to call on elapsed
 		2.0f, // float delay until elapsed
-		false); // looping?
+		false);
+	bIsPerformingAerialAction = true;
 
 }
 
 void APlayerCharacters::EndAirTime()
 {
+	Super::EndAirTime();
 	bIsPerformingAerialAction = false;
-
-	if (GetWorld()->GetTimerManager().IsTimerActive(AirTimerHandle))
-	{
-		GetWorld()->GetTimerManager().ClearTimer(AirTimerHandle);
-	}
 }
 
 void APlayerCharacters::DodgeFunction(float val)

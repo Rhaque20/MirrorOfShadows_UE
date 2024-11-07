@@ -4,6 +4,7 @@
 #include "Components/StaggerComponent.h"
 #include "RPGCharacterBase.h"
 #include "AbilitySystemComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values for this component's properties
 UStaggerComponent::UStaggerComponent()
@@ -52,7 +53,12 @@ void UStaggerComponent::ApplyKnockback(FVector AttackerLocation, FVector2D Knock
 
 		KnockbackDirection = FVector(KnockbackDirection.X * KnockbackPower.X, KnockbackDirection.Y * KnockbackPower.X, KnockbackPower.Y);
 
-		Character->LaunchCharacter(KnockbackDirection, false,false);
+		Character->LaunchCharacter(KnockbackDirection, false,true);
+
+		if (Character->GetCharacterMovement()->IsMovingOnGround())
+		{
+			Character->TriggerAirTime();
+		}
 
 		UE_LOG(LogTemp, Display, TEXT("StaggerComponentCPP: causing knockback on enemy with knockback direction %s"),*KnockbackDirection.ToString());
 	}
