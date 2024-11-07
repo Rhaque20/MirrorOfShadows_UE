@@ -7,6 +7,8 @@
 #include "AbilitySystemInterface.h"
 #include "Components/StaggerComponent.h"
 #include "Interfaces/HitStopInterface.h"
+#include "Components/TimelineComponent.h"
+#include "Enumerator/AttackCategoryEnum.h"
 
 #include "RPGCharacterBase.generated.h"
 
@@ -28,8 +30,14 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
         UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
         void PerformDodge();
 
+        UFUNCTION(BlueprintCallable)
+        virtual void StartDodge();
+
         UFUNCTION(BlueprintImplementableEvent,BlueprintCallable)
         void CancelDodge();
+
+        UFUNCTION(BlueprintCallable)
+        virtual void ActivateSkill();
 
         UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
         void OnDeath();
@@ -40,9 +48,27 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
         UFUNCTION(BlueprintCallable)
         virtual void AutoTarget();
 
+        UFUNCTION()
+        virtual void AttackForceUpdate(float val);
+
     protected:
         UFUNCTION(BlueprintCallable)
         void SetSkillModifier(float modifier);
+
+        UFUNCTION(BlueprintCallable)
+        void SetActiveSkill(USkill* SkillRef);
+
+        UFUNCTION(BlueprintCallable)
+        void StopLaunchTimeLine();
+
+        UFUNCTION(BlueprintCallable)
+        void StopDodgeTimeLine();
+
+        UFUNCTION()
+        virtual void DodgeFunction(float val);
+
+        virtual void BeginPlay() override;
+        virtual void Tick(float DeltaTime) override;
 
     protected:
         UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -72,6 +98,15 @@ class MIRROROFSHADOWS_API ARPGCharacterBase : public ACharacter,public IAbilityS
 
         UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
         class UCurveFloat* DodgeCurve;
+
+        UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+        class UCurveFloat* DefaultTimeCurve;
+
+        FTimeline AttackForceTimeline;
+        FTimeline DodgeTimeline;
+
+        FOnTimelineFloat InterpFunction;
+        FOnTimelineFloat DodgeInterpFunction;
 };
 
 

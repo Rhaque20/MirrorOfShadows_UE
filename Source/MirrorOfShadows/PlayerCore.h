@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "CombatComponent.h"
+#include "Public/Enumerator/AttackCategoryEnum.h"
+
 #include "PlayerCore.generated.h"
 
 /**
@@ -27,6 +29,9 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 		virtual void SetUpAttackAnim() override;
 
 		UFUNCTION(BlueprintCallable)
+		void SetSkillRef(int index);
+
+		UFUNCTION(BlueprintCallable)
 		void SetCanBuffer(bool val) { CanBuffer = val; }
 		UFUNCTION(BlueprintCallable)
 		void SetHasBuffer(bool val) {
@@ -47,6 +52,8 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 		UFUNCTION(BlueprintCallable)
 		bool ReturnHasBuffer() const { return HasBuffer; }
 
+		UPlayerSkill* ReturnActiveSkill(EAttackCategory AttackType);
+
 		int GetCurrentChain()
 		{
 			return CurrentChain;
@@ -63,6 +70,12 @@ class MIRROROFSHADOWS_API UPlayerCore : public UCombatComponent
 
 		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Normal Attack")
 		TArray<UPlayerSkill*> AerialAttacks;
+
+		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Normal Attack")
+		UPlayerSkill* HeavyAttack;
+
+		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Skill Data")
+		TArray<UPlayerSkill*> Skills;
 
 		class APlayerCharacters* OwningPlayer;
 

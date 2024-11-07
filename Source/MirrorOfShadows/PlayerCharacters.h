@@ -28,6 +28,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetDamage() const;
 
+	virtual void StartDodge() override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -42,6 +44,8 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void EndAirTime();
 
+	virtual void DodgeFunction(float val) override;
+
 public:
 	virtual void GetOwnedGameplayTags(FGameplayTagContainer& OwnedTags) const override
 	{
@@ -55,8 +59,6 @@ public:
 	}
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	void SetPlayerActive(bool IsActive);
 	void SwapIn();

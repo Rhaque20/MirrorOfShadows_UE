@@ -13,6 +13,7 @@
 #include "Components/EquipmentComponent.h"
 #include "Components/StaggerComponent.h"
 #include "GAS/CustomAbilitySystemComponent.h"
+#include "Skill.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -23,6 +24,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/TimelineComponent.h"
 
 // Sets default values
 APlayerCharacters::APlayerCharacters()
@@ -131,41 +133,40 @@ bool APlayerCharacters::NormalAttack()
 
 	if (IsValid(AbilitySystem))
 	{
-		if(GetCharacterMovement()->IsMovingOnGround())
+		if (GetCharacterMovement()->IsMovingOnGround())
+		{
 			SuccessfulAttack = AbilitySystem->TryActivateAbilityByClass(NormalAttackClass);
+			if (SuccessfulAttack)
+				ActiveSkill = (USkill*)CharacterCore->ReturnActiveSkill(EAttackCategory::NormalAttack);
+		}
 		else
 		{
 			UE_LOG(LogTemp, Display, TEXT("Air Attack"));
 			if (CharacterCore->GetCurrentChain() < CharacterCore->GetMaxAttackChain(true))
 			{
 				SuccessfulAttack = AbilitySystem->TryActivateAbilityByClass(AirAttackClass);
-			}
-
-			bIsPerformingAerialAction = SuccessfulAttack;
-			if (bIsPerformingAerialAction)
-			{
 				UE_LOG(LogTemp, Display, TEXT("Successful Air attack"));
 				TriggerAirTime();
-			}
-			else
-			{
-				UE_LOG(LogTemp, Display, TEXT("Failed Air attack"));
+				if (SuccessfulAttack)
+					ActiveSkill = (USkill*)CharacterCore->ReturnActiveSkill(EAttackCategory::AirAttack);
 			}
 		}
 
 		if (SuccessfulAttack)
 		{
 			AutoTarget();
+
+			StopLaunchTimeLine();
+			AttackForceTimeline.SetTimelineLength(ActiveSkill->GetAnimation(0)->GetPlayLength());
+			AttackForceTimeline.PlayFromStart();
 		}
 		else
 		{
 			if (!CharacterCore->ReturnHasBuffer() && CharacterCore->ReturnCanBuffer())
 			{
 				CharacterCore->SetHasBuffer(true);
-				UE_LOG(LogTemp, Display, TEXT("Buffer Ready"));
+				/*UE_LOG(LogTemp, Display, TEXT("Buffer Ready"));*/
 			}
-
-			UE_LOG(LogTemp, Display, TEXT(""))
 		}
 	}
 
@@ -192,18 +193,22 @@ float APlayerCharacters::GetDamage() const
 	return 0.0f;
 }
 
+void APlayerCharacters::StartDodge()
+{
+	StopDodgeTimeLine();
+	SetActorRotation(RotationByInput());
+	DodgeTimeline.PlayFromStart();
+	UE_LOG(LogTemp, Display, TEXT("Dodge Timeline length is %f"),DodgeTimeline.GetTimelineLength());
+}
+
 // Called when the game starts or when spawned
 void APlayerCharacters::BeginPlay()
 {
 	Super::BeginPlay();
 	AbilitySystem->InitAbilityActorInfo(this, this);
 	InitializeAttributes();	
-}
 
-// Called every frame
-void APlayerCharacters::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	
 }
 
 void APlayerCharacters::SetPlayerActive(bool IsActive)
@@ -332,6 +337,8 @@ void APlayerCharacters::TriggerAirTime()
 		UE_LOG(LogTemp, Display, TEXT("Cleared air timer"));
 	}
 
+	bIsPerformingAerialAction = true;
+
 	GetWorld()->GetTimerManager().SetTimer(
 		AirTimerHandle, // handle to cancel timer at a later time
 		this, // the owning object
@@ -349,5 +356,18 @@ void APlayerCharacters::EndAirTime()
 	{
 		GetWorld()->GetTimerManager().ClearTimer(AirTimerHandle);
 	}
+}
+
+void APlayerCharacters::DodgeFunction(float val)
+{
+	UE_LOG(LogTemp, Display, TEXT("Derived dodge function called"));
+	if (bIsPerformingAerialAction)
+	{
+		FVector FacingDir = GetActorForwardVector() * 1500.f * val;
+
+		GetCharacterMovement()->Velocity = FVector(FacingDir.X, FacingDir.Y, 0.0f);
+	}
+	else
+		Super::DodgeFunction(val);
 }
 

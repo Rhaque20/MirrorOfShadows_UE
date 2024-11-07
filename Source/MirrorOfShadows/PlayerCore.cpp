@@ -98,3 +98,24 @@ void UPlayerCore::SetUpAttackAnim()
     }
 }
 
+void UPlayerCore::SetSkillRef(int index)
+{
+    CurrentChain = index;
+}
+
+UPlayerSkill* UPlayerCore::ReturnActiveSkill(EAttackCategory AttackType)
+{
+    switch (AttackType)
+    {
+        case EAttackCategory::NormalAttack:
+            return NormalAttacks[GetCurrentChain()];
+        case EAttackCategory::AirAttack:
+            return AerialAttacks[GetCurrentChain()];
+        case EAttackCategory::HeavyAttack:
+            return HeavyAttack;
+        case EAttackCategory::SkillAttack:
+            return Skills[GetCurrentChain()];
+    }
+    return nullptr;
+}
+

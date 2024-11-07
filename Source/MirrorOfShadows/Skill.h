@@ -10,6 +10,7 @@
  * 
  */
 class UAnimationAsset;
+class UCurveAsset;
 UCLASS(Blueprintable)
 class MIRROROFSHADOWS_API USkill : public UDataAsset
 {
@@ -69,11 +70,20 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Multi-Hit Settings")
 		bool HasDifferentStanceDMG = false;
 
+		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category ="Force Settings", meta = (ToolTip = "Does this move also have vertical forces?"))
+		bool HasVerticalForce = false;
+
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
 		UCurveFloat* LaunchCurve;
 
+		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Force Settings",meta = (EditCondition = "HasVerticalForce", EditConditionHides))
+		UCurveFloat* VerticalLaunchCurve;
+
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
 		float LaunchForce = 100.f;
+
+		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Force Settings", meta = (EditCondition = "HasVerticalForce", EditConditionHides))
+		float VerticalLaunchForce = 100.f;
 
 		UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Force Settings")
 		float KnockbackForce = 100.f;
@@ -132,4 +142,10 @@ class MIRROROFSHADOWS_API USkill : public UDataAsset
 			
 			return HitBoxLocations[index % HitBoxLocations.Num()];
 		};
+
+		UCurveFloat* GetLaunchCurve() const { return LaunchCurve; }
+		UCurveFloat* GetVerticalLaunchCurve() const { return VerticalLaunchCurve; }
+		bool ReturnHasVerticalForce() const { return HasVerticalForce; }
+		float GetLaunchForce() const { return LaunchForce; }
+		float GetVerticalLaunchForce() const { return VerticalLaunchForce; }
 };
