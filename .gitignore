@@ -73,5 +73,6 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 .vs
+Content/StarterContent
 Content/DreamscapeSeries
 Content/StylizedProvencal
